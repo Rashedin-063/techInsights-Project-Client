@@ -38,12 +38,12 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='min-h-screen flex flex-col justify-center'>
       <Helmet>
-        <title>ByteBlog || Login</title>
+        <title>Tech Insights || Login</title>
       </Helmet>
       <div>
-        <h2 className='text-3xl mt-1 text-center font-semibold tracking-wide'>
+        <h2 className='text-4xl mt-1 text-center  tracking-wide mb-8 font-wendy'>
           Please Sign In
         </h2>
         <form
@@ -94,11 +94,11 @@ const Login = () => {
             <button
               type='submit'
               disabled={isSubmitting}
-              className='btn bg-royal-amethyst
-              hover:bg-golden-saffron
+              className='btn bg-green-lantern text-pure-white
+              hover:bg-deep-ocean
               hover text-base text-light-cream'
             >
-              {isSubmitting ? 'Loading' : 'Sign In'}
+             Sign In
             </button>
           </div>
           <SocialLogin />

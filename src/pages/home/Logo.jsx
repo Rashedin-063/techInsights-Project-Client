@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const Logo = () => {
   return (
-    <div>
       <div className='flex items-center justify-between ml-6 xl:ml-12 mt-6 lg:mt-8'>
         <Link
           to='/'
@@ -22,7 +21,6 @@ const Logo = () => {
           <MottoMarquee />
         </div>
       </div>
-    </div>
   );
 };
 export default Logo;

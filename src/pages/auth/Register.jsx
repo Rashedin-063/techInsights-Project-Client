@@ -32,7 +32,7 @@ const schema = z.object({
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { createUser } = useAuth();
+  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
 
   const {
     register,
@@ -42,32 +42,53 @@ const Register = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleRegister = ({ name, photo, email, password }) => {
+  const handleRegister = async ({ name, photo, email, password }) => {
 
-    createUser(email, password)
-      .then((result) => {
-        toast.success('Your registration is successful');
+     try {
+      setLoading(true)
+      // 1. Upload image and get image url
+      const image_url = await imageUpload(image)
+      console.log(image_url)
+      //2. User Registration
+      const result = await createUser(email, password)
+       console.log(result)
        
-        const creationTime = result.user?.metadata?.creationTime;
-        const lastSignInTime = result.user?.metadata?.lastSignInTime;
+      //  const creationTime = result.user?.metadata?.creationTime;
+      //  const lastSignInTime = result.user?.metadata?.lastSignInTime;
 
-        const user = { name, email, photo, creationTime, lastSignInTime };
+      // 3. Save username and photo in firebase
+      await updateUserProfile(name, image_url);
+      navigate('/')
+      toast.success('Signup Successful')
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+    }
 
-        // post request
-        axios.post(`${import.meta.env.VITE_API_URL}/users`, user)
-          .then(res =>
- {
-           if (res.data.insertedId) {
-             Swal.fire({
-               title: 'Success!',
-               text: 'User Added Successfully',
-               icon: 'success',
-               confirmButtonText: 'Cool',
-             });
-           }
-          })
-      })
-    .catch((error) => toast.error(error.message))
+//     createUser(email, password)
+//       .then((result) => {
+//         toast.success('Your registration is successful');
+       
+//         const creationTime = result.user?.metadata?.creationTime;
+//         const lastSignInTime = result.user?.metadata?.lastSignInTime;
+
+//         const user = { name, email, photo, creationTime, lastSignInTime };
+
+//         // post request
+//         axios.post(`${import.meta.env.VITE_API_URL}/users`, user)
+//           .then(res =>
+//  {
+//            if (res.data.insertedId) {
+//              Swal.fire({
+//                title: 'Success!',
+//                text: 'User Added Successfully',
+//                icon: 'success',
+//                confirmButtonText: 'Cool',
+//              });
+//            }
+//           })
+//       })
+//     .catch((error) => toast.error(error.message))
           
     
      
@@ -75,12 +96,12 @@ const Register = () => {
 
 
   return (
-    <div>
+    <div className='min-h-screen flex flex-col justify-center'>
       <Helmet>
-        <title>ByteBlog || Register</title>
+        <title>Tech Insights || Register</title>
       </Helmet>
       <div className='px-4'>
-        <h2 className='text-3xl text-center font-semibold tracking-wide mt-1 mb-3'>
+        <h2 className='text-4xl text-center tracking-wide mt-1 mb-12 font-wendy'>
           Please Register
         </h2>
         <form
@@ -140,8 +161,8 @@ const Register = () => {
           </div>
           <div className='form-control mt-6'>
             <button
-              className='btn bg-royal-amethyst text-light-cream
-               hover:bg-golden-saffron mt-2'
+              className='btn bg-green-lantern text-pure-white
+               hover:bg-deep-ocean mt-2'
             >
               Register
             </button>
