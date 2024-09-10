@@ -6,8 +6,7 @@ import useAuth from './../../hooks/useAuth';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { toast } from 'react-toastify';
-import { Typewriter } from 'react-simple-typewriter';
-import MottoMarquee from '../home/MottoMarquee';
+
 
 
 
@@ -123,7 +122,7 @@ const Navbar = () => {
 
 navbar end
 */}
-        <div className=' flex gap-2 mr-4 xl:-mr-4 mt-2'>
+        <div className=' flex gap-2 mr-4 xl:-mr-4 xl:mt-2'>
           {user ? (
             <div className='flex gap-2 items-center '>
               <Tooltip
@@ -188,26 +187,10 @@ navbar end
       </div>
 
       {/* border */}
-      <div className='border-[1px] border-gray-600 w-[91.5%] lg:w-[97%] mx-auto mt-1 lg:my-2 border-opacity-45'></div>
+      <div className='border-[1px] border-gray-600 w-[91.5%] lg:w-[97%] mx-auto xl:my-2 border-opacity-45'></div>
 
       {/* logo */}
-      <div className='flex items-center justify-between mx-5 lg:mx-4 mt-4 lg:mt-6'>
-        <Link
-          to='/'
-          className='text-4xl lg:text-5xl xl:text-5xl font-bold cursor-pointer font-sevillana text-green-lantern drop-shadow-md'
-        >
-          <Typewriter
-            words={['Tech Insights']}
-            typeSpeed={90}
-            cursor={true}
-            cursorBlinking
-          />
-        </Link>
-
-        <div className='w-[60%] lg:w-3/4 '>
-          <MottoMarquee />
-        </div>
-      </div>
+      
     </div>
   );
 };

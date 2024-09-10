@@ -16,6 +16,7 @@
     "@mui/material": "^6.0.2",
     "aos": "^2.3.4",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.7.7",
     "firebase": "^10.13.1",
     "localforage": "^1.10.0",
     "lottie-react": "^2.4.0",
@@ -31,6 +32,7 @@
     "react-simple-typewriter": "^5.0.1",
     "react-toastify": "^10.0.5",
     "sort-by": "^1.2.0",
+    "sweetalert2": "^11.14.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

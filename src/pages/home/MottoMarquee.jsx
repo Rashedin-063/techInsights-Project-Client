@@ -24,8 +24,7 @@ const MottoMarquee = () => {
 
   return (
     <div
-      data-aos='fade-left'
-      className=' py-4 rounded-xl'>
+      data-aos='fade-left'>
       <Marquee gradient={false} speed={50}>
         {mottos.map((motto, index) => (
           <span
