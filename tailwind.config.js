@@ -9,11 +9,12 @@ module.exports = {
     },
     extend: {
       colors: {
-        'faded-pearl': '##dcdccd',
-        'midnight-gray': '#2e2e2e',
-        'deep-ocean': '#004a99f6',
-        'green-lantern': '#014d4e',
-        'pure-white': '##FFFFFF',
+        'faded-pearl': '#dcdccd',
+        'midnight-gray': '#708096',
+        'deep-ocean': '#004080',
+        'green-lantern': '#046645',
+        'pure-white': '#FFFFFF',
+        'charcoal-gray': '#333333',
       },
     },
   },

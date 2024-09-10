@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 
-const Button = ({label, type, onClick}) => {
+const Button = ({ label, type, onClick }) => {
   let buttonClass =
-    'px-3 py-1 md:px-4 md:py-2 rounded-lg hover:rounded-full text-white -mt-2 md:-mt-0 text-base xl:text-lg shadow-md font-m-plus';
+    'px-4 py-2 rounded-lg hover:rounded-full text-pure-white text-sm lg:text-base font-wendy';
 
-   if (type === 'primary') {
-     buttonClass += ' bg-royal-amethyst hover:bg-golden-saffron';
-   } else if (type === 'secondary') {
-     buttonClass += ' bg-golden-saffron hover:bg-royal-amethyst';
+  if (type === 'primary') {
+    buttonClass += ' bg-deep-ocean hover:bg-green-lantern';
+  } else if (type === 'secondary') {
+    buttonClass += ' bg-green-lantern hover:bg-deep-ocean';
   }
 
- return (
-   <button className={buttonClass} onClick={onClick}>
-     {label}
-   </button>
- );
+  return (
+    <button className={buttonClass} onClick={onClick}>
+      {label}
+    </button>
+  );
 };
 
 Button.propTypes = {

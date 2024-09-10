@@ -5,15 +5,15 @@ import { Fade } from 'react-awesome-reveal';
 const Menu = ({ items = [] }) => {
   return (
     <Fade cascade damping={0.3}>
-      <ul className='lg:flex lg:gap-3 xl:gap-5 space-y-4 lg:space-y-0 font-m-plus'>
+      <ul className='xl:flex xl:items-center xl:gap-3 xl:text-lg space-y-4 xl:space-y-0 font-wendy'>
         {items.map(({ to, label }) => (
           <li key={to}>
             <NavLink
               to={to}
               className={({ isActive }) =>
                 isActive
-                  ? 'border-2 border-royal-amethyst px-3 py-1 rounded text-deep-plum xl:text-lg'
-                  : 'hover:border-b-2 border-b-royal-amethyst xl:tex-lg'
+                  ? ' text-green-lantern border-2 rounded-lg border-deep-ocean px-3 py-2 xl:text-lg'
+                  : 'px-3 hover:border-b-2 hover:rounded-xl border-green-lantern text-deep-ocean hover:transition text-base'
               }
             >
               {label}

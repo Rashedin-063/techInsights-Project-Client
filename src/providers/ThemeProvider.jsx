@@ -8,14 +8,14 @@ const themes = {
     colors: {
       primary: 'text-deep-ocean',
       background: 'bg-faded-pearl',
-      textPrimary: 'text-midnight-gray',
+      textPrimary: 'text-charcoal-gray',
     },
   },
   dark: {
     colors: {
       primary: 'text-green-lantern',
       background: 'bg-midnight-gray',
-      textPrimary: 'text-faded-pearl',
+      textPrimary: 'text-pure-white',
     },
   },
 };
