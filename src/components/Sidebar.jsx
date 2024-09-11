@@ -7,7 +7,7 @@ import { BsGraphUp } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { FaAddressCard } from 'react-icons/fa';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo3.png';
@@ -15,11 +15,27 @@ import logo from '../assets/logo3.png';
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
+  const navigate = useNavigate()
+  const {logOutUser} = useAuth()
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  // handleLogout
+  const handleLogOut = async () => {
+    try {
+      await logOutUser()
+
+      navigate('/')
+
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+
   return (
     <>
       {/* Small Screen Navbar */}
@@ -108,7 +124,7 @@ const Sidebar = () => {
 
               {/* All Articles */}
               <NavLink
-                to='all-articles'
+                to='all-articles-admin'
                 className={({ isActive }) =>
                   `flex items-center px-4 py-2 my-5 rounded-full  transition-colors duration-300 transform  hover:bg-green-lantern  hover:text-pure-white ${
                     isActive
@@ -146,7 +162,7 @@ const Sidebar = () => {
 
           {/* Profile Menu */}
           <NavLink
-            to='/dashboard/profile'
+            to='/profile'
             className={({ isActive }) =>
               `flex items-center px-4 py-2 my-5 rounded-full  transition-colors duration-300 transform  hover:bg-green-lantern founded-full   hover:text-pure-white ${
                 isActive
@@ -160,7 +176,7 @@ const Sidebar = () => {
             <span className='mx-4 font-medium'>Profile</span>
           </NavLink>
           <button
-            onClick={logOut}
+            onClick={handleLogOut}
             className='flex w-full items-center px-4 py-2 rounded-full mt-5 text-faded-pearl hover:bg-green-lantern founded-full   hover:text-pure-white transition-colors duration-300 transform'
           >
             <GrLogout className='w-5 h-5 text-pure-white' />

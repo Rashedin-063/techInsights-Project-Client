@@ -15,9 +15,8 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <ThemeProvider>
         <HelmetProvider>
-          <RouterProvider router={router}>
+          <RouterProvider router={router} />
             <ToastContainer />
-          </RouterProvider>
         </HelmetProvider>
       </ThemeProvider>
     </AuthProvider>

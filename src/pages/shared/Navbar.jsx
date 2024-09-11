@@ -22,8 +22,8 @@ const Navbar = () => {
 
   const items = [
     { to: '/', label: 'Home' },
-    { to: '/all-Articles', label: 'All Articles' },
     { to: '/add-Article', label: 'Add Article' },
+    { to: '/all-articles', label: 'All Articles' },
     { to: '/subscription', label: 'Subscription' },
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/my-articles', label: 'My Articles' },

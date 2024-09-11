@@ -91,7 +91,7 @@ const Register = () => {
         <title>Tech Insights || Register</title>
       </Helmet>
       <div className='px-4'>
-        <PageTitle />
+        <PageTitle title='Please Sign Up' />
 
         <form
           onSubmit={handleSubmit(handleRegister)}
