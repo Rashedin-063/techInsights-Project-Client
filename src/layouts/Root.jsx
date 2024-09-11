@@ -12,9 +12,6 @@ const Root = () => {
   const noHeaderFooter =
     location.pathname.includes('login') || location.pathname.includes('register');
 
-  console.log(noHeaderFooter);
-  
-
   return (
     <div className={`${theme}`}>
       <div

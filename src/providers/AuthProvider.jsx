@@ -42,13 +42,12 @@ const AuthProvider = ({ children }) => {
   };
 
   // update user
-  const updateUserProfile = ( name, photo) => {
-    setLoading(true)
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photo
-    })
-  }
+const updateUserProfile = (name, photo) => {
+  return updateProfile(auth.currentUser, {
+    displayName: name,
+    photoURL: photo,
+  });
+};
 
   // login user
   const logInUser = (email, password) => {

@@ -7,7 +7,7 @@ const Logo = () => {
       <div className='flex items-center justify-between ml-6 xl:ml-12 mt-6 lg:mt-8'>
         <Link
           to='/'
-          className='text-3xl md:text-4xl lg:text-5xl font-bold cursor-pointer font-sevillana text-green-lantern drop-shadow-md'
+          className='text-3xl md:text-4xl lg:text-5xl font-bold cursor-pointer font-sevillana text-green-lantern drop-shadow'
         >
           <Typewriter
             words={['Tech Insights']}

@@ -1,36 +1,38 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuth from '../../hooks/useAuth'
-import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import PageTitle from '../../components/PageTitle';
+import { imageUpload } from '../../api/utils';
+import { ImSpinner9 } from 'react-icons/im';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 
+// Zod schema for validation
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
-  photo: z.string().url('Invalid photo URL'),
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
   password: z
     .string()
     .min(6, 'Password must be at least 6 characters')
     .regex(/(?=.*[A-Z])/, 'Password must contain at least one uppercase letter')
-    .regex(
-      /(?=.*[0-9])/,
-      'Password must contain at least one numeric character'
-    )
-    .regex(
-      /(?=.*[!@#$%^&*(),.?":{}|<>])/,
-      'Password must contain at least one special character'
-    ),
+    .regex(/(?=.*[0-9])/, 'Password must contain at least one numeric character')
+    .regex(/(?=.*[!@#$%^&*(),.?":{}|<>])/, 'Password must contain at least one special character'),
 });
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const navigate = useNavigate()
 
   const { createUser, updateUserProfile, loading, setLoading } = useAuth();
 
@@ -42,58 +44,40 @@ const Register = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleRegister = async ({ name, photo, email, password }) => {
+  // Form submission handler
+  const handleRegister = async ({ name, email, password }) => {
+    try {
+      setLoading(true);     
 
-     try {
-      setLoading(true)
-      // 1. Upload image and get image url
-      const image_url = await imageUpload(image)
-      console.log(image_url)
-      //2. User Registration
-      const result = await createUser(email, password)
-       console.log(result)
-       
-      //  const creationTime = result.user?.metadata?.creationTime;
-      //  const lastSignInTime = result.user?.metadata?.lastSignInTime;
+      const image_url = await imageUpload(imageFile);
 
-      // 3. Save username and photo in firebase
+      // 2. User registration
+      const result = await createUser(email, password);
+
+      const creationTime = result.user?.metadata?.creationTime;
+      const lastSignInTime = result.user?.metadata?.lastSignInTime;
+
+      
+      // 3. Save username and photo in Firebase
       await updateUserProfile(name, image_url);
-      navigate('/')
-      toast.success('Signup Successful')
+      
+      toast.success('Your Registration is Successful')
+      
+      navigate('/');
+
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
+      console.log("Error:", err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-//     createUser(email, password)
-//       .then((result) => {
-//         toast.success('Your registration is successful');
-       
-//         const creationTime = result.user?.metadata?.creationTime;
-//         const lastSignInTime = result.user?.metadata?.lastSignInTime;
-
-//         const user = { name, email, photo, creationTime, lastSignInTime };
-
-//         // post request
-//         axios.post(`${import.meta.env.VITE_API_URL}/users`, user)
-//           .then(res =>
-//  {
-//            if (res.data.insertedId) {
-//              Swal.fire({
-//                title: 'Success!',
-//                text: 'User Added Successfully',
-//                icon: 'success',
-//                confirmButtonText: 'Cool',
-//              });
-//            }
-//           })
-//       })
-//     .catch((error) => toast.error(error.message))
-          
-    
-     
-  }
-
+  // Handle file input changes
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
 
   return (
     <div className='min-h-screen flex flex-col justify-center'>
@@ -101,9 +85,8 @@ const Register = () => {
         <title>Tech Insights || Register</title>
       </Helmet>
       <div className='px-4'>
-        <h2 className='text-4xl text-center tracking-wide mt-1 mb-12 font-wendy'>
-          Please Register
-        </h2>
+        <PageTitle />
+
         <form
           onSubmit={handleSubmit(handleRegister)}
           className='w-3/4 lg:w-1/2 mx-auto space-y-2'
@@ -111,7 +94,7 @@ const Register = () => {
           <div className='form-control'>
             <input
               type='text'
-              {...register('name')}
+              {...register('name')} // Ensure this matches the Zod schema
               placeholder='Name'
               className='input input-bordered'
             />
@@ -119,12 +102,19 @@ const Register = () => {
               <p className='text-red-500 mt-2'>{errors.name.message}</p>
             )}
           </div>
-          <div className='form-control'>
+          <div className='flex justify-between items-center py-1 bg-white rounded-md'>
+            <label
+              htmlFor='photo'
+              className='block mb-2 pt-2 pl-[14px] min-w-40 font-semibold'
+            >
+              Select Image:
+            </label>
             <input
-              type='text'
-              {...register('photo')}
-              placeholder='Photo URL'
-              className='input input-bordered'
+              required
+              type='file'
+              id='photo'
+              accept='image/*'
+              onChange={handleImageChange}
             />
             {errors.photo && (
               <p className='text-red-500 mt-2'>{errors.photo.message}</p>
@@ -133,7 +123,7 @@ const Register = () => {
           <div className='form-control'>
             <input
               type='email'
-              {...register('email')}
+              {...register('email')} // Ensure this matches the Zod schema
               placeholder='Email'
               className='input input-bordered'
             />
@@ -144,7 +134,7 @@ const Register = () => {
           <div className='form-control relative flex flex-col mt-3'>
             <input
               type={showPassword ? 'text' : 'password'}
-              {...register('password')}
+              {...register('password')} // Ensure this matches the Zod schema
               placeholder='Password'
               autoComplete='new-password'
               className='input input-bordered'
@@ -161,10 +151,15 @@ const Register = () => {
           </div>
           <div className='form-control mt-6'>
             <button
-              className='btn bg-green-lantern text-pure-white
-               hover:bg-deep-ocean mt-2'
+              disabled={loading}
+              type='submit'
+              className='btn bg-green-lantern text-pure-white hover:bg-deep-ocean mt-2'
             >
-              Register
+              {loading ? (
+                <ImSpinner9 className='animate-spin m-auto text-deep-ocean' />
+              ) : (
+                'Register'
+              )}
             </button>
           </div>
         </form>
@@ -174,6 +169,7 @@ const Register = () => {
             Login
           </Link>
         </p>
+        <ToastContainer />
       </div>
     </div>
   );

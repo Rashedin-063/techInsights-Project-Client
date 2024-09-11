@@ -4,9 +4,15 @@ import { useState } from 'react';
 import SocialLogin from './SocialLogin';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import PageTitle from '../../components/PageTitle';
+import { ImSpinner9 } from 'react-icons/im';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,28 +20,47 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { logInUser } = useAuth();
+   const from = location?.state || '/'
+
+  const { logInUser, loading, setLoading } = useAuth();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ email, password }) => {
+  const onSubmit = async({ email, password }) => {
 
-    logInUser(email, password)
-      .then((result) => {
-        const lastSignIn = result.user.metadata.lastSignInTime;
+
+       try {
+      setLoading(true)
+         const result = await logInUser(email, password)
+
+         const lastSignIn = result.user?.metadata?.lastSignInTime;    
+         
         const user = { email, lastSignIn };
+         
+        toast.success('Sign Up Successful')
+      navigate(from)
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+      setLoading(false)
+    }
+  }
 
-        toast.success('Your login is successful');
-        navigate(location?.state || '/');
-      })
-      .catch(() => {
-        toast.error(`Your email or Password doesn't match`);
-      });
-  };
+    // logInUser(email, password)
+    //   .then((result) => {
+    //     const lastSignIn = result.user.metadata.lastSignInTime;
+    //     const user = { email, lastSignIn };
+
+    //     toast.success('Your login is successful');
+    //     navigate(location?.state || '/');
+    //   })
+    //   .catch(() => {
+    //     toast.error(`Your email or Password doesn't match`);
+    //   });
 
   return (
     <div className='min-h-screen flex flex-col justify-center'>
@@ -43,9 +68,7 @@ const Login = () => {
         <title>Tech Insights || Login</title>
       </Helmet>
       <div>
-        <h2 className='text-4xl mt-1 text-center  tracking-wide mb-8 font-wendy'>
-          Please Sign In
-        </h2>
+        <PageTitle />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='w-3/4 lg:w-1/2 mx-auto'
@@ -93,12 +116,16 @@ const Login = () => {
           <div className='form-control'>
             <button
               type='submit'
-              disabled={isSubmitting}
+              disabled={loading}
               className='btn bg-green-lantern text-pure-white
               hover:bg-deep-ocean
               hover text-base text-light-cream'
             >
-             Sign In
+              {loading ? (
+                <ImSpinner9 className='animate-spin m-auto text-deep-ocean' />
+              ) : (
+                'Sign In'
+              )}
             </button>
           </div>
           <SocialLogin />
@@ -109,6 +136,7 @@ const Login = () => {
             Register
           </Link>
         </p>
+        <ToastContainer />
       </div>
     </div>
   );
