@@ -121,7 +121,7 @@ navbar end
                   className='menu menu-sm dropdown-content bg-faded-pearl border-2 border-midnight-gray z-20 mt-3 p-2 w-36 drop-shadow-xl pt-8 flex flex-col items-center space-y-2 rounded-xl'
                 >
                   <li>
-                    <a className='justify-between'>Profile</a>
+                   <Link to='/dashboard'>Dashboard</Link>
                   </li>
                   <li>
                     <a>Settings</a>
