@@ -5,7 +5,6 @@ import SocialLogin from './SocialLogin';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
-import Swal from 'sweetalert2';
 import PageTitle from '../../components/PageTitle';
 import { ImSpinner9 } from 'react-icons/im';
 
@@ -13,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { toast } from 'react-toastify';
+import { createOrUpdateUser } from '../../api/userApi';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,9 @@ const Login = () => {
 
          const lastSignIn = result.user?.metadata?.lastSignInTime;    
          
-        const user = { email, lastSignIn };
+         const user = { email, lastSignIn };
+         
+         createOrUpdateUser(user)
          
         toast.success('Sign Up Successful')
       navigate(from)
@@ -49,18 +51,6 @@ const Login = () => {
       setLoading(false)
     }
   }
-
-    // logInUser(email, password)
-    //   .then((result) => {
-    //     const lastSignIn = result.user.metadata.lastSignInTime;
-    //     const user = { email, lastSignIn };
-
-    //     toast.success('Your login is successful');
-    //     navigate(location?.state || '/');
-    //   })
-    //   .catch(() => {
-    //     toast.error(`Your email or Password doesn't match`);
-    //   });
 
   return (
     <div className='min-h-screen flex flex-col justify-center'>

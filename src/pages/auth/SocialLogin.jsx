@@ -7,12 +7,20 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { createOrUpdateUser } from '../../api/userApi';
+
+
+
 
 const SocialLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-   const from = location?.state || '/';
+  const from = location?.state || '/';
+  
+ 
+  
 
 
   const { googleLogin, githubLogin, loading, setLoading } = useAuth();
@@ -21,13 +29,31 @@ const SocialLogin = () => {
   const handleGoogleLogin = async() => {
 
      try {
-      await googleLogin();
+       const result = await googleLogin();
+
+       console.log(result)
+       
+       
+       const lastSignIn = result.user?.metadata?.lastSignInTime;
+       const email = result.user?.email
+       
+//        const userInfo = result.user
+// console.log(userInfo)
+
+       const user = { email, lastSignIn };
+
+    createOrUpdateUser(user)
+      
+       
 
        toast.success('Sign Up Successful')
        
       setTimeout(() => {
         navigate(from);
       }, 1500);
+       
+       
+       
     } catch (err) {
       console.log(err)
       toast.error(err.message)
@@ -36,11 +62,22 @@ const SocialLogin = () => {
        setLoading(false)
     }
 
+    
+
+
   };
 
   const handleGithubLogin = async() => {
         try {
-      await githubLogin();
+        const result = await githubLogin();
+          
+          const lastSignIn = result.user?.metadata?.lastSignInTime;
+
+          const email = result.user?.email;
+
+             const user = { email, lastSignIn };
+
+             createOrUpdateUser(user);
 
           toast.success('Sign In Successful')
           

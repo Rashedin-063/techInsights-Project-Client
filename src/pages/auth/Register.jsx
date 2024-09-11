@@ -15,6 +15,7 @@ import { ImSpinner9 } from 'react-icons/im';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { createOrUpdateUser } from '../../api/userApi';
 
 
 // Zod schema for validation
@@ -55,7 +56,12 @@ const Register = () => {
       const result = await createUser(email, password);
 
       const creationTime = result.user?.metadata?.creationTime;
-      const lastSignInTime = result.user?.metadata?.lastSignInTime;
+      const lastSignIn = result.user?.metadata?.lastSignInTime;
+
+
+      const user = {creationTime, email, lastSignIn };
+
+      createOrUpdateUser(user);
 
       
       // 3. Save username and photo in Firebase
