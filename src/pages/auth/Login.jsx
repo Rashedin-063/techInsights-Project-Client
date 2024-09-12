@@ -14,14 +14,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from '../../api/userApi';
 
-
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-   const from = location?.state || '/'
+  const from = location?.state || '/';
 
   const { logInUser, loading, setLoading } = useAuth();
 
@@ -31,27 +30,19 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async({ email, password }) => {
+  const onSubmit = async ({ email, password }) => {
+    try {
+      setLoading(true);
+      await logInUser(email, password);
 
-
-       try {
-      setLoading(true)
-         const result = await logInUser(email, password)
-
-         const lastSignIn = result.user?.metadata?.lastSignInTime;    
-         
-         const user = { email, lastSignIn };
-         
-         createOrUpdateUser(user)
-         
-        toast.success('Sign Up Successful')
-      navigate(from)
+      toast.success('Sign Up Successful');
+      navigate(from);
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
-      setLoading(false)
+      console.log(err);
+      toast.error(err.message);
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className='min-h-screen flex flex-col justify-center'>

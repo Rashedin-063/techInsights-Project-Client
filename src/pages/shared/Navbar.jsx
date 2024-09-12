@@ -7,6 +7,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { toast } from 'react-toastify';
 import logo from '../../assets/logo3.png'
+import { useState } from 'react';
+import ProfileModal from '../../components/modals/ProfileModal';
 
 
 
@@ -16,6 +18,7 @@ import logo from '../../assets/logo3.png'
 
 const Navbar = () => {
   
+  const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, logOutUser } = useAuth();
 
@@ -31,13 +34,17 @@ const Navbar = () => {
     { to: '/premium-articles', label: 'Premium Articles' },
   ];
 
+ 
+
 const filteredItems = user
   ? items
     : items.filter((item) => item.to === '/' || item.to === '/all-articles');
   
-  console.log(filteredItems)
+  // console.log(filteredItems)
   
-
+ const closeModal = () => {
+   setIsOpen(false);
+ };
 
 
   const handleTheme = () => {
@@ -99,8 +106,7 @@ const filteredItems = user
 
           {/* logo and menu for xl screens */}
           <div className='hidden xl:flex xl:items-center'>
-            <div
-              className='w-[25%] -ml-7 mt-2'>
+            <div className='w-[25%] -ml-7 mt-2'>
               <img className='w' src={logo} alt='' />
             </div>
             <ul className=''>
@@ -159,13 +165,13 @@ navbar end
                   </li>
 
                   <li>
-                    <btn
+                    <button
                       className='btn btn-sm bg-deep-ocean hover:bg-green-lantern rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
                       onClick={handleLogOut}
                     >
                       {' '}
                       Sign Out{' '}
-                    </btn>
+                    </button>
                   </li>
                 </ul>
               </div>

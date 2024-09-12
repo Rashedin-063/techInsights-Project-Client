@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAuth from '../../hooks/useAuth';
-import Swal from 'sweetalert2';
-import axios from 'axios';
 import LoginRegisterTitle from '../../components/LoginRegisterTitle';
 import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
@@ -17,8 +15,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from '../../api/userApi';
 
-
-
 // Zod schema for validation
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -27,14 +23,20 @@ const schema = z.object({
     .string()
     .min(6, 'Password must be at least 6 characters')
     .regex(/(?=.*[A-Z])/, 'Password must contain at least one uppercase letter')
-    .regex(/(?=.*[0-9])/, 'Password must contain at least one numeric character')
-    .regex(/(?=.*[!@#$%^&*(),.?":{}|<>])/, 'Password must contain at least one special character'),
+    .regex(
+      /(?=.*[0-9])/,
+      'Password must contain at least one numeric character'
+    )
+    .regex(
+      /(?=.*[!@#$%^&*(),.?":{}|<>])/,
+      'Password must contain at least one special character'
+    ),
 });
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { createUser, updateUserProfile, loading, setLoading } = useAuth();
 
@@ -49,31 +51,21 @@ const Register = () => {
   // Form submission handler
   const handleRegister = async ({ name, email, password }) => {
     try {
-      setLoading(true);     
+      setLoading(true);
 
       const image_url = await imageUpload(imageFile);
 
       // 2. User registration
-      const result = await createUser(email, password);
+      await createUser(email, password);
 
-      const creationTime = result.user?.metadata?.creationTime;
-      const lastSignIn = result.user?.metadata?.lastSignInTime;
-
-
-      const user = {creationTime, email, lastSignIn };
-
-      createOrUpdateUser(user);
-
-      
       // 3. Save username and photo in Firebase
       await updateUserProfile(name, image_url);
-      
-      toast.success('Your Registration is Successful')
-      
-      navigate('/');
 
+      toast.success('Your Registration is Successful');
+
+      navigate('/');
     } catch (err) {
-      console.log("Error:", err);
+      console.log('Error:', err);
       toast.error(err.message);
     } finally {
       setLoading(false);

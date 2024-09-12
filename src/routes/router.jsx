@@ -17,6 +17,7 @@ import Subscription from './../pages/Subscription';
 import MyArticles from './../pages/MyArticles';
 import PremiumArticles from './../pages/PremiumArticles';
 import UserProfile from './../pages/UserProfile';
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -53,7 +54,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <UserProfile />,
+        element: (
+          <PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/login',

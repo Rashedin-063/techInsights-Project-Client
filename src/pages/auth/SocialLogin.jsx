@@ -31,18 +31,20 @@ const SocialLogin = () => {
      try {
        const result = await googleLogin();
 
-       console.log(result)
-       
-       
-       const lastSignIn = result.user?.metadata?.lastSignInTime;
-       const email = result.user?.email
-       
-//        const userInfo = result.user
-// console.log(userInfo)
+//        const userInfo = result?.user
+        
+//        const createdAt  = userInfo?.metadata?.createdAt ;
 
-       const user = { email, lastSignIn };
+//        const lastSignIn = userInfo?.metadata?.lastLoginAt;
+// ;
+//        const email = userInfo?.email
+//        const name = userInfo?.displayName
 
-    createOrUpdateUser(user)
+//        const imageUrl = userInfo.photoURL
+
+//        const user = {name, email, imageUrl, lastSignIn, subscription: 'Usual', role: 'user'  };
+
+//     createOrUpdateUser(user)
       
        
 
@@ -69,15 +71,28 @@ const SocialLogin = () => {
 
   const handleGithubLogin = async() => {
         try {
-        const result = await githubLogin();
+          const result = await githubLogin();
           
-          const lastSignIn = result.user?.metadata?.lastSignInTime;
+          // const userInfo = result?.user;
+          
+          // console.log(userInfo)
+          
+       
+          
+          //  const createdAt = userInfo?.metadata?.createdAt;
 
-          const email = result.user?.email;
+          //  const lastSignIn = userInfo?.metadata?.lastLoginAt;
+          //  const email = userInfo?.email;
+          //  const name = userInfo?.displayName;
 
-             const user = { email, lastSignIn };
+          // const imageUrl = userInfo.photoURL;
+          
+          // console.log(name, email, imageUrl, createdAt, lastSignIn)
+          
 
-             createOrUpdateUser(user);
+          //    const user = { email, lastSignIn };
+
+          //    createOrUpdateUser(user);
 
           toast.success('Sign In Successful')
           

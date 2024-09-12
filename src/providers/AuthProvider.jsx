@@ -11,6 +11,7 @@ import {
   updateProfile
 } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
+import { createOrUpdateUser } from '../api/userApi';
 
 
 
@@ -24,30 +25,19 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // set a observer
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-      console.log(currentUser)
-      setLoading(false)
-    })
-    
-    return () => unSubscribe();
-  },[])
-
   // create user
   const createUser = (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password)
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // update user
-const updateUserProfile = (name, photo) => {
-  return updateProfile(auth.currentUser, {
-    displayName: name,
-    photoURL: photo,
-  });
-};
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
 
   // login user
   const logInUser = (email, password) => {
@@ -73,6 +63,38 @@ const updateUserProfile = (name, photo) => {
     return signOut(auth);
   };
 
+
+  const createUserToDB = async(user) => {
+    if (user) {
+      const { displayName, email, metadata, photoURL } = user;
+      
+       console.log(displayName, email, metadata, photoURL);
+       
+
+      const userInfo = {
+        displayName,
+        email,
+        metadata,
+        photoURL,
+        subscription: 'Usual',
+        role: 'User',
+      };
+
+     await createOrUpdateUser(userInfo);
+    }
+ }
+
+  // set a observer
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log(currentUser);
+      createUserToDB(currentUser)
+      setLoading(false);
+    });
+
+    return () => unSubscribe();
+  }, []);
 
   const authInfo = {
     user,
