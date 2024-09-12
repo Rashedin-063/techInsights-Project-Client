@@ -1,11 +1,10 @@
-// src/api/userApi.js
 import Swal from 'sweetalert2';
-import { axiosCommon } from '../hooks/useAxiosCommon'; // Assuming this is where your axios instance is configured
+import { axiosCommon } from '../hooks/useAxiosCommon'; 
 
 // create a user to the database
 export const createOrUpdateUser = async (user) => {
   try {
-    const userInfo = await axiosCommon.patch('/users', user);
+    const userInfo = await axiosCommon.put('/users', user);
     
 
     if (userInfo.data.acknowledged || userInfo.data.modifiedCount) {

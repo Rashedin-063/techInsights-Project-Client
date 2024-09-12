@@ -25,7 +25,7 @@ const Navbar = () => {
     { to: '/add-Article', label: 'Add Article' },
     { to: '/all-articles', label: 'All Articles' },
     { to: '/subscription', label: 'Subscription' },
-    { to: '/dashboard', label: 'Dashboard' },
+
     { to: '/my-articles', label: 'My Articles' },
     { to: '/premium-articles', label: 'Premium Articles' },
   ];
@@ -118,18 +118,33 @@ navbar end
                 </div>
                 <ul
                   tabIndex={0}
-                  className='menu menu-sm dropdown-content bg-faded-pearl border-2 border-midnight-gray z-20 mt-3 p-2 w-36 drop-shadow-xl pt-8 flex flex-col items-center space-y-2 rounded-xl'
+                  className='menu menu-sm dropdown-content bg-faded-pearl border-2 border-midnight-gray z-20 mt-3 p-2 w-36 drop-shadow-xl pt-8 pb-4 flex flex-col items-center space-y-2 rounded-xl'
                 >
                   <li>
-                   <Link to='/dashboard'>Dashboard</Link>
+                    <Link
+                      to='/profile'
+                      className='btn btn-sm bg-green-lantern hover:bg-deep-ocean rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
+                    >
+                      Profile
+                    </Link>
                   </li>
                   <li>
-                    <a>Settings</a>
+                    <Link
+                      to='/dashboard'
+                      className='btn btn-sm bg-green-lantern hover:bg-deep-ocean rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
+                    >
+                      Dashboard
+                    </Link>
                   </li>
+
                   <li>
-                    <btn className='btn btn-sm bg-green-lantern hover:bg-deep-ocean rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white'
+                    <btn
+                      className='btn btn-sm bg-deep-ocean hover:bg-green-lantern rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
                       onClick={handleLogOut}
-                    > Sign Out </btn>
+                    >
+                      {' '}
+                      Sign Out{' '}
+                    </btn>
                   </li>
                 </ul>
               </div>
