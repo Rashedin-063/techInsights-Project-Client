@@ -9,8 +9,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        'faded-pearl': '#dcdccd',
-        'midnight-gray': '#708096',
+        'faded-pearl': '#E6DFAF',
+        'midnight-gray': '#12AFA9',
         'deep-ocean': '#004080',
         'green-lantern': '#046645',
         'pure-white': '#FFFFFF',

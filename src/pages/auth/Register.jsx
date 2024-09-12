@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import PageTitle from '../../components/PageTitle';
+import LoginRegisterTitle from '../../components/LoginRegisterTitle';
 import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
 
@@ -16,6 +16,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from '../../api/userApi';
+
 
 
 // Zod schema for validation
@@ -91,7 +92,7 @@ const Register = () => {
         <title>Tech Insights || Register</title>
       </Helmet>
       <div className='px-4'>
-        <PageTitle title='Please Sign Up' />
+        <LoginRegisterTitle title='Please Sign Up' />
 
         <form
           onSubmit={handleSubmit(handleRegister)}

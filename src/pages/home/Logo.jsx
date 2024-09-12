@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom';
 
 const Logo = () => {
   return (
-      <div className='flex items-center justify-between ml-6 xl:ml-12 mt-6 lg:mt-8'>
+      <div className='flex items-center justify-between ml-5 xl:ml-10 mt-6 lg:mt-8'>
         <Link
           to='/'
           className='text-3xl md:text-4xl lg:text-5xl font-bold cursor-pointer font-sevillana text-green-lantern drop-shadow'
         >
           <Typewriter
             words={['Tech Insights']}
-            typeSpeed={90}
+          typeSpeed={100}
+          deleteSpeed={80}
+          loop={true}
             cursor={true}
-            cursorBlinking
+          cursorBlinking
+          
           />
         </Link>
 

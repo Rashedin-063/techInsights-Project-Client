@@ -5,7 +5,7 @@ import SocialLogin from './SocialLogin';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
-import PageTitle from '../../components/PageTitle';
+import LoginRegisterTitle from '../../components/LoginRegisterTitle';
 import { ImSpinner9 } from 'react-icons/im';
 
 import { ToastContainer } from 'react-toastify';
@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from '../../api/userApi';
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -58,7 +59,7 @@ const Login = () => {
         <title>Tech Insights || Login</title>
       </Helmet>
       <div>
-        <PageTitle title='Please Sign In' />
+        <LoginRegisterTitle title='Please Sign In' />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='w-3/4 lg:w-1/2 mx-auto'

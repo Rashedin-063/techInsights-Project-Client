@@ -6,6 +6,7 @@ import useAuth from './../../hooks/useAuth';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { toast } from 'react-toastify';
+import logo from '../../assets/logo3.png'
 
 
 
@@ -30,6 +31,13 @@ const Navbar = () => {
     { to: '/premium-articles', label: 'Premium Articles' },
   ];
 
+const filteredItems = user
+  ? items
+    : items.filter((item) => item.to === '/' || item.to === '/all-articles');
+  
+  console.log(filteredItems)
+  
+
 
 
   const handleTheme = () => {
@@ -49,41 +57,54 @@ const Navbar = () => {
     <div
       className={`xl:px-8 ${theme.colors.background} pt-2 lg:pt-4 -mb-3 sticky top-0 z-10`}
     >
-      <div className='flex justify-between w-full px-2 lg:px-4 py-2'>
+      <div className='flex justify-between w-full lg:px-2 py-2'>
         <div className='flex-1 lg:-mt-2'>
-          {/* dropdown */}
-          <div className='dropdown'>
-            <div
-              tabIndex={0}
-              role='button'
-              className='btn btn-ghost hover:bg-transparent xl:hidden relative hover:scale-110'
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-7 w-7 md:h-8 md:w-8'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
+          {/* dropdown: logo and menu for lg and other screens */}
+          <div className='flex'>
+            <div className='dropdown flex items-center'>
+              <div
+                tabIndex={0}
+                role='button'
+                className='btn btn-ghost hover:bg-transparent xl:hidden relative hover:scale-110'
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 6h16M4 12h8m-8 6h16'
-                />
-              </svg>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-7 w-7 md:h-8 md:w-8'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M4 6h16M4 12h8m-8 6h16'
+                  />
+                </svg>
+              </div>
+              <ul
+                tabIndex={0}
+                className={`dropdown-content rounded-box z-10 mt-48 ml-4 flex flex-col gap-4 shadow-xl  pl-9 pt-12 pb-4 border-2 border-green-lantern  ${
+                  theme?.colors?.background
+                } ${theme?.colors?.textPrimary} ${user ? 'w-[220px]' : 'w-40'}`}
+              >
+                <Menu filteredItems={filteredItems} />
+                {/* theme controller */}
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className={`dropdown-content rounded-box z-10 mt-3 ml-4 flex flex-col gap-4 shadow-xl w-[220px] pl-9 pt-12 pb-4 border-2 border-green-lantern  ${theme?.colors?.background} ${theme?.colors?.textPrimary}`}
-            >
-              <Menu items={items} />
-              {/* theme controller */}
-            </ul>
+            <Link to='/' className='w-48 md:w-[210px] -ml-7 mt-2 xl:hidden'>
+              <img src={logo} alt='' />
+            </Link>
           </div>
-          <div className='hidden xl:flex'>
+
+          {/* logo and menu for xl screens */}
+          <div className='hidden xl:flex xl:items-center'>
+            <div
+              className='w-[25%] -ml-7 mt-2'>
+              <img className='w' src={logo} alt='' />
+            </div>
             <ul className=''>
-              <Menu items={items} />
+              <Menu filteredItems={filteredItems} />
             </ul>
           </div>
         </div>
@@ -92,14 +113,14 @@ const Navbar = () => {
 
 navbar end
 */}
-        <div className=' flex gap-2 mr-4 xl:-mr-4 -mt-2 xl:mt-2 item-center'>
+        <div className=' flex gap-2 mr-4 xl:-mr-4 xl:mt-2 item-center'>
           {user ? (
             <div className='flex gap-2 items-center mt-1 lg:-mt-[3px]'>
               <div className='dropdown dropdown-end'>
                 <div
                   tabIndex={0}
                   role='button'
-                  className=' btn-circle avatar border-2 border-green-lantern border-opacity-75 rounded-full hover:border-opacity-95'
+                  className=' btn-circle avatar h-9 w-9 lg:h-10 lg:w-10 outline outline-green-lantern rounded-full'
                 >
                   <div className=' rounded-full'>
                     <Tooltip
@@ -109,7 +130,7 @@ navbar end
                     >
                       <img
                         referrerPolicy='no-referrer'
-                        className='h-9 w-9 md:h-10 md:w-10 rounded-full mb-2 md:mb-0'
+                        className=' mb-2 md:mb-0'
                         src={user.photoURL}
                         alt='User Pic'
                       />
@@ -150,7 +171,7 @@ navbar end
               </div>
             </div>
           ) : (
-            <div className='flex gap-2 items-center'>
+            <div className='flex gap-2 items-center lg:-mt-2'>
               <Link to='/login'>
                 <Button type='primary' label='Sign In'></Button>
               </Link>
@@ -158,7 +179,7 @@ navbar end
           )}
 
           {/* theme controller */}
-          <div className='xl:mr-4 outline outline-deep-ocean flex justify-center items-center rounded-full my-2 md:my-0 h-[44px] w-[44px]'>
+          <div className='xl:mr-4 outline outline-deep-ocean flex justify-center items-center rounded-full mt-2 md:mt-3 lg:mt-0 xl:mt-1 h-9 w-9  lg:h-10 lg:w-10'>
             <label className='swap swap-rotate'>
               {/* this hidden checkbox controls the state */}
               <input
@@ -191,7 +212,7 @@ navbar end
       </div>
 
       {/* border */}
-      <div className='border-[1px] border-gray-600 w-[91.5%] lg:w-[97%] mx-auto xl:my-2 border-opacity-45'></div>
+      <div className='border-[1px] border-gray-600 w-[92%] md:w-[95%] xl:w-full mx-auto xl:my-2 border-opacity-45'></div>
     </div>
   );
 };
