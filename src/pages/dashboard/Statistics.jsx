@@ -7,7 +7,7 @@ const Statistics = () => {
       <Helmet>
         <title>Tech Insights || Admin - Statistics</title>
       </Helmet>
-      <PageTitle title='Statistics Page' />
+      <PageTitle title='Statistics' />
       <h1>Welcome to dashboard: Statistics Page</h1>
     </div>
   );

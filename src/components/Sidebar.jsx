@@ -11,9 +11,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo3.png';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
   const navigate = useNavigate()
   const {logOutUser} = useAuth()
@@ -27,21 +27,25 @@ const Sidebar = () => {
   const handleLogOut = async () => {
     try {
       await logOutUser()
-
+toast.warn('Logout successful')
       navigate('/')
 
     } catch (error) {
       console.log(error)
-      
+      toast.error(error.message)
     }
   }
 
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className=' bg-green-lantern bg-opacity-55 text-gray-800 flex justify-between md:hidden'>
+      <div className=' bg-green-lantern text-gray-800 flex justify-between lg:hidden'>
         <div>
-          <div className='block cursor-pointer p-4 font-bold bg-slate-700'>
+          <div
+            className={`block cursor-pointer p-4 font-bold bg-slate-700  ${
+              isActive && 'hidden'
+            }`}
+          >
             <Link to='/'>
               <img
                 className=' md:block drop-shadow-xl'
@@ -64,13 +68,14 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-green-lantern bg-opacity-50 w-64 space-y-6 px-2 py-12 absolute inset-y-0 left-0 transform ${
-          isActive && '-translate-x-full'
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-green-lantern w-64 space-y-6 px-2 py-8  absolute inset-y-0 left-0 transform -translate-x-full
+           ${
+             isActive && 'translate-x-0'
+           }  lg:translate-x-0  transition duration-300 ease-in-out`}
       >
         <div>
           <div>
-            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center mx-auto bg-slate-700 z-50'>
+            <div className='w-full px-4 py-2 shadow-lg rounded-lg justify-center items-center mx-auto bg-slate-700 z-50'>
               <Link to='/'>
                 <img
                   src={logo}

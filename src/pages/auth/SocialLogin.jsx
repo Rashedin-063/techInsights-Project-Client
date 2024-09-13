@@ -10,106 +10,55 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { createOrUpdateUser } from '../../api/userApi';
 
-
-
-
 const SocialLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const from = location?.state || '/';
-  
- 
-  
-
 
   const { googleLogin, githubLogin, loading, setLoading } = useAuth();
-  
 
-  const handleGoogleLogin = async() => {
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await googleLogin();
 
-     try {
-       const result = await googleLogin();
+      const user = result?.user;
 
-//        const userInfo = result?.user
-        
-//        const createdAt  = userInfo?.metadata?.createdAt ;
+      createOrUpdateUser(user);
 
-//        const lastSignIn = userInfo?.metadata?.lastLoginAt;
-// ;
-//        const email = userInfo?.email
-//        const name = userInfo?.displayName
+      toast.success('Sign Up Successful');
 
-//        const imageUrl = userInfo.photoURL
-
-//        const user = {name, email, imageUrl, lastSignIn, subscription: 'Usual', role: 'user'  };
-
-//     createOrUpdateUser(user)
-      
-       
-
-       toast.success('Sign Up Successful')
-       
       setTimeout(() => {
         navigate(from);
       }, 1500);
-       
-       
-       
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
-     finally {
-       setLoading(false)
-    }
-
-    
-
-
   };
 
-  const handleGithubLogin = async() => {
-        try {
-          const result = await githubLogin();
-          
-          // const userInfo = result?.user;
-          
-          // console.log(userInfo)
-          
-       
-          
-          //  const createdAt = userInfo?.metadata?.createdAt;
+  const handleGithubLogin = async () => {
+    try {
+      const result = await githubLogin();
 
-          //  const lastSignIn = userInfo?.metadata?.lastLoginAt;
-          //  const email = userInfo?.email;
-          //  const name = userInfo?.displayName;
+      const user = result?.user;
 
-          // const imageUrl = userInfo.photoURL;
-          
-          // console.log(name, email, imageUrl, createdAt, lastSignIn)
-          
+      createOrUpdateUser(user);
 
-          //    const user = { email, lastSignIn };
+      toast.success('Sign In Successful');
 
-          //    createOrUpdateUser(user);
-
-          toast.success('Sign In Successful')
-          
-     setTimeout(() => {
-       navigate(from);
-     }, 1500);
+      setTimeout(() => {
+        navigate(from);
+      }, 1500);
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
-     finally {
-       setLoading(false)
-    }
-
-
-    };
-
+  };
 
   return (
     <div>

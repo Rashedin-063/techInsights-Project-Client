@@ -9,10 +9,9 @@ import useAuth from '../../hooks/useAuth';
 import LoginRegisterTitle from '../../components/LoginRegisterTitle';
 import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import auth from '../../firebase/firebase.config';
 import { createOrUpdateUser } from '../../api/userApi';
 
 // Zod schema for validation
@@ -44,6 +43,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -55,14 +55,19 @@ const Register = () => {
 
       const image_url = await imageUpload(imageFile);
 
+      // return console.log(name, email, password, image_url);
+
       // 2. User registration
       await createUser(email, password);
 
       // 3. Save username and photo in Firebase
       await updateUserProfile(name, image_url);
 
-      toast.success('Your Registration is Successful');
+      createOrUpdateUser(auth?.currentUser);
 
+      toast.success('Registration  Successful');
+
+      reset();
       navigate('/');
     } catch (err) {
       console.log('Error:', err);
@@ -168,7 +173,6 @@ const Register = () => {
             Login
           </Link>
         </p>
-        <ToastContainer />
       </div>
     </div>
   );

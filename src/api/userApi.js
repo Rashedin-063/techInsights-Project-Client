@@ -3,15 +3,26 @@ import { axiosApi } from './axiosApi';
 
 
 // create a user to the database
-export const createOrUpdateUser = async (userInfo) => {
+export const createOrUpdateUser = async (user) => {
+ const { displayName, email, photoURL } = user;
 
-//  return console.log(userInfo)
-  
+ const userInfo = {
+   displayName,
+   email,
+   photoURL,
+   subscription: 'usual',
+   role: 'user',
+   status: 'verified',
+   premiumToken: null,
+ };
 
   try {
-    const res = await axiosApi.put('/users', userInfo);  
+    const res = await axiosApi.put('/users', userInfo); 
+    
+    console.log(res.data)
+    
 
-    if (res.data.insertedId) {
+    if (res.data.upsertedId) {
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -25,7 +36,7 @@ export const createOrUpdateUser = async (userInfo) => {
       Swal.fire({
         position: 'center',
         icon: 'success',
-        title: 'User updated successfully',
+        title: 'User info updated successfully',
         showConfirmButton: false,
         timer: 1500,
       });
@@ -47,5 +58,3 @@ export const createOrUpdateUser = async (userInfo) => {
     throw error;
   }
 };
-
-// get all the users from db

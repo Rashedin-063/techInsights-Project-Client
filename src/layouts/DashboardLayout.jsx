@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar'
 
 const DashboardLayout = () => {
   return (
-    <div className='relative min-h-screen md:flex bg-green-lantern bg-opacity-50'>
+    <div className='relative min-h-screen md:flex bg-green-lantern bg-opacity-40 font-raleway'>
       {/* Sidebar */}
       <Sidebar />
 

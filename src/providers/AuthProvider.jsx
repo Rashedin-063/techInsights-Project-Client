@@ -11,7 +11,7 @@ import {
   updateProfile
 } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
-import { createOrUpdateUser } from '../api/userApi';
+
 
 
 
@@ -64,37 +64,17 @@ const AuthProvider = ({ children }) => {
   };
 
 
-  const createUserToDB = async(user) => {
-    if (user) {
-      const { displayName, email, metadata, photoURL } = user;
-      
-       console.log(displayName, email, metadata, photoURL);
-       
-
-      const userInfo = {
-        displayName,
-        email,
-        metadata,
-        photoURL,
-        subscription: 'Usual',
-        role: 'User',
-      };
-
-     await createOrUpdateUser(userInfo);
-    }
- }
-
   // set a observer
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser);
-      createUserToDB(currentUser)
       setLoading(false);
     });
 
     return () => unSubscribe();
   }, []);
+
+
 
   const authInfo = {
     user,

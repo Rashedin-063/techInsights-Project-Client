@@ -1,60 +1,40 @@
 import { Helmet } from 'react-helmet-async';
-import PageTitle from '../components/PageTitle';
+import { FaEdit, FaUserCog } from 'react-icons/fa';
+import { BsEnvelopeAt } from 'react-icons/bs';
+import { MdBrowserUpdated, MdSubscriptions, MdSystemUpdate, MdUpdate } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import useLoadUser from '../hooks/useLoadUser';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage'
+import { createOrUpdateUser } from '../api/userApi';
+import { useState } from 'react';
+import ProfileModal from '../components/modals/ProfileModal';
 import useAuth from '../hooks/useAuth';
 
-import Button from '../components/Button';
-import { axiosApi } from '../api/axiosApi';
-import { useQuery } from '@tanstack/react-query';
-
-import { FaUserCog } from 'react-icons/fa';
-import { BsEnvelopeAt } from 'react-icons/bs';
-import { MdSubscriptions } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-import { createOrUpdateUser } from '../api/userApi';
-
 const UserProfile = () => {
-  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    data = {},
-    refetch,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ['user', user?.email],
-    queryFn: async () => {
-      const { data } = await axiosApi.get(`/users/${user?.email}`);
+  const closeModal = () => {
+    setIsOpen(!isOpen)
+  }
 
-      return data;
-    },
-    onError: (error) => {
-      console.log('Error fetching user:', error);
-    },
-    enabled: !!user?.email,
-  });
+  const [userData, refetch, isLoading, isError, error] = useLoadUser();
+
+  const {user} = useAuth()
+
 
   const handleAdmin = () => {
-    const userInfo = { ...data, role: 'Requested' };
+    const userInfo = { ...userData, role: 'Requested' };
     createOrUpdateUser(userInfo);
   };
 
+  const { displayName, email, photoURL, metadata, role, subscription } = userData;
+
   // handling error
-  if (isError)
-    return (
-      <p className='flex items-center justify-center min-h-screen text-red-400'>
-        {error.message}
-      </p>
-    );
+  if (isError) return <ErrorMessage error={error} />;
 
   // handling loading state
-  if (isLoading)
-    return (
-      <div className='flex items-center justify-center min-h-screen text-deep-ocean'>
-        Data Loading{' '}
-        <span className='loading loading-dots loading-md ml-4'></span>
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className='w-3/4 lg:w-1/2 mx-auto space-y-4 text-deep-ocean'>
@@ -64,35 +44,41 @@ const UserProfile = () => {
 
       <div
         id='profile'
-        className=' rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-3xl bg-yellow-50 opacity-75 mt-20'
+        className=' rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-3xl bg-yellow-50 opacity-75 mt-24'
       >
         <div className='p-4 lg:p-8 text-center lg:text-left'>
           <img
-            className='block rounded-full shadow-xl mx-auto -mt-16 lg:-mt-20 h-28 w-28 lg:h-36 lg:w-36 object-cover '
-            src={user?.photoURL}
+            className='block rounded-full shadow-xl mx-auto -mt-16 lg:-mt-20 h-28 w-28 lg:h-36 lg:w-36'
+            src={photoURL}
             alt='Profile Photo'
           />
           {/* name */}
-          <h1 className='text-3xl font-bold pt-4 lg:pt-0'>
-            {data?.displayName}
+          <h1 className='text-3xl font-bold pt-4 lg:pt-0 flex justify-center gap-4 items-center lg:justify-between lg:max-w-md'>
+            {displayName}
+            
+              <span title='Update your profile' onClick={closeModal}>
+                <FaEdit className='text-green-lantern cursor-pointer' />
+              </span>
+              <ProfileModal isOpen={isOpen} closeModal={closeModal} userData={userData} />
+           
           </h1>
           {/* border */}
           <div className='mx-auto lg:mx-0  w-2/3 lg:w-[90%] pt-2 border-b-2 border-green-lantern opacity-60'></div>
           {/* email */}
           <p className='pt-4 font-bold flex items-center justify-center  gap-3 lg:justify-start'>
             <BsEnvelopeAt size={20} className='text-green-lantern' />
-            {data?.email}
+            {email}
           </p>
 
           {/* login information */}
           <div className='lg:flex lg:gap-4 pt-3'>
             <p className='  text-xs lg:text-sm flex items-center justify-center lg:justify-start'>
               <span className='mr-2  font-wendy'> User Created : </span>
-              {new Date(parseInt(data?.metadata?.createdAt)).toLocaleString()}
+              {new Date(parseInt(user?.metadata?.createdAt)).toLocaleString()}
             </p>
             <p className='pt-1 text-xs lg:text-sm flex items-center justify-center lg:justify-start'>
               <span className='mr-2  font-wendy'> Last Login : </span>
-              {new Date(parseInt(data?.metadata?.lastLoginAt)).toLocaleString()}
+              {new Date(parseInt(user?.metadata?.lastLoginAt)).toLocaleString()}
             </p>
           </div>
 
@@ -101,14 +87,14 @@ const UserProfile = () => {
 
           {/* subscription and user type */}
           <div className='flex flex-col justify-center items-center lg:items-start  gap-y-3 mt-8 font-semibold'>
-            <p className=' flex items-center gap-2'>
+            <div className=' flex items-center gap-2'>
               <FaUserCog size={20} className='text-green-lantern' />
               <i> Type : </i>
-              {data?.role === 'Admin' ? (
-                <>
+              {role === 'Admin' ? (
+                <div>
                   <span>Admin</span>
-                  <span>Congrats, you're an admin!</span>
-                </>
+                  <em className='text-sm ml-4 text-green-lantern'>Congrats, you're an admin!</em>
+                </div>
               ) : (
                 <>
                   <>
@@ -116,19 +102,21 @@ const UserProfile = () => {
                   </>
                   <button
                     onClick={handleAdmin}
-                    disabled={data?.role === 'Requested'}
+                    disabled={role === 'Requested'}
                     className='text-xs px-2 py-1 rounded-md bg-green-lantern text-pure-white hover:bg-deep-ocean hover:rounded-full ml-4 disabled:cursor-not-allowed disabled:bg-gray-800'
                   >
-                   {data?.role === 'Requested' ? 'Requested for Admin': ' Be an Admin'}
+                    {role === 'Requested'
+                      ? 'Requested for Admin'
+                      : ' Be an Admin'}
                   </button>
                 </>
               )}
-            </p>
+            </div>
             {/* subscription */}
             <>
-              {data?.role === 'Admin' ? (
+              {role === 'Admin' ? (
                 <>
-                  <span>
+                  <span className=' mt-2 text-sm tracking-wider'>
                     As an admin, remember to oversee user activities, manage
                     content, and ensure the community follows the guidelines.
                     Your leadership is crucial for maintaining a positive
@@ -139,7 +127,7 @@ const UserProfile = () => {
                 <p className=' flex items-center gap-2'>
                   <MdSubscriptions size={20} className='text-green-lantern' />
                   <i> Subscription : </i>
-                  {data?.Subscription === 'premium' ? (
+                  {subscription === 'Premium' ? (
                     <>
                       <span>Premium User</span>
                       <span className='ml-2'>Enjoy your premium benefits!</span>
