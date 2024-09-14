@@ -14,9 +14,7 @@ const AllArticles = () => {
     (article) => article.status !== 'pending'
   );
 
-  console.log(publicArticle)
   
-
   if (isLoading) return <LoadingSpinner />;
 
   if (isError) return <ErrorMessage error={error} />;
@@ -30,7 +28,7 @@ const AllArticles = () => {
 
       <div className='grid grid-cols-1 mx:grid-cols-2 lg:grid-cols-3 gap-4 mx-8 md:mx-4'>
         {publicArticle.map((article) => (
-          <ArticleCard key={article._id} article={article} />
+          <ArticleCard key={article._id} article={article} refetch={refetch} />
         ))}
       </div>
     </div>

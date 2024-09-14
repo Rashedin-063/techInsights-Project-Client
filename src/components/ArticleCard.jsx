@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import useAxiosSecure from '../hooks/useAxiosSecure';
-import useAuth from '../hooks/useAuth';
 import placeholderImage from '../assets/placeholder.png';
+import { axiosApi } from '../api/axiosApi';
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, refetch }) => {
+
   // destructuring article
   const {
     _id,
@@ -19,6 +18,17 @@ const ArticleCard = ({ article }) => {
     posted_time,
     writers_email,
   } = article;
+
+      const incrementViewCount = async () => {
+        try {
+          await axiosApi.patch(
+            `/articles/${_id}/increment-view`
+          );
+          refetch()
+        } catch (error) {
+          console.error('Error incrementing view count:', error);
+        }
+      };
 
 
   return (
@@ -55,10 +65,10 @@ const ArticleCard = ({ article }) => {
         </p>
       </div>
 
-      <div className='mt-2'>
+      <div className='mt-6'>
         {/* image */}
         <img
-          className='rounded-xl mx-auto h-[200px] lg:h-60 mb-4 mt-4 group-hover:scale-105 transition duration-800 object-cover ease-in'
+          className='rounded-xl mx-auto h-[200px] lg:h-60 mb-6 group-hover:scale-105 transition duration-800 object-cover ease-in'
           src={image_url ? image_url : placeholderImage}
           alt=''
         />
@@ -83,6 +93,7 @@ const ArticleCard = ({ article }) => {
       {/* read more */}
       <div className='flex items-center justify-end mt-4'>
         <Link
+          onClick={incrementViewCount}
           to={`/details/${_id}`}
           className='text-deep-ocean font-semibold hover:underline hover:transition hover:duration-300 hover:font-bold font-sevillana text-xl'
         >
