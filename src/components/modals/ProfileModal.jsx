@@ -8,14 +8,8 @@ import {
   Description,
 } from '@headlessui/react';
 import { Fragment } from 'react';
-import { FaClosedCaptioning, FaCross, FaCrosshairs } from 'react-icons/fa';
-import { MdClose, MdCloseFullscreen } from 'react-icons/md';
-import { BsDoorClosed } from 'react-icons/bs';
-
+import { MdClose } from 'react-icons/md';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 
 import useAuth from './../../hooks/useAuth';
@@ -39,7 +33,6 @@ import { updateProfileInfo } from '../../api/userApi';
 
 const ProfileModal = ({ isOpen, closeModal, userData }) => {
   const [imageFile, setImageFile] = useState(null);
-  const navigate = useNavigate();
 
   const {
     updateUserProfile,

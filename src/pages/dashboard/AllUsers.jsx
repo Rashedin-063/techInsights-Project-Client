@@ -18,6 +18,8 @@ const AllUsers = () => {
       const res = await axiosSecure.get('/users');
       return res.data;
     },
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true
   });
 
   const originalAdmin = 'rashedinislam.06@gmail.com'

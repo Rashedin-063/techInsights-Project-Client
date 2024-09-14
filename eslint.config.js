@@ -34,6 +34,31 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+
+      // Ensure missing imports or undefined hooks throw errors
+      'no-undef': 'error', // Undefined variables, including hooks
+      'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+      'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
+
+      // Strict rules for more visible errors
+      'no-unused-vars': [
+        'error',
+        { vars: 'all', args: 'none', ignoreRestSiblings: false },
+      ],
+      'no-undef': 'error', //
+      'no-unused-let': 'error', //
+      'no-unused-const': 'error',
+      'eslint.run': 'onType', // Run ESLint on type to catch errors faster
+      'eslint.validate': [
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+      ],
+      'editor.codeActionsOnSave': {
+        'source.fixAll.eslint': true,
+      },
+      'eslint.codeActionsOnSave.mode': 'all',
     },
   },
-]
+];

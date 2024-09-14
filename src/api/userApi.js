@@ -1,5 +1,7 @@
 import Swal from 'sweetalert2';
 import { axiosApi } from './axiosApi';
+import swalAlert from './swalAlert';
+
 
 
 // create a user to the database
@@ -80,4 +82,23 @@ export const updateProfileInfo = async (updatedInfo, email) => {
     });
     throw error;
   }
+}
+
+// post publisher info
+export const postPublisherInfo = async (publisherData) => {
+  try {
+   console.log(publisherData)
+   
+    const res = await axiosApi.post('/publishers', publisherData);
+    
+    console.log(res)
+    
+
+    if (res.data.insertedId) {
+ swalAlert('success', 'Publisher created successfully');
+   }
+ } catch (error) {
+    console.error(error)
+      swalAlert('error', error.message);
+ }
 }
