@@ -10,10 +10,12 @@ import { postPublisherInfo } from "../../api/userApi";
 
 
 
+
 const AddPublisher = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false)
+ 
 
 
   const {
@@ -49,13 +51,13 @@ const AddPublisher = () => {
   };
 
   return (
-    <div className="mt-12 lg:mt-20">
+    <div className="mt-12 lg:mt- overflow-x-auto">
       <Helmet>
         <title>Tech Insights || Admin - Add Publisher</title>
       </Helmet>
       <PageTitle title='Add Publisher' />
 
-      <div className="w-5/6 lg:w-1/2 mx-auto bg-gradient-to-br from-green-lantern to-blue-950 p-12 lg:p-20 rounded-xl">
+      <div className="mx-4 lg:w-1/2 lg:mx-auto bg-gradient-to-br from-green-lantern to-blue-950 p-12 lg:p-20 rounded-xl">
         {/*  form */}
         <form onSubmit={handleSubmit(handleRegister)} className=' space-y-2'>
           {/* publisher */}

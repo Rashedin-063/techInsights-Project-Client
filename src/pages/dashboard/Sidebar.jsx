@@ -8,9 +8,9 @@ import { CgProfile } from 'react-icons/cg';
 import { FaAddressCard } from 'react-icons/fa';
 
 import { NavLink, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo3.png';
+import logo from '../../assets/logo3.png';
 import { toast } from 'react-toastify';
 
 const Sidebar = () => {
@@ -60,7 +60,7 @@ toast.warn('Logout successful')
 
         <button
           onClick={handleToggle}
-          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-700 focus:text-gray-100'
+          className='mobile-menu-button p-4 focus:outline-none bg-gray-700 text-gray-100'
         >
           <AiOutlineBars className='h-8 w-8' />
         </button>

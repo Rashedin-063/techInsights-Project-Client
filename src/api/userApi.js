@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { axiosApi } from './axiosApi';
 import swalAlert from './swalAlert';
+import { toast } from 'react-toastify';
 
 
 
@@ -12,42 +13,17 @@ export const createOrUpdateUser = async (userInfo) => {
   try {
     const res = await axiosApi.put('/users', userInfo); 
     
-    console.log(res.data)
-    
-
     if (res.data.upsertedId) {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'User added to the database',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success('User added to the database');
     }
 
     if (res.data.modifiedCount) {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'User info updated successfully',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+        toast.success('User info updated successfully');
     }
-
-
-
     return res;
   } catch (error) {
-    console.log(error);
-
-    Swal.fire({
-      position: 'center',
-      icon: 'error',
-      title: error.message,
-      showConfirmButton: false,
-      timer: 3000,
-    })
+    console.error(error);
+     swalAlert('error', error.message);
     throw error;
   }
 };
@@ -60,26 +36,13 @@ export const updateProfileInfo = async (updatedInfo, email) => {
     console.log(res.data);
 
     if (res.data.modifiedCount) {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'User profile updated successfully',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      swalAlert('success', 'User profile updated successfully');
     }
 
     return res;
   } catch (error) {
-    console.log(error);
-
-    Swal.fire({
-      position: 'center',
-      icon: 'error',
-      title: error.message,
-      showConfirmButton: false,
-      timer: 3000,
-    });
+    console.error(error);
+  swalAlert('error', error.message);
     throw error;
   }
 }

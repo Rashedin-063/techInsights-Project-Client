@@ -7,11 +7,15 @@ import Swal from 'sweetalert2';
 import { MdAdminPanelSettings } from "react-icons/md";
 import { createOrUpdateUser } from "../../api/userApi";
 import { toast } from "react-toastify";
+import { useLoaderData } from "react-router-dom";
 
 
 const AllUsers = () => {
-
   const axiosSecure = useAxiosSecure();
+
+  const AllArticles = useLoaderData();
+  console.log(AllArticles)
+
   const { data: users = [], refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
@@ -19,42 +23,45 @@ const AllUsers = () => {
       return res.data;
     },
     refetchInterval: 5000,
-    refetchIntervalInBackground: true
+    refetchIntervalInBackground: true,
   });
 
-  const originalAdmin = 'rashedinislam.06@gmail.com'
+  console.log(users);
 
-  const handleMakeAdmin = (userEmail) => {
-  
+  const originalAdmin = 'rashedinislam.06@gmail.com';
+
+  const handleMakeAdmin = async (userEmail) => {
     const userInfo = {
       email: userEmail,
-      role: 'admin'
-    }
-try {
-  createOrUpdateUser(userInfo);
-  refetch()
-toast.success('Admin approval successful')
-} catch (error) {
-  toast.error(error.message);
-  console.log(error) 
-    }
-  }
-  
-  const handleRemoveAdmin = (userEmail) => {
-    const userInfo = {
-      email: userEmail,
-      status: 'remove-admin'
+      role: 'admin',
     };
+
     try {
-      createOrUpdateUser(userInfo);
-      refetch();
-      toast.success('Admin removed successfully');
+      const result = await createOrUpdateUser(userInfo);
+      if (result) {
+        await refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveAdmin = async (userEmail) => {
+    const userInfo = {
+      email: userEmail,
+      status: 'remove-admin',
+    };
+
+    try {
+      const result = await createOrUpdateUser(userInfo);
+      if (result) {
+        await refetch();
+      }
     } catch (error) {
       toast.error(error.message);
       console.log(error);
     }
-  }
-  
+  };
 
   return (
     <div>
@@ -97,7 +104,7 @@ toast.success('Admin approval successful')
                       : ''
                   }`}
                 >
-                  {user?.subscription === 'premium' ? 'Premium'  : 'Usual'}
+                  {user?.subscription === 'premium' ? 'Premium' : 'Usual'}
                 </td>
                 <td
                   className={`border border-green-lantern text-sm font-semibold ${
@@ -107,7 +114,7 @@ toast.success('Admin approval successful')
                   }`}
                 >
                   {user?.status === 'requested' ? (
-                    <span className="text-red-600 text-base">Requested</span>
+                    <span className='text-red-600 text-base'>Requested</span>
                   ) : (
                     'Verified'
                   )}
@@ -124,9 +131,9 @@ toast.success('Admin approval successful')
                 <td className='border- border-green-lantern text-xs font-semibold'>
                   {user.role === 'admin' ? (
                     <button
-                     disabled={user.email === originalAdmin}
+                      disabled={user.email === originalAdmin}
                       onClick={() => handleRemoveAdmin(user.email)}
-                      className='border-2 px-2 py-1 border-red-700 rounded-full hover:bg-red-200 w-[110px] disabled:cursor-not-allowed disabled:bg-gray-500'
+                      className='border-2 px-2 py-1 border-red-700 rounded-full hover:bg-red-200 w-[110px] disabled:cursor-not-allowed disabled:bg-gray-400 disabled:border-gray-600'
                     >
                       Remove Admin
                     </button>

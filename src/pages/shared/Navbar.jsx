@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import logo from '../../assets/logo3.png'
 import { useState } from 'react';
 import ProfileModal from '../../components/modals/ProfileModal';
+import useLoadUser from '../../hooks/useLoadUser';
 
 
 
@@ -21,6 +22,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, logOutUser } = useAuth();
+   const [userData] = useLoadUser();
 
   const navigate = useNavigate();
 
@@ -36,8 +38,8 @@ const Navbar = () => {
 
  
 
-const filteredItems = user
-  ? items
+  const filteredItems = userData.subscription === 'premium' ? items : user
+  ? items.filter(item => item.to !== '/premium-articles')
     : items.filter((item) => item.to === '/' || item.to === '/all-articles');
   
   // console.log(filteredItems)

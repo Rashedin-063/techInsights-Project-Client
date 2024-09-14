@@ -1,26 +1,23 @@
-import { createBrowserRouter } from "react-router-dom"
-import Home from "../pages/home/Home"
-import Root from "../layouts/Root"
+import { createBrowserRouter } from 'react-router-dom';
+import Home from '../pages/home/Home';
+import Root from '../layouts/Root';
 import ErrorPage from './../error/ErrorPage';
 import Login from './../pages/auth/Login';
 import Register from './../pages/auth/Register';
 
-import DashboardLayout from "../layouts/DashboardLayout";
-import AllUsers from "../pages/dashboard/AllUsers";
-import AllArticlesAdmin from '../pages/dashboard/AllArticlesAdmin';
+import DashboardLayout from '../layouts/DashboardLayout';
+import AllUsers from '../pages/dashboard/AllUsers';
 
 import AddPublisher from './../pages/dashboard/AddPublisher';
-import Statistics from "../pages/dashboard/Statistics";
+import Statistics from '../pages/dashboard/Statistics';
 import AddArticles from './../pages/AddArticles';
-import AllArticles from './../pages/AllArticles';
+import AllArticles from '../pages/AllArticles';
 import Subscription from './../pages/Subscription';
 import MyArticles from './../pages/MyArticles';
 import PremiumArticles from './../pages/PremiumArticles';
 import UserProfile from './../pages/UserProfile';
-import PrivateRoute from "./PrivateRoute";
-
-
-
+import PrivateRoute from './PrivateRoute';
+import AdminArticles from '../pages/dashboard/AdminArticles';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/add-article',
-        element: <AddArticles />,
+        element: (
+          <PrivateRoute>
+            <AddArticles />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/all-articles',
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/subscription',
-        element: <Subscription />,
+        element: (
+          <PrivateRoute>
+            <Subscription />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/my-articles',
@@ -50,7 +55,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/premium-articles',
-        element: <PremiumArticles />,
+        element: (
+          <PrivateRoute>
+            <PremiumArticles />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/profile',
@@ -72,7 +81,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
@@ -84,7 +97,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'all-articles-admin',
-        element: <AllArticlesAdmin />,
+        element: <AdminArticles />,
       },
       {
         path: 'add-publisher',
@@ -94,5 +107,4 @@ const router = createBrowserRouter([
   },
 ]);
 
-
-export default router
+export default router;
