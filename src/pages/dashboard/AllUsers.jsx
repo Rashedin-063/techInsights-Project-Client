@@ -5,6 +5,8 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { FaTrashAlt, FaUsers } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { MdAdminPanelSettings } from "react-icons/md";
+import { createOrUpdateUser } from "../../api/userApi";
+import { toast } from "react-toastify";
 
 
 const AllUsers = () => {
@@ -18,10 +20,38 @@ const AllUsers = () => {
     },
   });
 
-  const handleMakeAdmin = () => {
-   console.log('hello')
-   
- }
+  const originalAdmin = 'rashedinislam.06@gmail.com'
+
+  const handleMakeAdmin = (userEmail) => {
+  
+    const userInfo = {
+      email: userEmail,
+      role: 'admin'
+    }
+try {
+  createOrUpdateUser(userInfo);
+  refetch()
+toast.success('Admin approval successful')
+} catch (error) {
+  toast.error(error.message);
+  console.log(error) 
+    }
+  }
+  
+  const handleRemoveAdmin = (userEmail) => {
+    const userInfo = {
+      email: userEmail,
+      status: 'remove-admin'
+    };
+    try {
+      createOrUpdateUser(userInfo);
+      refetch();
+      toast.success('Admin removed successfully');
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  }
   
 
   return (
@@ -92,14 +122,15 @@ const AllUsers = () => {
                 <td className='border- border-green-lantern text-xs font-semibold'>
                   {user.role === 'admin' ? (
                     <button
-                      onClick={() => handleMakeAdmin(user)}
-                      className='border-2 px-2 py-1 border-red-700 rounded-full hover:bg-red-200 w-[110px]'
+                     disabled={user.email === originalAdmin}
+                      onClick={() => handleRemoveAdmin(user.email)}
+                      className='border-2 px-2 py-1 border-red-700 rounded-full hover:bg-red-200 w-[110px] disabled:cursor-not-allowed disabled:bg-gray-500'
                     >
                       Remove Admin
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleMakeAdmin(user)}
+                      onClick={() => handleMakeAdmin(user.email)}
                       className='border-2 px-2 py-1 border-green-lantern rounded-full hover:bg-green-200  w-[110px]'
                     >
                       Make Admin
