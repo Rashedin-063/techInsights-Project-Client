@@ -4,6 +4,9 @@ import { axiosApi } from '../api/axiosApi';
 
 const ArticleCard = ({ article, refetch }) => {
 
+  console.log(article)
+  
+
   // destructuring article
   const {
     _id,

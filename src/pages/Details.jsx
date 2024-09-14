@@ -136,7 +136,7 @@ const Details = () => {
 
           {/* description */}
           <div>
-            <p className='mt-2'>
+            <p className='mt-8 text-justify'>
               <span className='italic mr-2 font-semibold'>Description: </span>
               {description}
             </p>
