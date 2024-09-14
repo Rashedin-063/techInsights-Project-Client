@@ -11,7 +11,8 @@ const Subscription = () => {
 
       <>
         <div className='grid  lg:grid-cols-3 px-8 gap-10 text-zinc-800 mt-10 w-3/4 mx-auto lg:w-full'>
-          <div className='flex flex-col items-center bg-violet-100 p-8 rounded-2xl shadow-2xl max-w-sm border-2'>
+          {/* first card */}
+          <div className='flex flex-col items-center bg-gradient-to-br from-green-300 to-green-600 p-8 rounded-2xl shadow-2xl max-w-sm'>
             <div>
               <h2 className='font-extrabold text-3xl text-center mb-2'>
                 Starter
@@ -119,7 +120,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <button className=' px-4 py-2 border-violet-400 border-4 hover:bg-violet-100 rounded-xl'>
+                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                   Get Started
                 </button>
               </div>
@@ -256,13 +257,14 @@ const Subscription = () => {
                 Premium Support
               </p>
               <div className='flex justify-center mt-8'>
-                <button className='px-4 py-2 border-deep-ocean border-4 hover:border-green-lantern rounded-xl'>
+                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                   Get Started
                 </button>
               </div>
             </div>
           </div>
-          <div className='flex flex-col items-center bg-rose-100 p-8 rounded-2xl shadow-2xl max-w-sm'>
+          {/* third card */}
+          <div className='flex flex-col items-center bg-gradient-to-br from-blue-300 to-blue-600 p-8 rounded-2xl shadow-2xl max-w-sm'>
             <div>
               <h2 className='font-extrabold text-3xl text-center mb-2'>
                 Starter
@@ -370,7 +372,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <button className=' px-4 py-2 border-violet-400 border-4 hover:bg-violet-100 rounded-xl'>
+                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                   Get Started
                 </button>
               </div>

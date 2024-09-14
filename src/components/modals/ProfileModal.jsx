@@ -23,11 +23,9 @@ import useAuth from './../../hooks/useAuth';
 import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import { toast } from 'react-toastify';
-import { createOrUpdateUser } from '../../api/userApi';
+import { updateProfileInfo } from '../../api/userApi';
+
 
 
 /**
@@ -40,11 +38,19 @@ import { createOrUpdateUser } from '../../api/userApi';
  */
 
 const ProfileModal = ({ isOpen, closeModal, userData }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const navigate = useNavigate();
 
-  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
+  const {
+    updateUserProfile,
+    loading,
+    setLoading,
+    updateUserPass,
+    user,
+    resetUserPass,
+  } = useAuth();
+
+  const { displayName, email, photoURL } = userData;
 
   const {
     register,
@@ -52,22 +58,32 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
     formState: { errors },
   } = useForm();
 
+   
+
   // Form submission handler
-  const handleRegister = async ({ name, email }) => {
+  const handleRegister = async ({ name }) => {
     try {
       setLoading(true);
 
-      const image_url = await imageUpload(imageFile);
+    //  if new image is not uploaded take the already existing image
+      let image_url = null;
+      imageFile ? image_url = await imageUpload(imageFile) : image_url = photoURL;
 
-     return console.log(name, email, image_url)
-      
+      if (name !== displayName || imageFile) {
+        const updatedInfo = {
+          displayName: name,
+          photoURL: image_url
+        }
 
-      // 3. Save username and photo in Firebase
-      await updateUserProfile(name, email, image_url);
+        // updating info to db
+       await updateProfileInfo(updatedInfo, email)
 
-      toast.success('Your profile is updated');
+        // updating info to firebase
+      await updateUserProfile(name, image_url)
+      } else {
+        toast.warn('Please update your info')
+      }
 
-      navigate('/');
     } catch (err) {
       console.log('Error:', err);
       toast.error(err.message);
@@ -81,10 +97,38 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
     const file = e.target.files[0];
     setImageFile(file);
   };
-  console.log(userData)
-  
 
-  const {displayName, email, photoURL } = userData
+  const handleResetPass = async () => {
+    setLoading(true)
+
+   try {
+     const currentPassword = prompt('Enter your current password'); 
+     console.log(currentPassword)
+     
+      await updateUserPass(user, currentPassword);
+     setLoading(false)
+     toast.success('Password reset successful')
+   } catch (error) {
+     console.error(error)
+     toast.error(error.message)
+   } finally {
+     setLoading(false)
+   }
+  }
+
+  const handleForgetPass = async () => {
+    setLoading(true)
+    try {
+      await resetUserPass(email)
+      toast.success('Please check your email')
+    } catch (error) {
+      toast.error(error.message)
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+ 
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -136,7 +180,7 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
               <div className='form-control'>
                 <input
                   type='email'
-                  {...register('email')}
+                 name='email'
                   readOnly
                   placeholder='Email'
                   defaultValue={email}
@@ -160,9 +204,6 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
                   accept='image/*'
                   onChange={handleImageChange}
                 />
-                <div className='mt-4'>
-                  <img src={userData?.photoURL} alt='Preview' />
-                </div>
               </div>
 
               <div className='form-control mt-6'>
@@ -179,8 +220,15 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
                 </button>
               </div>
             </form>
-            <div>
-              <btn className='ml-2 cursor-pointer font-sevillana '>Reset password</btn>
+
+
+            <div className='flex justify-between'>
+              <button
+                onClick={handleResetPass}
+                className='ml-2 cursor-pointer font-sevillana text-xl '>Reset password</button>
+              <button
+                onClick={handleForgetPass}
+                className='ml-2 cursor-pointer font-sevillana text-xl '>Forget password?</button>
             </div>
           </DialogPanel>
         </div>

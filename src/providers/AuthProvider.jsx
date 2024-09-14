@@ -2,15 +2,20 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
+  reauthenticateWithCredential,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updatePassword,
   updateProfile
 } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
+import { getASecureRandomPassword } from '../api/utils';
 
 
 
@@ -57,6 +62,36 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, githubProvider);
   };
 
+  // update password
+ const updateUserPass = async (user, currentPassword) => {
+   const newPassword = getASecureRandomPassword(); // Generate a secure random password
+   setLoading(true);
+
+   try {
+     // Create the credential using email and current password
+     const credential = EmailAuthProvider.credential(
+       user.email,
+       currentPassword
+     );
+
+     // Step 1: Re-authenticate the user with the credential (their email and current password)
+     await reauthenticateWithCredential(user, credential);
+
+     // Step 2: After re-authentication, update the password
+     await updatePassword(user, newPassword);
+   } catch (error) {
+     console.error('Error updating password:', error);   
+   } finally {
+     setLoading(false);
+   }
+ };
+
+  // reset pass with emial
+  const resetUserPass = (email) => {
+    setLoading(true)
+    return sendPasswordResetEmail(auth, email);
+  }
+
   // sign out
   const logOutUser = () => {
     setLoading(true);
@@ -64,10 +99,13 @@ const AuthProvider = ({ children }) => {
   };
 
 
+
   // set a observer
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log(currentUser)
+      
       setLoading(false);
     });
 
@@ -86,6 +124,8 @@ const AuthProvider = ({ children }) => {
     logOutUser,
     googleLogin,
     githubLogin,
+    updateUserPass,
+    resetUserPass,
   };
 
   return (

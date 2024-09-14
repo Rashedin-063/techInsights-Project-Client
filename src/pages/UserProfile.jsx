@@ -24,11 +24,12 @@ const UserProfile = () => {
 
 
   const handleAdmin = () => {
-    const userInfo = { ...userData, role: 'Requested' };
+    const userInfo = { email:userData.email, status: 'requested' }; 
     createOrUpdateUser(userInfo);
+    refetch()
   };
 
-  const { displayName, email, photoURL, metadata, role, subscription } = userData;
+  const { displayName, email, photoURL, role, subscription, status } = userData;
 
   // handling error
   if (isError) return <ErrorMessage error={error} />;
@@ -55,15 +56,20 @@ const UserProfile = () => {
           {/* name */}
           <h1 className='text-3xl font-bold pt-4 lg:pt-0 flex justify-center gap-4 items-center lg:justify-between lg:max-w-md'>
             {displayName}
-            
-              <span title='Update your profile' onClick={closeModal}>
-                <FaEdit className='text-green-lantern cursor-pointer' />
-              </span>
-              <ProfileModal isOpen={isOpen} closeModal={closeModal} userData={userData} />
-           
+
+            <span title='Update your profile' onClick={closeModal}>
+              <FaEdit className='text-green-lantern cursor-pointer' />
+            </span>
+            <ProfileModal
+              isOpen={isOpen}
+              closeModal={closeModal}
+              userData={userData}
+            />
           </h1>
+
           {/* border */}
           <div className='mx-auto lg:mx-0  w-2/3 lg:w-[90%] pt-2 border-b-2 border-green-lantern opacity-60'></div>
+
           {/* email */}
           <p className='pt-4 font-bold flex items-center justify-center  gap-3 lg:justify-start'>
             <BsEnvelopeAt size={20} className='text-green-lantern' />
@@ -86,14 +92,16 @@ const UserProfile = () => {
           <div className=' mt-4 w-1/2 lg:w-3/4 mx-auto border-b-2 border-dotted border-green-lantern opacity-25'></div>
 
           {/* subscription and user type */}
-          <div className='flex flex-col justify-center items-center lg:items-start  gap-y-3 mt-8 font-semibold'>
-            <div className=' flex items-center gap-2'>
+          <div className='flex flex-col justify-center items-center lg:items-start  gap-y-3 mt-8 font-semibold text-sm md:text-base'>
+            <div className='flex items-center gap-2'>
               <FaUserCog size={20} className='text-green-lantern' />
               <i> Type : </i>
-              {role === 'Admin' ? (
-                <div>
+              {role === 'admin' ? (
+                <div className='flex items-center'>
                   <span>Admin</span>
-                  <em className='text-sm ml-4 text-green-lantern'>Congrats, you're an admin!</em>
+                  <em className='text-sm ml-4 text-green-lantern hidden md:flex'>
+                    Congrats, you're an admin!
+                  </em>
                 </div>
               ) : (
                 <>
@@ -102,7 +110,7 @@ const UserProfile = () => {
                   </>
                   <button
                     onClick={handleAdmin}
-                    disabled={role === 'Requested'}
+                    disabled={status === 'requested'}
                     className='text-xs px-2 py-1 rounded-md bg-green-lantern text-pure-white hover:bg-deep-ocean hover:rounded-full ml-4 disabled:cursor-not-allowed disabled:bg-gray-800'
                   >
                     {role === 'Requested'
@@ -114,7 +122,7 @@ const UserProfile = () => {
             </div>
             {/* subscription */}
             <>
-              {role === 'Admin' ? (
+              {role === 'admin' ? (
                 <>
                   <span className=' mt-2 text-sm tracking-wider'>
                     As an admin, remember to oversee user activities, manage
@@ -124,26 +132,25 @@ const UserProfile = () => {
                   </span>
                 </>
               ) : (
-                <p className=' flex items-center gap-2'>
+                <div className=' flex items-center gap-2'>
                   <MdSubscriptions size={20} className='text-green-lantern' />
                   <i> Subscription : </i>
-                  {subscription === 'Premium' ? (
+                  {subscription === 'premium' ? (
                     <>
-                      <span>Premium User</span>
+                      <span>Premium</span>
                       <span className='ml-2'>Enjoy your premium benefits!</span>
                     </>
                   ) : (
-                    <>
+                    <div className='relative'>
                       <span>Normal</span>
-                      <Link
-                        to='/subscription'
-                        className='text-xs px-2 py-1 rounded-md bg-green-lantern text-pure-white hover:bg-deep-ocean hover:rounded-full ml-4'
-                      >
-                        Buy Premium
+                      <Link to='/subscription'>
+                        <button className='text-xs px-2 py-1 rounded-md bg-green-lantern text-pure-white hover:bg-deep-ocean hover:rounded-full ml-4 absolute right-8 w-24 top-7 md:static cursor-pointer'>
+                          Buy Premium
+                        </button>
                       </Link>
-                    </>
+                    </div>
                   )}
-                </p>
+                </div>
               )}
             </>
           </div>

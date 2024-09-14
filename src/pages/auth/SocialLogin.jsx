@@ -24,13 +24,21 @@ const SocialLogin = () => {
 
       const user = result?.user;
 
-      createOrUpdateUser(user);
+        const userInfo = {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          subscription: 'usual',
+          role: 'user',
+          status: 'verified',
+          premiumToken: null,
+      };      
+
+      createOrUpdateUser(userInfo);
 
       toast.success('Sign Up Successful');
 
-      setTimeout(() => {
-        navigate(from);
-      }, 1500);
+      navigate(from);
     } catch (err) {
       console.log(err);
       toast.error(err.message);
@@ -45,13 +53,21 @@ const SocialLogin = () => {
 
       const user = result?.user;
 
-      createOrUpdateUser(user);
+        const userInfo = {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          subscription: 'usual',
+          role: 'user',
+          status: 'verified',
+          premiumToken: null,
+        };
+
+        createOrUpdateUser(userInfo);
 
       toast.success('Sign In Successful');
 
-      setTimeout(() => {
-        navigate(from);
-      }, 1500);
+       navigate(from);
     } catch (err) {
       console.log(err);
       toast.error(err.message);

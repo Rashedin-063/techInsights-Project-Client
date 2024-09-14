@@ -63,7 +63,17 @@ const Register = () => {
       // 3. Save username and photo in Firebase
       await updateUserProfile(name, image_url);
 
-      createOrUpdateUser(auth?.currentUser);
+       const userInfo = {
+         displayName: name,
+         email,
+         photoURL: image_url,
+         subscription: 'usual',
+         role: 'user',
+         status: 'verified',
+         premiumToken: null,
+       };
+
+      createOrUpdateUser(userInfo);
 
       toast.success('Registration  Successful');
 
