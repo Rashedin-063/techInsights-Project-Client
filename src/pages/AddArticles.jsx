@@ -6,20 +6,28 @@ import { useForm } from 'react-hook-form';
 import Select from 'react-select';
 import { useState } from "react";
 import { imageUpload } from "../api/utils";
+import { toast } from "react-toastify";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
 
 
 const AddArticles = () => {
   const [imageFile, setImageFile] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
+  const [loading, setLoading] = useState(false)
   
+  const axiosSecure = useAxiosSecure()
 
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     formState: { errors },
   } = useForm();
+  
+  const {user} = useAuth()
   
   
   const { data: publisherData = [] } = useQuery({
@@ -50,22 +58,45 @@ const tagsOptions = [
     const { title, description } = data;
 
     data.tags = selectedTags.map((tag) => tag.value);
-
-    console.log(data.tags)   
+  
 
     const image_url = await imageUpload(imageFile);
 
     // Prepare formData
-    const formData = {
+    const articleData = {
       title,
       description,
       image_url,
       tags: data.tags,
       publisher: selectedPublisher,
+      posted_by: user?.email.split('.')[0],
+      posted_time: new Date().toLocaleDateString(),
+      writers_email: user?.email,
+      view_count: 0,
+      isPremium: 'no',
+      status: 'pending'
     };
 
-    // Log formData to the console
-    console.log(formData);
+    console.log(articleData)
+    
+
+    try {
+      setLoading(true)
+      const res = await axiosSecure.post('/articles', articleData)
+      console.log(res)
+      
+      if (res.data.insertedId) {
+        toast.success('Articel posted successfully')
+        reset()
+        setLoading(false)
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+
 
   };
 
@@ -185,6 +216,7 @@ const tagsOptions = [
           {/* Submit Button */}
           <div className='form-control mt-6'>
             <button
+              disabled={loading}
               type='submit'
               className='btn bg-green-lantern text-pure-white hover:bg-deep-ocean mt-2'
             >

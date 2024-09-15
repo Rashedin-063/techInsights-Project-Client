@@ -2,10 +2,7 @@ import { Link } from 'react-router-dom';
 import placeholderImage from '../assets/placeholder.png';
 import { axiosApi } from '../api/axiosApi';
 
-const ArticleCard = ({ article, refetch }) => {
-
-  console.log(article)
-  
+const ArticleCard = ({ article, refetch }) => {  
 
   // destructuring article
   const {
@@ -80,7 +77,7 @@ const ArticleCard = ({ article, refetch }) => {
         <p className='text-sm flex italic mt-2 pb-2 justify-between'>
           <span className='flex gap-4'>
             {tags.map((tag) => (
-              <span># {tag}</span>
+              <span key={tag}># {tag}</span>
             ))}
           </span>
           {article.isPremium === 'yes' && (

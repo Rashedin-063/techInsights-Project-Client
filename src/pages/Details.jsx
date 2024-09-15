@@ -8,9 +8,10 @@ import PageTitle from '../components/PageTitle';
 import placeholderImage from '../assets/placeholder.png';
 import useAuth from '../hooks/useAuth';
 import { BsEye } from 'react-icons/bs';
-import { MdPermIdentity } from 'react-icons/md';
+import { MdCategory, MdPermIdentity, MdPublish } from 'react-icons/md';
 import Button from '../components/Button';
 import useLoadArticles from '../hooks/useLoadArticles';
+import { CgTimer } from 'react-icons/cg';
 
 const Details = () => {
   const { id } = useParams();
@@ -54,8 +55,6 @@ const Details = () => {
     writers_email,
     view_count
   } = article;
-
-  console.log(article)
   
 
   if (isLoading) return <LoadingSpinner />;
@@ -100,15 +99,15 @@ const Details = () => {
           </div>
           {/* tags, premium, view count */}
           <div className='mt-6'>
-            <p className='text-sm flex italic mt-2 pb-2 justify-between mx-2'>
-              <span className='flex gap-4'>
+            <p className='text-sm md:flex italic mt-2 pb-2 justify-between mx-2'>
+              <span className='flex gap-4 font-semibold'>
                 {tags.map((tag) => (
                   <span># {tag}</span>
                 ))}
               </span>
-              <span className='flex justify-center'>
+              <span className='flex md:justify-center gap-6 md:gap-0 mt-2 md:mt-0'>
                 {article.isPremium === 'yes' && (
-                  <span className='not-italic font-wendy text-[16px] text-amber-600 mr-6 flex gap-2'>
+                  <span className='not-italic font-wendy text-[16px] text-amber-600 md:mr-2 flex gap-2'>
                     <MdPermIdentity size={20} />
                     Premium
                   </span>
@@ -122,14 +121,29 @@ const Details = () => {
               </span>
             </p>
           </div>
+
+          <div className='text-end mr-2 mt-2'>
+            <p className='italic text-xl font-sevillana'>
+              Status:{' '}
+              <span className={`font-sevillana font-semibold ml-2 ${status === 'pending' ? 'text-orange-400' : status === 'approved' ? 'text-green-600' : 'text-purple-800'}`} >
+                {' '}
+                {status}
+              </span>
+            </p>
+          </div>
+
           {/* time and category */}
-          <div className='flex items-center justify-between mt-6 mb-4'>
-            <p className='border-2 border-green-lantern px-2 py-1 rounded-md'>
-              <span className='italic mr-2 text-sm'>Published At: </span>
+          <div className='flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 mt-6 mb-4'>
+            <p className='border-2 border-green-lantern px-3 py-2 rounded-md flex'>
+              <span className='italic mr-2 text-sm flex'>
+                <CgTimer color='green' size={18} className='mr-1 mt-[1px]'/>
+                Published At: </span>
               <span className='font-wendy text-sm'>{posted_time}</span>
             </p>
-            <p className='border-2 border-green-lantern px-2 py-1 rounded-md'>
-              <span className='italic text-sm mr-2'>Publisher: </span>
+            <p className='border-2 border-green-lantern px-3 py-2 rounded-md flex '>
+              <span className='italic text-sm mr-2 flex mt-[2px]'>
+                <MdCategory className='mr-2 mt-[2px] text-green-lantern'/>
+                Publisher: </span>
               <span className='font-wendy'>{publisher}</span>
             </p>
           </div>
@@ -137,7 +151,7 @@ const Details = () => {
           {/* description */}
           <div>
             <p className='mt-8 text-justify'>
-              <span className='italic mr-2 font-semibold'>Description: </span>
+              <span className='italic mr-2 font-semibold text-lg'>Description: </span>
               {description}
             </p>
           </div>

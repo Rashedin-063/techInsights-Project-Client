@@ -17,7 +17,7 @@ const useLoadArticles = () => {
       return res.data;
     },
     onError: (error) => {
-      console.error('Error fetching articles:', error); // Updated the error message
+      console.error('Error fetching articles:', error);
     },
   });
 

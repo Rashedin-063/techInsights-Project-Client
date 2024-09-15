@@ -19,6 +19,7 @@ import UserProfile from './../pages/UserProfile';
 import PrivateRoute from './PrivateRoute';
 import AdminArticles from '../pages/dashboard/AdminArticles';
 import Details from '../pages/Details';
+import UpdateArticle from '../pages/UpdateArticle';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/details/:id',
         element: <Details />,
+      },
+      {
+        path: '/update/:id',
+        element: <UpdateArticle />,
       },
       {
         path: '/subscription',

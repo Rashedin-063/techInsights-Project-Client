@@ -65,3 +65,4 @@ export const postPublisherInfo = async (publisherData) => {
       swalAlert('error', error.message);
  }
 }
+
