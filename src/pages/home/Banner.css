@@ -1,0 +1,27 @@
+.mySwiper .swiper-button-next, .mySwiper .swiper-button-prev {
+  background-color: #004080;
+  color: #EAEAEA;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.mySwiper .swiper-button-next:hover, .mySwiper .swiper-button-prev:hover {
+  background-color:  #046645;
+}
+
+.mySwiper .swiper-button-next::after, .mySwiper .swiper-button-prev::after {
+  font-size: 20px;
+}
+
+.mySwiper .swiper-pagination-bullet {
+  background-color: #EAEAEA; 
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+.mySwiper .swiper-pagination-bullet-active {
+ 
+  background-color: #046645; 
+  
+}

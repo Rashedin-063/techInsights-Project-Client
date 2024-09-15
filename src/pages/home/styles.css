@@ -1,0 +1,25 @@
+/* styles.css */
+@keyframes verticalScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.scroll-container {
+  height: 480px; 
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+  animation: verticalScroll 300s linear infinite;
+}
+
+.swiper-slide {
+  height: auto;
+}

@@ -3,8 +3,7 @@ import placeholderImage from '../assets/placeholder.png';
 import { axiosApi } from '../api/axiosApi';
 import useLoadUser from '../hooks/useLoadUser';
 
-const ArticleCard = ({ article, refetch }) => {  
-
+const BannerCard = ({ article, refetch }) => {
   // destructuring article
   const {
     _id,
@@ -20,34 +19,10 @@ const ArticleCard = ({ article, refetch }) => {
     writers_email,
   } = article;
 
-  const [userData] = useLoadUser();
-
-  console.log(userData)
-  
-
-// make view_count increase
-      const incrementViewCount = async () => {
-        try {
-          await axiosApi.patch(
-            `/articles/${_id}/increment-view`
-          );
-          refetch()
-        } catch (error) {
-          console.error('Error incrementing view count:', error);
-        }
-  };
-  
-  console.log(isPremium === 'no' && userData?.subscription === 'usual')
-  
-
 
   return (
     <div
-      className={`max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group ${
-        article.isPremium === 'yes'
-          ? 'bg-gradient-to-br from-green-200 to-blue-400'
-          : ''
-      }`}
+      className={`max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group h-[500px]`}
     >
       {/* time and publisher*/}
       <div className='flex items-center justify-between'>
@@ -69,25 +44,25 @@ const ArticleCard = ({ article, refetch }) => {
           } ${
             publisher === 'Tech Tomorrow' &&
             'text-orange-600 bg-gradient-to-bl from-orange-100 via orange-50 to-orange-300'
-          } rounded-full px-2 font-m-plus`}
+          } rounded-full px-2`}
         >
           {publisher}
         </p>
       </div>
 
-      <div className='mt-6'>
+      <div className='mt-4'>
         {/* image */}
         <img
-          className='rounded-xl mx-auto h-[200px] lg:h-60 mb-6 group-hover:scale-105 transition duration-800 object-cover ease-in'
+          className='rounded-xl mx-auto h-[200px] lg:h-60 mb-6'
           src={image_url ? image_url : placeholderImage}
           alt=''
         />
         {/* title */}
         <p className='text-lg font-bold '>{title}</p>
-        <p className='text-sm flex italic mt-2 pb-2 justify-between'>
+        <p className='text-sm flex italic mt-2 pb-1 justify-between text-black'>
           <span className='flex gap-4'>
             {tags.map((tag) => (
-              <span key={tag}># {tag}</span>
+              <span className='font-semibold' key={tag}># {tag}</span>
             ))}
           </span>
           {article.isPremium === 'yes' && (
@@ -97,22 +72,9 @@ const ArticleCard = ({ article, refetch }) => {
           )}
         </p>
 
-        <p className='mt-2'>{description.slice(0, 150)}....</p>
-      </div>
-
-      {/* read more */}
-      <div className='flex items-center justify-end mt-4'>
-        <Link to={`/details/${_id}`}>
-          <button
-            onClick={incrementViewCount}
-            disabled={isPremium === 'yes' && userData.subscription === 'usual'}
-            className='text-deep-ocean font-semibold hover:underline hover:transition hover:duration-300 hover:font-bold font-sevillana text-xl disabled:cursor-not-allowed disabled:text-gray-500'
-          >
-            Read more
-          </button>
-        </Link>
+        <p className='mt-2 text-sm text-justify'>{description.slice(0, 240)}....</p>
       </div>
     </div>
   );
 };
-export default ArticleCard;
+export default BannerCard;
