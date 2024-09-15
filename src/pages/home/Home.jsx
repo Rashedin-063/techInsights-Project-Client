@@ -4,6 +4,8 @@ import Banner from './Banner';
 import PublisherSection from './PublisherSection';
 import SubscriptionTeaser from './SubscriptionTeaser';
 import AboutUs from './AboutUs';
+import TechPoll from '../../assets/TechPoll';
+import Poll from './Poll';
 
 
 const Home = () => {
@@ -14,9 +16,10 @@ const Home = () => {
       </Helmet>
       <Logo />
       <Banner />
-      <PublisherSection />
+  <Poll/>
       <SubscriptionTeaser />
     <AboutUs/>
+      <PublisherSection />
     </div>
   );
 }
