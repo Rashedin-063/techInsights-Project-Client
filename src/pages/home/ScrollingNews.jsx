@@ -41,10 +41,11 @@ export default function ScrollingNews() {
           direction='vertical'
           slidesPerView='auto'
           className='mySwiper'
-          loop={true}
         >
           {articles.slice(5).map((article) => (
-            <SwiperSlide className='mb-8'>
+            <SwiperSlide
+              key={article._id}
+              className='mb-8'>
               <h4 className=' font-semibold mt-4 text-black'>
                {article.title}
               </h4>
