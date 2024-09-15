@@ -2,9 +2,8 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '../home/Logo'
 import Banner from './Banner';
 import PublisherSection from './PublisherSection';
-import Subscription from '../Subscription';
-import PlanSection from './PlanSection';
 import SubscriptionTeaser from './SubscriptionTeaser';
+import AboutUs from './AboutUs';
 
 
 const Home = () => {
@@ -16,7 +15,8 @@ const Home = () => {
       <Logo />
       <Banner />
       <PublisherSection />
-     <SubscriptionTeaser/>
+      <SubscriptionTeaser />
+    <AboutUs/>
     </div>
   );
 }
