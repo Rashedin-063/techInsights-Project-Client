@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { axiosApi } from "../api/axiosApi";
+import Swal from "sweetalert2";
 
 
 const MyArticles = () => {
@@ -39,20 +40,29 @@ const MyArticles = () => {
 
 
   const handleDeleteArticle = async(id) => {
-    try {
-      const { data } = await axiosApi.delete(`articles/${id}`)
-      console.log(data)
-      
-      if (data.deletedCount) {
-        toast.info('Article deleted successfully')
-        refetch()
+      try {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const { data } = await axiosSecure.delete(`/articles/${id}`);
+
+            if (data.deletedCount) {
+              toast.warn('Post deleted');
+              refetch();
+            }
+          }
+        });
+      } catch (error) {
+        toast.error(error.message);
+        console.log(error);
       }
-  
-} catch (error) {
-  console.log(error)
-  
-  toast.error(error.message);
-}
 
   }
 
@@ -101,7 +111,7 @@ const MyArticles = () => {
                         article?.status.slice(1)}
                     </span>
                   ) : (
-                    <span className='bg-gray-600 text-sm'>
+                    <span className='text-orange-800'>
                       {article?.status.slice(0, 1).toUpperCase() +
                         article?.status.slice(1)}
                     </span>

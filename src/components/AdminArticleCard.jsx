@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAxiosSecure from '../hooks/useAxiosSecure';
-import useAuth from '../hooks/useAuth';
 import placeholderImage from '../assets/placeholder.png';
+import Swal from 'sweetalert2';
 
-const AdminArticleCard = ({ article }) => {
+const AdminArticleCard = ({ article, refetch }) => {
+
+  const axiosSecure = useAxiosSecure()
+
   // destructuring post
   const {
     _id,
@@ -21,23 +23,88 @@ const AdminArticleCard = ({ article }) => {
   } = article;
 
   // handle admin action
-  
-  const handleApproveBtn = (id) => {
-    console.log(id)
+
+  const handleApproveBtn = async(id) => {
+    const updatedInfo = { status: 'approved' }
+    try {
+      const { data } = await axiosSecure.put(`/articles/${id}`, updatedInfo);
+
+      if (data.modifiedCount) {
+        toast.success('Post Approved')
+        refetch()
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      
+    }
+  };
+
+  const handleDeclineBtn = async(id) => {
+    const updatedInfo = { status: 'declined' }
+    try {
+      const { data } = await axiosSecure.put(`/articles/${id}`, updatedInfo);
+
+      if (data.modifiedCount) {
+        toast.info('Post Declined')
+        refetch()
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      
+    }
+  };
+
+  const handleDleteBtn = async(id) => {
+    try {
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then( async(result) => {
+        if (result.isConfirmed) {
+            const { data } = await axiosSecure.delete(`/articles/${id}`);
+
+      if (data.deletedCount) {
+        toast.warn('Post deleted')
+        refetch()
+      }
+        }
+      });
+
     
-  }
-  const handleDeclineBtn = (id) => {
-    console.log(id)
-    
-  }
-  const handleDleteeBtn = (id) => {
-    console.log(id)
-    
-  }
-  const handleMakeAdminBtn = (id) => {
-    console.log(id)
-    
-  }
+
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      
+    }
+  };
+
+  const handleMakePremiumBtn = async(id) => {
+     const updatedInfo = { isPremium: 'yes' }
+    try {
+      const { data } = await axiosSecure.put(`/articles/${id}`, updatedInfo);
+
+      if (data.modifiedCount) {
+        toast.success('This post is now premium!')
+        refetch()
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      
+    }
+  };
 
   return (
     <div className='max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ee-[15%] rounded-es-[15%] group'>
@@ -103,25 +170,40 @@ const AdminArticleCard = ({ article }) => {
         </p>
       </div>
 
-      <div className='mt-4 space-y-4'>
+      {/* button */}
+      <div className='mt-8 space-y-4'>
+        {/* approve and decline btn */}
         <div className='flex justify-center gap-12 md:gap-8'>
           <button
-            onClick={handleApproveBtn}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'>
-           Approve Post
+            onClick={() => handleApproveBtn(_id)}
+            disabled={status === 'approved'}
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+          >
+           {status === 'approved' ? 'Already Approved' : 'Approve Post'}
           </button>
           <button
-            disabled={status === 'approved'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-600'>
-         Decline  Post
+            onClick={() => handleDeclineBtn(_id)}
+            disabled={status === 'declined'}
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+          >
+            {status === 'declined' ? 'Cannot Decline' : 'Decline a Post'}
           </button>
         </div>
+        {/* delete and make premium btn */}
         <div className='flex justify-between gap-28 md:gap-14 pb-4'>
-          <button className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'>
-           Delete Post
+          <button
+            onClick={() => handleDleteBtn(_id)}
+            className='
+          font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'
+          >
+            Delete Post
           </button>
-          <button className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'>
-           Make Premium
+          <button
+            onClick={() => handleMakePremiumBtn(_id)}
+            disabled={isPremium === 'yes'}
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+          >
+            {isPremium === 'yes' ? 'Already Premium' : ' Make Premium'}
           </button>
         </div>
       </div>
