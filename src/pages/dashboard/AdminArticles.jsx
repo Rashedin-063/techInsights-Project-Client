@@ -19,7 +19,7 @@ const AdminArticles = () => {
         <title>Tech Insights || All Articles</title>
       </Helmet>
       <PageTitle title={`All Articles : ${articles?.length}`} />
-      <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-28 mx-8 md:mx-20 lg:mx-28 xl:mx-8 mt-20'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-28 mx-4 md:mx-10 lg:mx-28 xl:mx-8 mt-20'>
         {articles?.map((article) => (
           <AdminArticleCard
             key={article._id}

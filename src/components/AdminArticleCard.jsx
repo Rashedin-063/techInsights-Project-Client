@@ -106,10 +106,10 @@ const AdminArticleCard = ({ article, refetch }) => {
 
   return (
     <div className='max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ee-[15%] rounded-es-[15%] group md:mx-20 lg:mx-0'>
-      <div className='mt-2 h-[270px]'>
+      <div className='mt-8 h-[270px]'>
         {/* image */}
         <img
-          className='rounded-xl mx-auto -translate-y-28 h-48 lg:h-40 mb-4 lg:mt-2 group-hover:scale-105 transition duration-800 ease-in w-11/12'
+          className='rounded-xl mx-auto -translate-y-28 h-48 mb-4 lg:mt-2 group-hover:scale-105 transition duration-800 ease-in w-11/12'
           src={image_url ? image_url : placeholderImage}
           alt=''
         />
@@ -169,13 +169,13 @@ const AdminArticleCard = ({ article, refetch }) => {
       </div>
 
       {/* button */}
-      <div className='mt-28 md:mt-12 space-y-4'>
+      <div className='mt-24 md:mt-12 space-y-4 lg:space-y-6'>
         {/* approve and decline btn */}
         <div className='flex flex-col md:flex-row justify-between my-4'>
           <button
             onClick={() => handleApproveBtn(_id)}
             disabled={status === 'approved'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
           >
             {status === 'approved' ? 'Already Approved' : 'Approve Post'}
           </button>
@@ -183,7 +183,7 @@ const AdminArticleCard = ({ article, refetch }) => {
             onClick={closeModal}
             // onClick={() => handleDeclineBtn(_id)}
             disabled={status === 'declined'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 mt-2 md:mt-0 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
           >
             {status === 'declined' ? 'Cannot Decline' : 'Decline a Post'}
           </button>
@@ -199,14 +199,14 @@ const AdminArticleCard = ({ article, refetch }) => {
           <button
             onClick={() => handleDleteBtn(_id)}
             className='
-          font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'
+          font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'
           >
             Delete Post
           </button>
           <button
             onClick={() => handleMakePremiumBtn(_id)}
             disabled={isPremium === 'yes'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 mt-2 md:mt-0 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
           >
             {isPremium === 'yes' ? 'Already Premium' : ' Make Premium'}
           </button>
