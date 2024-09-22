@@ -7,8 +7,6 @@ import { toast } from 'react-toastify';
 
 // create a user to the database
 export const createOrUpdateUser = async (userInfo) => {
- console.log(userInfo)
- 
 
   try {
     const res = await axiosApi.put('/users', userInfo); 

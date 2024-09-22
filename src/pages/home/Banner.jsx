@@ -54,13 +54,13 @@ const Banner = () => {
 
 
   return (
-    <div className='flex flex-col-reverse lg:flex-row gap-8 mx-5 lg:mx-8'>
+    <div className='flex flex-col-reverse lg:flex-row gap-8 px-4  mx-auto md:px-8'>
       {/* left side */}
       <div className="lg:w-1/2 mt-4">
         <ScrollingNews/>
       </div>
       <div
-        className='lg:w-1/2'
+        className='lg:w-1/2 md:ml-2 lg:ml-0'
         data-aos='zoom-in-cube'
         data-aos-duration='1000'
       >

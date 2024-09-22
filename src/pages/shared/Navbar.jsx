@@ -22,8 +22,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, logOutUser } = useAuth();
-   const [userData] = useLoadUser();
-
+  const [userData] = useLoadUser();
+  
   const navigate = useNavigate();
 
   const items = [
@@ -38,7 +38,7 @@ const Navbar = () => {
 
  
 
-  const filteredItems = userData.subscription === 'premium' ? items : user
+  const filteredItems = userData?.subscription === 'premium' ? items : user
   ? items.filter(item => item.to !== '/premium-articles')
     : items.filter((item) => item.to === '/' || item.to === '/all-articles');
   
@@ -157,14 +157,16 @@ navbar end
                       Profile
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to='/dashboard'
-                      className='btn btn-sm bg-green-lantern hover:bg-deep-ocean rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
-                    >
-                      Dashboard
-                    </Link>
-                  </li>
+                  {userData?.role === 'admin' && (
+                    <li>
+                      <Link
+                        to='/dashboard'
+                        className='btn btn-sm bg-green-lantern hover:bg-deep-ocean rounded-lg hover:rounded-full border-2 border-green-lantern hover:border-deep-ocean text-pure-white min-w-28'
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
 
                   <li>
                     <button

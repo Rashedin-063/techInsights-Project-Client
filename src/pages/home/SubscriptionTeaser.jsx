@@ -7,7 +7,7 @@ const SubscriptionTeaser = () => {
 
 
   return (
-    <div className=' text-black pr-20 pb-12'>
+    <div className=' text-black pt-20 pb-12'>
       <div className='max-w-6xl mx-auto px-4 text-center lg:flex lg:items-center gap-8'>
         <div className='lg:w-3/5'>
           <img src={ready2} className='w-96 h-28 mx-auto' alt='' />

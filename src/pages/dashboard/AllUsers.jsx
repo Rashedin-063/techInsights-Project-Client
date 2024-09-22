@@ -14,7 +14,6 @@ const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
 
   const AllArticles = useLoaderData();
-  console.log(AllArticles)
 
   const { data: users = [], refetch } = useQuery({
     queryKey: ['users'],
@@ -25,8 +24,6 @@ const AllUsers = () => {
     refetchInterval: 5000,
     refetchIntervalInBackground: true,
   });
-
-  console.log(users);
 
   const originalAdmin = 'rashedinislam.06@gmail.com';
 
@@ -85,7 +82,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users?.map((user, index) => (
               <tr className='border-b border-green-lantern' key={user._id}>
                 <td className='border border-green-lantern text-sm font-semibold'>
                   {index + 1}

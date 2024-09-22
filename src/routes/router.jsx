@@ -20,6 +20,8 @@ import PrivateRoute from './PrivateRoute';
 import AdminArticles from '../pages/dashboard/AdminArticles';
 import Details from '../pages/Details';
 import UpdateArticle from '../pages/UpdateArticle';
+import AdminRoute from './AdminRoute';
+import Payment from '../pages/payment/Payment';
 
 const router = createBrowserRouter([
   {
@@ -80,6 +82,12 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: '/payment',
+        element: <PrivateRoute>
+          <Payment/>
+        </PrivateRoute>
+      },
+      {
         path: '/login',
         element: <Login />,
       },
@@ -93,7 +101,9 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: (
       <PrivateRoute>
-        <DashboardLayout />
+        <AdminRoute>
+          <DashboardLayout />
+        </AdminRoute>
       </PrivateRoute>
     ),
     children: [

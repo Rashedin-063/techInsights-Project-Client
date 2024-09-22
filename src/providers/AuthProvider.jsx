@@ -16,6 +16,7 @@ import {
 } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
 import { getASecureRandomPassword } from '../api/utils';
+import { axiosApi } from '../api/axiosApi';
 
 
 
@@ -101,11 +102,27 @@ const AuthProvider = ({ children }) => {
 
 
   // set a observer
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+  useEffect( () => {
+    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       console.log(currentUser)
-      
+
+      if (currentUser) {
+        const userInfo = { email: currentUser.email };
+ try {
+   const res = await axiosApi.post('/jwt', userInfo); 
+
+     localStorage.setItem('access-token', res.data.token);
+   
+ } catch (error) {
+   console.error('Failed to fetch token:', error);
+   logOutUser(); 
+ } finally {
+   setLoading(false);
+ }
+      } else {
+        localStorage.removeItem('access-token');
+      }
       setLoading(false);
     });
 

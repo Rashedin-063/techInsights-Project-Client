@@ -4,6 +4,7 @@ import useAxiosSecure from './useAxiosSecure';
 
 const useLoadUser = () => {
   const { user } = useAuth();
+  
   const axiosSecure = useAxiosSecure()
   
   const {

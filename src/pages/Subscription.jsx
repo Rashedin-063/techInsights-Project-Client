@@ -1,7 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from '../components/PageTitle';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Subscription = () => {
+
+  const [price, setPrice] = useState(0)
+
   return (
     <div>
       <Helmet>
@@ -21,8 +26,8 @@ const Subscription = () => {
                 For the individual and small teams
               </p>
               <div className='flex flex-col items-center my-8'>
-                <p className='font-extrabold text-4xl'>$29</p>
-                <p className='text-sm opacity-60'>/minute</p>
+                <p className='font-extrabold text-4xl'>$7</p>
+                <p className='text-sm opacity-60'>/day</p>
               </div>
             </div>
             <div className='flex flex-col gap-1'>
@@ -85,7 +90,7 @@ const Subscription = () => {
                     clip-rule='evenodd'
                   ></path>
                 </svg>
-                <b>100 Accounts Tracking</b>
+                <b>7 Days Premium Access</b>
               </p>
               <p className='flex items-center text-sm'>
                 <svg
@@ -120,12 +125,15 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
-                  Get Started
-                </button>
+                <Link to='/payment' state={{ price: 49 }}>
+                  <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
+                    Get Started
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
+
           {/* second card */}
           <div className='flex flex-col items-center bg-gradient-to-br from-green-lantern via-midnight-gray to-deep-ocean p-8 rounded-2xl shadow-2xlg relative border-8 border-midnight-gray max-w-sm'>
             <p className='mono text-sm absolute -top-4 bg-green-lantern text-zinc-100 py-0.5 px-2 font-bold tracking-wider rounded'>
@@ -141,7 +149,7 @@ const Subscription = () => {
               <p className='opacity-60 text-center'></p>
               <div className='flex gap-4 justify-center'>
                 <div className='flex flex-col items-center my-8'>
-                  <p className='font-extrabold text-4xl'>$79</p>
+                  <p className='font-extrabold text-4xl'>$5</p>
                   <p className='text-sm opacity-60'>/day</p>
                 </div>
               </div>
@@ -206,23 +214,7 @@ const Subscription = () => {
                     clip-rule='evenodd'
                   ></path>
                 </svg>
-                <b>250 Accounts Tracking</b>
-              </p>
-              <p className='flex items-center text-sm'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 24 24'
-                  fill='currentColor'
-                  aria-hidden='true'
-                  className='w-4 h-4 mr-2'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-                <b>10 Users</b>
+                <b>15 Days Premium Access</b>
               </p>
               <p className='flex items-center text-sm'>
                 <svg
@@ -257,9 +249,11 @@ const Subscription = () => {
                 Premium Support
               </p>
               <div className='flex justify-center mt-8'>
-                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
-                  Get Started
-                </button>
+                <Link to='/payment' state={{ price: 75 }}>
+                  <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
+                    Get Started
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -273,7 +267,7 @@ const Subscription = () => {
                 For the individual and small teams
               </p>
               <div className='flex flex-col items-center my-8'>
-                <p className='font-extrabold text-4xl'>$29</p>
+                <p className='font-extrabold text-4xl'>$4</p>
                 <p className='text-sm opacity-60'>/day</p>
               </div>
             </div>
@@ -337,7 +331,7 @@ const Subscription = () => {
                     clip-rule='evenodd'
                   ></path>
                 </svg>
-                <b>100 Accounts Tracking</b>
+                <b>30 Days Premium Access</b>
               </p>
               <p className='flex items-center text-sm'>
                 <svg
@@ -372,9 +366,11 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
-                  Get Started
-                </button>
+                <Link to='/payment' state={{ price: 120 }}>
+                  <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
+                    Get Started
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
