@@ -1,0 +1,59 @@
+.result,
+.error {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: #e4584c;
+}
+
+.result {
+  color: #666ee8;
+}
+
+/* 
+The StripeElement class is applied to the Element container by default.
+More info: https://stripe.com/docs/stripe-js/reference#element-options
+*/
+
+.StripeElement,
+.StripeElementIdeal,
+.StripeElementP24,
+.StripeElementEPS,
+.StripeElementFpx {
+  display: block;
+  /* margin: 10px 0 20px 0; */
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
+    rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
+  border-radius: 4px;
+  background: rgb(254, 247, 238);
+}
+
+.StripeElement--focus,
+.StripeElementIdeal--focus,
+.StripeElementP24--focus,
+.StripeElementEPS--focus,
+.StripeElementFpx--focus {
+  box-shadow: rgba(50, 50, 93, 0.109804) 8px 10px 12px,
+    rgba(0, 0, 0, 0.0784314) 0px 1px 3px;
+  -webkit-transition: all 150ms ease;
+  transition: all 150ms ease;
+}
+
+.StripeElement.loading {
+  height: 41.6px;
+  opacity: 0.6;
+}
+
+.StripeElementIdeal,
+.StripeElementP24,
+.StripeElementEPS,
+.StripeElementFpx {
+  padding: 0;
+}

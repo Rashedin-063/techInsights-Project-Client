@@ -14,10 +14,10 @@ const Payment = () => {
 
   return (
     <div className='text-center mx-2'>
-      <PageTitle title={`Pay $${price} to buy premium membership`} />
+      <PageTitle title={`Buy premium membership`} />
       <div>
         <Elements stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm price={price} />
         </Elements>
       </div>
     </div>
