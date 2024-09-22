@@ -127,7 +127,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unSubscribe();
-  }, []);
+  }, [axiosApi]);
 
 
 

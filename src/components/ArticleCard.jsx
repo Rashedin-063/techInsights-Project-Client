@@ -14,15 +14,11 @@ const ArticleCard = ({ article, refetch }) => {
     tags,
     publisher,
     isPremium,
-    status,
     posted_by,
-    posted_time,
-    writers_email,
+    posted_time
   } = article;
 
   const [userData] = useLoadUser();
-
-  console.log(userData)
   
 
 // make view_count increase
@@ -37,9 +33,6 @@ const ArticleCard = ({ article, refetch }) => {
         }
   };
   
-  console.log(isPremium === 'no' && userData?.subscription === 'usual')
-  
-
 
   return (
     <div
