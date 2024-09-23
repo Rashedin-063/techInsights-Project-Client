@@ -18,9 +18,8 @@ const useLoadUser = () => {
     enabled: !!user && !!token,
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/users/${user?.email}`);
-
+      
       return data;
-      console.log(data)
       
     },
     onError: (error) => {
