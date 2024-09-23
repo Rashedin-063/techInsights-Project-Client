@@ -7,7 +7,7 @@ import useAxiosSecure from './../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 
-const CheckoutForm = ({ price, validationTime }) => {
+const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [clientSecret, setClientSecret] = useState();
@@ -19,7 +19,7 @@ const CheckoutForm = ({ price, validationTime }) => {
 
   const stripe = useStripe();
   const elements = useElements();
-
+  
   useEffect(() => {
     if (price > 0) {
   sendPaymentInfo(price)
@@ -57,7 +57,6 @@ const CheckoutForm = ({ price, validationTime }) => {
     } else {
       //console.log('payment method', paymentMethod)
       setError('');
-      setLoading(false);
     }
 
     const {paymentIntent, error: confirmPaymentError} = await stripe.confirmCardPayment(clientSecret, {
@@ -71,28 +70,32 @@ const CheckoutForm = ({ price, validationTime }) => {
     });
 
     if (confirmPaymentError) {
+      setLoading(false)
       console.error(confirmPaymentError)
       setConfirmPaymentError(confirmPaymentError.message)
       setTransactionId('')
     } else {
-      console.log('payment intent', paymentIntent)
-setConfirmPaymentError('')
+      // console.log('payment intent', paymentIntent)
+      setLoading(false)
+      setConfirmPaymentError('')
       setTransactionId(paymentIntent.id)
 
       if (paymentIntent.status === 'succeeded') {
-        toast.success('Congrats! You are now a premium user')
-      }
         const payment = {
           email: user?.email,
           price: price,
           transactionId: paymentIntent.id,
           date: new Date(), // utc date converter (moment.js)
-          itemIds: cart.map((item) => item._id),
-          menuIds: cart.map((item) => item.menuId),
-          status: 'pending',
+          subscriptionType: subscriptionType,
         };
 
-        const res = await axiosSecure.post('/payments', payment); 
+        const res = await axiosSecure.post('/payments', payment);
+
+        if (res.data?.insertedId) {
+          toast.success('Congrats! You are now a premium user');
+        }
+      }
+      
     }
 
   };

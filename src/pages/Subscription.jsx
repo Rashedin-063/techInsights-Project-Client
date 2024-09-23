@@ -139,10 +139,10 @@ const Subscription = () => {
             </p>
             <div>
               <div className='flex gap-4 justify-center'>
-                <p className='font-extrabold text-3xl mb-2'>Pro</p>
+                <p className='font-extrabold text-3xl mb-2'>Semi Pro</p>
               </div>
               <p className='opacity-60 text-center'>
-                For agencies and businesses
+                For small agencies and businesses
               </p>
               <p className='opacity-60 text-center'></p>
               <div className='flex gap-4 justify-center'>
@@ -212,7 +212,7 @@ const Subscription = () => {
                     clip-rule='evenodd'
                   ></path>
                 </svg>
-                <b>15 Days Premium Access</b>
+                <b>30 Days Premium Access</b>
               </p>
               <p className='flex items-center text-sm'>
                 <svg
@@ -248,7 +248,7 @@ const Subscription = () => {
               </p>
               {/* btn */}
               <div className='flex justify-center mt-8'>
-                <Link to='/payment' state={{ price: 75, validationTime: 15 * 86400 }}>
+                <Link to='/payment' state={{ price: 150, validationTime: 30 * 86400, type: 'monthly' }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -260,13 +260,13 @@ const Subscription = () => {
           <div className='flex flex-col items-center bg-gradient-to-br from-blue-300 to-blue-600 p-8 rounded-2xl shadow-2xl max-w-sm'>
             <div>
               <h2 className='font-extrabold text-3xl text-center mb-2'>
-                Starter
+                Professional
               </h2>
               <p className='opacity-60 text-center'>
-                For the individual and small teams
+                For entrepreneur and large agency
               </p>
               <div className='flex flex-col items-center my-8'>
-                <p className='font-extrabold text-4xl'>$4</p>
+                <p className='font-extrabold text-4xl'>$3</p>
                 <p className='text-sm opacity-60'>/day</p>
               </div>
             </div>
@@ -330,7 +330,7 @@ const Subscription = () => {
                     clip-rule='evenodd'
                   ></path>
                 </svg>
-                <b>30 Days Premium Access</b>
+                <b>90 Days Premium Access</b>
               </p>
               <p className='flex items-center text-sm'>
                 <svg
@@ -365,7 +365,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 120, validationTime: 30 * 86400 }}>
+                <Link to='/payment' state={{ price: 270, validationTime: 90 * 86400, type:'trimonthly' }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
