@@ -1,11 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from '../components/PageTitle';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Subscription = () => {
 
-  const [price, setPrice] = useState(0)
 
   return (
     <div>
@@ -125,7 +123,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 49, validationTime: 7 * 86400 }}>
+                <Link to='/payment' state={{ price: 49, validationTime: 7 * 86400, type:'weekly' }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -248,6 +246,7 @@ const Subscription = () => {
                 </svg>{' '}
                 Premium Support
               </p>
+              {/* btn */}
               <div className='flex justify-center mt-8'>
                 <Link to='/payment' state={{ price: 75, validationTime: 15 * 86400 }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>

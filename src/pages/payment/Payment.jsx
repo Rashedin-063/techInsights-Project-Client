@@ -9,6 +9,7 @@ const Payment = () => {
 
   const price = location.state?.price;
   const validationTime = location.state?.validationTime
+  
   //console.log(price);
   // console.log(validationTime)
   

@@ -5,13 +5,13 @@ import PageTitle from '../../components/PageTitle';
 
 const AboutUs  = () => {
   return (
-    <div className='pt-12'>
+    <div>
       <PageTitle title='About Us'/>
       <div className=' px-4 mx-6 lg:px-8 py-4 bg-blue-100 bg-opacity-10 rounded-md'>
         <div className='flex flex-col-reverse lg:flex-row gap-6 items-center justify-center'>
           <div className='lg:w-1/3'>
             <img
-              className='h-[360px] lg:mt-4 rounded-3xl'
+              className=' lg:h-[360px] lg:mt-4 rounded-xl'
               src={q1}
               alt=''
             />
