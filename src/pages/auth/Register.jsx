@@ -63,15 +63,15 @@ const Register = () => {
       // 3. Save username and photo in Firebase
       await updateUserProfile(name, image_url);
 
-       const userInfo = {
-         displayName: name,
-         email,
-         photoURL: image_url,
-         subscription: 'usual',
-         role: 'user',
-         status: 'verified',
-         premiumToken: null,
-       };
+      const userInfo = {
+        displayName: name,
+        email,
+        photoURL: image_url,
+        subscription: 'usual',
+        role: 'user',
+        status: 'verified',
+        premiumToken: null,
+      };
 
       createOrUpdateUser(userInfo);
 
@@ -80,7 +80,7 @@ const Register = () => {
       reset();
       navigate('/');
     } catch (err) {
-      console.log('Error:', err);
+      //console.log('Error:', err);
       toast.error(err.message);
     } finally {
       setLoading(false);

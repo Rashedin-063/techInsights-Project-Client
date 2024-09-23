@@ -1,14 +1,13 @@
-import { Helmet } from "react-helmet-async";
-import PageTitle from "../../components/PageTitle"
+import { Helmet } from 'react-helmet-async';
+import PageTitle from '../../components/PageTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { FaTrashAlt, FaUsers } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import { MdAdminPanelSettings } from "react-icons/md";
-import { createOrUpdateUser } from "../../api/userApi";
-import { toast } from "react-toastify";
-import { useLoaderData } from "react-router-dom";
-
+import { MdAdminPanelSettings } from 'react-icons/md';
+import { createOrUpdateUser } from '../../api/userApi';
+import { toast } from 'react-toastify';
+import { useLoaderData } from 'react-router-dom';
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -39,7 +38,7 @@ const AllUsers = () => {
         await refetch();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -56,7 +55,7 @@ const AllUsers = () => {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -150,5 +149,5 @@ const AllUsers = () => {
       </div>
     </div>
   );
-}
-export default AllUsers
+};
+export default AllUsers;

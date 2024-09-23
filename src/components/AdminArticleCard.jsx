@@ -44,7 +44,7 @@ const AdminArticleCard = ({ article, refetch }) => {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -59,7 +59,7 @@ const AdminArticleCard = ({ article, refetch }) => {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -85,7 +85,7 @@ const AdminArticleCard = ({ article, refetch }) => {
       });
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -100,7 +100,7 @@ const AdminArticleCard = ({ article, refetch }) => {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 

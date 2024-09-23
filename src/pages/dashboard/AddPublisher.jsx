@@ -1,22 +1,15 @@
-import { Helmet } from "react-helmet-async";
-import PageTitle from "../../components/PageTitle"
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { imageUpload } from "../../api/utils";
-import { ImSpinner9 } from "react-icons/im";
-import { axiosApi } from "../../api/axiosApi";
-import { postPublisherInfo } from "../../api/userApi";
-
-
-
-
+import { Helmet } from 'react-helmet-async';
+import PageTitle from '../../components/PageTitle';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { imageUpload } from '../../api/utils';
+import { ImSpinner9 } from 'react-icons/im';
+import { axiosApi } from '../../api/axiosApi';
+import { postPublisherInfo } from '../../api/userApi';
 
 const AddPublisher = () => {
-
   const [imageFile, setImageFile] = useState(null);
-  const [loading, setLoading] = useState(false)
- 
-
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -26,22 +19,21 @@ const AddPublisher = () => {
 
   // Form submission handler
   const handleRegister = async ({ publisher }) => {
-        const image_url = await imageUpload(imageFile);
+    const image_url = await imageUpload(imageFile);
     const publisherData = {
       title: publisher,
-      logo: image_url
-  }
+      logo: image_url,
+    };
 
     try {
-      setLoading(true)
-      postPublisherInfo(publisherData)
-      
-} catch (err) {
-  console.log('Error:', err);
-  toast.error(err.message);
-} finally {
-  setLoading(false);
-}
+      setLoading(true);
+      postPublisherInfo(publisherData);
+    } catch (err) {
+      //console.log('Error:', err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle file input changes
@@ -51,13 +43,13 @@ const AddPublisher = () => {
   };
 
   return (
-    <div className="mt-12 lg:mt- overflow-x-auto">
+    <div className='mt-12 lg:mt- overflow-x-auto'>
       <Helmet>
         <title>Tech Insights || Admin - Add Publisher</title>
       </Helmet>
       <PageTitle title='Add Publisher' />
 
-      <div className="mx-4 lg:w-1/2 lg:mx-auto bg-gradient-to-br from-green-lantern to-blue-950 p-12 lg:p-20 rounded-xl">
+      <div className='mx-4 lg:w-1/2 lg:mx-auto bg-gradient-to-br from-green-lantern to-blue-950 p-12 lg:p-20 rounded-xl'>
         {/*  form */}
         <form onSubmit={handleSubmit(handleRegister)} className=' space-y-2'>
           {/* publisher */}
@@ -66,7 +58,7 @@ const AddPublisher = () => {
               type='text'
               {...register('publisher')} // Ensure this matches the Zod schema
               placeholder='Publisher Name'
-            required
+              required
               className='input input-bordered bg-faded-pearl placeholder:text-black text-black font-semibold placeholder:font-normal'
             />
             {errors.name && (
@@ -88,7 +80,6 @@ const AddPublisher = () => {
               id='photo'
               accept='image/*'
               onChange={handleImageChange}
-              
             />
           </div>
 
@@ -109,5 +100,5 @@ const AddPublisher = () => {
       </div>
     </div>
   );
-}
-export default AddPublisher
+};
+export default AddPublisher;

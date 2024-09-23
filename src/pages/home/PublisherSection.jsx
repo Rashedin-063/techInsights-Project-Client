@@ -5,8 +5,12 @@ import { axiosApi } from '../../api/axiosApi';
 import Marquee from 'react-fast-marquee';
 
 const PublisherSection = () => {
-
-  const { data: publisherData = [], isError, error, isLoading } = useQuery({
+  const {
+    data: publisherData = [],
+    isError,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ['publishers'],
 
     queryFn: async () => {
@@ -15,14 +19,12 @@ const PublisherSection = () => {
       return data;
     },
     onError: (error) => {
-      console.log('Error fetching user:', error);
+      //console.log('Error fetching user:', error);
     },
   });
 
-  if (isLoading) return <LoadingSpinner />
-  if (isError) return <LoadingSpinner error='error' />
-  
-
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <LoadingSpinner error='error' />;
 
   return (
     <div>

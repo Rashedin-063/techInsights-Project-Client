@@ -15,8 +15,8 @@ import { toast } from 'react-toastify';
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
-  const navigate = useNavigate()
-  const {logOutUser} = useAuth()
+  const navigate = useNavigate();
+  const { logOutUser } = useAuth();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -26,15 +26,14 @@ const Sidebar = () => {
   // handleLogout
   const handleLogOut = async () => {
     try {
-      await logOutUser()
-toast.warn('Logout successful')
-      navigate('/')
-
+      await logOutUser();
+      toast.warn('Logout successful');
+      navigate('/');
     } catch (error) {
-      console.log(error)
-      toast.error(error.message)
+      console.l(error)
+      toast.error(error.message);
     }
-  }
+  };
 
   return (
     <>

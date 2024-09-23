@@ -1,20 +1,18 @@
-import { Helmet } from "react-helmet-async";
-import PageTitle from "../components/PageTitle";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import useAuth from "../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "../components/LoadingSpinner";
-import ErrorMessage from "../components/ErrorMessage";
-import { Link } from "react-router-dom";
-import { MdDelete } from "react-icons/md";
-import { toast } from "react-toastify";
-import { axiosApi } from "../api/axiosApi";
-import Swal from "sweetalert2";
-
+import { Helmet } from 'react-helmet-async';
+import PageTitle from '../components/PageTitle';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import useAuth from '../hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
+import { Link } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import { axiosApi } from '../api/axiosApi';
+import Swal from 'sweetalert2';
 
 const MyArticles = () => {
-  
-  const {user} = useAuth()
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -35,37 +33,34 @@ const MyArticles = () => {
     },
   });
 
-  if (isLoading) return <LoadingSpinner />
-  if (isError) return <ErrorMessage error={error} />
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage error={error} />;
 
+  const handleDeleteArticle = async (id) => {
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const { data } = await axiosSecure.delete(`/articles/${id}`);
 
-  const handleDeleteArticle = async(id) => {
-      try {
-        Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            const { data } = await axiosSecure.delete(`/articles/${id}`);
-
-            if (data.deletedCount) {
-              toast.warn('Post deleted');
-              refetch();
-            }
+          if (data.deletedCount) {
+            toast.warn('Post deleted');
+            refetch();
           }
-        });
-      } catch (error) {
-        toast.error(error.message);
-        console.log(error);
-      }
-
-  }
-
+        }
+      });
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -157,5 +152,5 @@ const MyArticles = () => {
       </div>
     </div>
   );
-}
-export default MyArticles
+};
+export default MyArticles;

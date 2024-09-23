@@ -22,6 +22,8 @@ const BannerCard = ({ article, refetch }) => {
 
   return (
     <div
+      data-aos="fade-left"
+      data-aos-duration='1000'
       className={`max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group h-[500px]`}
     >
       {/* time and publisher*/}

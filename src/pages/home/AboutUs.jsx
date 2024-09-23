@@ -1,11 +1,13 @@
 import q1 from '../../assets/q1.webp';
+import PageTitle from '../../components/PageTitle';
 
 
 
 const AboutUs  = () => {
   return (
     <div className='pt-12'>
-      <div className=' px-4 mx-6 lg:px-8 bg-blue-100 py-8 bg-opacity-10 rounded-md'>
+      <PageTitle title='About Us'/>
+      <div className=' px-4 mx-6 lg:px-8 py-4 bg-blue-100 bg-opacity-10 rounded-md'>
         <div className='flex flex-col-reverse lg:flex-row gap-6 items-center justify-center'>
           <div className='lg:w-1/3'>
             <img
@@ -18,8 +20,8 @@ const AboutUs  = () => {
           <div
             className='w-full lg:w-2/3 lg:mt-4'
           >
-            <h1 className='text-xl font-semibold pb-4 text-black'>About us</h1>
-            <div className='space-y-4 '>
+
+            <div className='space-y-6 leading-relaxed tracking-wider'>
               <p className='text-justify text-sm'>
                 Welcome to Tech Insights, your ultimate destination for the
                 latest developments in the ever-evolving world of technology. As

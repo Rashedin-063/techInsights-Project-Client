@@ -59,7 +59,7 @@ const Navbar = () => {
         toast.warning('User logout successful')
         navigate('/')
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) =>  console.error(error.message));
   }
 
   return (

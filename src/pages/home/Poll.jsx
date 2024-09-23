@@ -6,7 +6,7 @@ import TechDemandPoll from "../../components/TechDemandPoll"
 const Poll = () => {
   return (
     <div className="mt-8">
-      <PageTitle title='Interactive Tech Quiz' />
+      <PageTitle title='Participate in Tech Quiz' />
       <div className='flex flex-col md:flex-row gap-6 -mt-4'>
         <TechPoll />
         <TechDemandPoll />

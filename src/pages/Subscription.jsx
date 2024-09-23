@@ -15,7 +15,7 @@ const Subscription = () => {
       <PageTitle title='User Subscription' />
 
       <>
-        <div className='grid  lg:grid-cols-3 px-8 gap-10 text-zinc-800 mt-10 w-3/4 mx-auto lg:w-full'>
+        <div className='grid  lg:grid-cols-3 px-8 gap-10 text-zinc-800 w-3/4 mx-auto lg:w-full'>
           {/* first card */}
           <div className='flex flex-col items-center bg-gradient-to-br from-green-300 to-green-600 p-8 rounded-2xl shadow-2xl max-w-sm'>
             <div>
@@ -125,7 +125,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 49 }}>
+                <Link to='/payment' state={{ price: 49, validationTime: 7 * 86400 }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -136,7 +136,7 @@ const Subscription = () => {
 
           {/* second card */}
           <div className='flex flex-col items-center bg-gradient-to-br from-green-lantern via-midnight-gray to-deep-ocean p-8 rounded-2xl shadow-2xlg relative border-8 border-midnight-gray max-w-sm'>
-            <p className='mono text-sm absolute -top-4 bg-green-lantern text-zinc-100 py-0.5 px-2 font-bold tracking-wider rounded'>
+            <p className='mono text-sm absolute -top-5 bg-green-lantern text-zinc-100 py-2 px-8 font-bold tracking-wider rounded'>
               POPULAR
             </p>
             <div>
@@ -249,7 +249,7 @@ const Subscription = () => {
                 Premium Support
               </p>
               <div className='flex justify-center mt-8'>
-                <Link to='/payment' state={{ price: 75 }}>
+                <Link to='/payment' state={{ price: 75, validationTime: 15 * 86400 }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -366,7 +366,7 @@ const Subscription = () => {
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 120 }}>
+                <Link to='/payment' state={{ price: 120, validationTime: 30 * 86400 }}>
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>

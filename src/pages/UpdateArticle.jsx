@@ -1,99 +1,100 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams } from "react-router-dom";
-import LoadingSpinner from "../components/LoadingSpinner";
-import ErrorMessage from "../components/ErrorMessage";
-import PageTitle from "../components/PageTitle";
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
+import PageTitle from '../components/PageTitle';
 import { axiosApi } from '../api/axiosApi';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
 import { useState } from 'react';
 import { imageUpload } from '../api/utils';
-import swalAlert from "../api/swalAlert";
-import { toast } from "react-toastify";
-
+import swalAlert from '../api/swalAlert';
+import { toast } from 'react-toastify';
 
 const UpdateArticle = () => {
-   const [imageFile, setImageFile] = useState(null);
-   const [selectedTags, setSelectedTags] = useState([]);
-   const [selectedPublisher, setSelectedPublisher] = useState(null);
-
+  const [imageFile, setImageFile] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedPublisher, setSelectedPublisher] = useState(null);
 
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
 
   // fetching article data
-    const {
-      data: article = {},
-      refetch,
-      isLoading,
-      isError,
-      error,
-    } = useQuery({
-      queryKey: ['article', id],
-      enabled: !!id,
-      queryFn: async () => {
-        const { data } = await axiosSecure.get(`/articles/${id}`);
+  const {
+    data: article = {},
+    refetch,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['article', id],
+    enabled: !!id,
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/articles/${id}`);
 
-        return data;
-      },
-      onError: (error) => {
-        console.log('Error fetching article:', error);
-      },
-    });
-  
+      return data;
+    },
+    onError: (error) => {
+      //console.log('Error fetching article:', error);
+    },
+  });
+
   // fetching publisher data
-    const { data: publisherData = [] } = useQuery({
-      queryKey: ['publishers'],
+  const { data: publisherData = [] } = useQuery({
+    queryKey: ['publishers'],
 
-      queryFn: async () => {
-        const { data } = await axiosApi.get('/publishers');
+    queryFn: async () => {
+      const { data } = await axiosApi.get('/publishers');
 
-        return data;
-      },
-      onError: (error) => {
-        console.log('Error fetching user:', error);
-      },
-    });
+      return data;
+    },
+    onError: (error) => {
+      //console.log('Error fetching user:', error);
+    },
+  });
 
-   
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      formState: { errors },
-    } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
+  // static tags options
+  const tagsOptions = [
+    { value: 'AI', label: 'AI' },
+    { value: 'Cybersecurity', label: 'Cybersecurity' },
+    { value: 'Software', label: 'Software' },
+    { value: 'Web Development', label: 'Web Development' },
+    { value: 'Programming', label: 'Programming' },
+  ];
 
-    // static tags options
-    const tagsOptions = [
-      { value: 'AI', label: 'AI' },
-      { value: 'Cybersecurity', label: 'Cybersecurity' },
-      { value: 'Software', label: 'Software' },
-      { value: 'Web Development', label: 'Web Development' },
-      { value: 'Programming', label: 'Programming' },
-    ];
-
-    // Handle form submission
+  // Handle form submission
   const handleUpdateArticle = async (data) => {
     const { title, description } = data;
-    
-    let image_url = null;
-    imageFile ? image_url = await imageUpload(imageFile) : image_url = article.image_url;
 
-    selectedPublisher ? setSelectedPublisher(selectedPublisher) : setSelectedPublisher(article.publisher)
-    
-    selectedTags.length > 0 ? data.tags = selectedTags.map((tag) => data.tags = tag.value) : data.tags = article.tags;
+    let image_url = null;
+    imageFile
+      ? (image_url = await imageUpload(imageFile))
+      : (image_url = article.image_url);
+
+    selectedPublisher
+      ? setSelectedPublisher(selectedPublisher)
+      : setSelectedPublisher(article.publisher);
+
+    selectedTags.length > 0
+      ? (data.tags = selectedTags.map((tag) => (data.tags = tag.value)))
+      : (data.tags = article.tags);
 
     if (
       title !== article.title ||
       imageFile ||
       description !== article.description
     ) {
-     
       // Prepare formData
       const formData = {
         title,
@@ -104,34 +105,29 @@ const UpdateArticle = () => {
       };
 
       try {
-        const res = await axiosApi.patch(`update/${id}`, formData)
-        console.log(res)
-        
+        const res = await axiosApi.patch(`update/${id}`, formData);
+        //console.log(res)
+
         if (res.data.modifiedCount) {
-          toast.success('Update Successful')
-navigate('/my-articles')
+          toast.success('Update Successful');
+          navigate('/my-articles');
         }
-        
       } catch (error) {
-        toast.error(error.message)
+        toast.error(error.message);
       }
     } else {
-     swalAlert('warning', 'Please update article info')
+      swalAlert('warning', 'Please update article info');
     }
-      
-  }
-
-    // Handle file input changes
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      setImageFile(file);
   };
-  
-  
-  
 
-    if (isLoading) return <LoadingSpinner />;
-    if (isError) return <ErrorMessage error={error} />;
+  // Handle file input changes
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage error={error} />;
 
   return (
     <div>
@@ -141,7 +137,10 @@ navigate('/my-articles')
       <PageTitle title='Update Your Article' />
 
       <div className='border-2 border-dotted border-faded-pearl p-8 rounded-xl mx-8 lg:w-1/2 lg:mx-auto shadow-2xl -mt-4'>
-        <form onSubmit={handleSubmit(handleUpdateArticle)} className=' space-y-2'>
+        <form
+          onSubmit={handleSubmit(handleUpdateArticle)}
+          className=' space-y-2'
+        >
           {/* Title */}
           <div className='form-control'>
             <input
@@ -197,7 +196,7 @@ navigate('/my-articles')
             {/* publishers */}
             <div className='form-control'>
               <select
-              defaultValue={article.publisher}
+                defaultValue={article.publisher}
                 {...register('publisher', {
                   required: 'Publisher is required',
                 })}
@@ -206,8 +205,7 @@ navigate('/my-articles')
               >
                 <option value=''>Select Publisher</option>
                 {publisherData.map((publisher) => (
-                  <option
-                    key={publisher._id} value={publisher.title}>
+                  <option key={publisher._id} value={publisher.title}>
                     {publisher.title}
                   </option>
                 ))}
@@ -218,7 +216,7 @@ navigate('/my-articles')
           {/* Description Textarea */}
           <div className='form-control'>
             <textarea
-            rows={20}
+              rows={20}
               {...register('description')}
               placeholder='Description'
               className='textarea textarea-bordered'
@@ -239,5 +237,5 @@ navigate('/my-articles')
       </div>
     </div>
   );
-}
-export default UpdateArticle
+};
+export default UpdateArticle;

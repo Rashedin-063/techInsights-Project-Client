@@ -108,17 +108,21 @@ const AuthProvider = ({ children }) => {
       console.log(currentUser)
 
       if (currentUser) {
-        const userInfo = { email: currentUser.email };
+        const userInfo = { email: currentUser?.email };
  try {
    const res = await axiosApi.post('/jwt', userInfo); 
 
-     localStorage.setItem('access-token', res.data.token);
+  //  console.log(res.data.token)
+   
+      if (res.data.token) {
+        localStorage.setItem('access-token', res.data.token);
+      }
    
  } catch (error) {
    console.error('Failed to fetch token:', error);
-   logOutUser(); 
- } finally {
    setLoading(false);
+ } finally {
+   setLoading(false)
  }
       } else {
         localStorage.removeItem('access-token');
@@ -127,7 +131,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unSubscribe();
-  }, [axiosApi]);
+  }, []);
 
 
 

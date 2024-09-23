@@ -4,9 +4,9 @@ import useAxiosSecure from './useAxiosSecure';
 
 const useLoadUser = () => {
   const { user } = useAuth();
-  
-  const axiosSecure = useAxiosSecure()
-  
+  const axiosSecure = useAxiosSecure();
+   const token = localStorage.getItem('access-token');
+
   const {
     data: userData = {},
     refetch,
@@ -15,17 +15,21 @@ const useLoadUser = () => {
     error,
   } = useQuery({
     queryKey: ['user', user?.email],
-    enabled: !!user?.email,
+    enabled: !!user && !!token,
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/users/${user?.email}`);
 
       return data;
+      console.log(data)
+      
     },
     onError: (error) => {
-      console.log('Error fetching user:', error);
+      console.error('Error fetching user:', error);
     },
   });
-  return [userData, refetch, isLoading, isError, error]
-}
-  
+
+
+  return [userData, refetch, isLoading, isError, error];
+};
+
 export default useLoadUser;

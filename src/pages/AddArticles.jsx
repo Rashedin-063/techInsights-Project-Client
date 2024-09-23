@@ -1,23 +1,22 @@
-import { Helmet } from "react-helmet-async";
-import PageTitle from "../components/PageTitle"
-import { useQuery } from "@tanstack/react-query";
-import { axiosApi } from "../api/axiosApi";
+import { Helmet } from 'react-helmet-async';
+import PageTitle from '../components/PageTitle';
+import { useQuery } from '@tanstack/react-query';
+import { axiosApi } from '../api/axiosApi';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
-import { useState } from "react";
-import { imageUpload } from "../api/utils";
-import { toast } from "react-toastify";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import useAuth from "../hooks/useAuth";
-
+import { useState } from 'react';
+import { imageUpload } from '../api/utils';
+import { toast } from 'react-toastify';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import useAuth from '../hooks/useAuth';
 
 const AddArticles = () => {
   const [imageFile, setImageFile] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
-  const [loading, setLoading] = useState(false)
-  
-  const axiosSecure = useAxiosSecure()
+  const [loading, setLoading] = useState(false);
+
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -26,10 +25,9 @@ const AddArticles = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  
-  const {user} = useAuth()
-  
-  
+
+  const { user } = useAuth();
+
   const { data: publisherData = [] } = useQuery({
     queryKey: ['publishers'],
 
@@ -39,26 +37,24 @@ const AddArticles = () => {
       return data;
     },
     onError: (error) => {
-      console.log('Error fetching user:', error);
+      //console.log('Error fetching user:', error);
     },
   });
 
   // static tags options
-const tagsOptions = [
-  { value: 'AI', label: 'AI' },
-  { value: 'Cybersecurity', label: 'Cybersecurity' },
-  { value: 'Software', label: 'Software' },
-  { value: 'Web Development', label: 'Web Development' },
-  { value: 'Programming', label: 'Programming' },
-];
-
+  const tagsOptions = [
+    { value: 'AI', label: 'AI' },
+    { value: 'Cybersecurity', label: 'Cybersecurity' },
+    { value: 'Software', label: 'Software' },
+    { value: 'Web Development', label: 'Web Development' },
+    { value: 'Programming', label: 'Programming' },
+  ];
 
   // Handle form submission
   const handlePostArticle = async (data) => {
     const { title, description } = data;
 
     data.tags = selectedTags.map((tag) => tag.value);
-  
 
     const image_url = await imageUpload(imageFile);
 
@@ -74,30 +70,27 @@ const tagsOptions = [
       writers_email: user?.email,
       view_count: 0,
       isPremium: 'no',
-      status: 'pending'
+      status: 'pending',
     };
 
-    console.log(articleData)
-    
+    //console.log(articleData)
 
     try {
-      setLoading(true)
-      const res = await axiosSecure.post('/articles', articleData)
-      console.log(res)
-      
+      setLoading(true);
+      const res = await axiosSecure.post('/articles', articleData);
+      //console.log(res)
+
       if (res.data.insertedId) {
-        toast.success('Articel posted successfully')
-        reset()
-        setLoading(false)
+        toast.success('Articel posted successfully');
+        reset();
+        setLoading(false);
       }
     } catch (error) {
       toast.error(error.message);
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
-
   };
 
   // Handle file input changes
@@ -227,5 +220,5 @@ const tagsOptions = [
       </div>
     </div>
   );
-}
-export default AddArticles
+};
+export default AddArticles;

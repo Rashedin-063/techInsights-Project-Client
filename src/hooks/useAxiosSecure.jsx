@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
 
 const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const useAxiosSecure = () => {
@@ -12,33 +12,33 @@ const useAxiosSecure = () => {
 
   // req
   axiosSecure.interceptors.request.use(
-    (config) =>  {
-      const token = localStorage.getItem('access-token');  
-     
-   if (token) {
-     config.headers.authorization = `Bearer ${token}`;
-   } else {
-     console.warn('No token found in localStorage');
-   }
+    (config) => {
+      const token = localStorage.getItem('access-token');
+
+      // console.log('request stopped before interceptor', token)
+      
+
+        config.headers.authorization = `Bearer ${token}`;
+      
       return config;
     },
-     (error) => {
+    (error) => {
       return Promise.reject(error);
     }
   );
 
   // res
   axiosSecure.interceptors.response.use(
-     (response) => {
+    (response) => {
       return response;
     },
     async (error) => {
       const status = error.response.status;
 
-      console.log(status)
-      
+      //console.log(status)
 
       if (status === 401 || status === 403) {
+        
         await logOutUser();
         navigate('/login');
       }

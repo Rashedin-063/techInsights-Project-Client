@@ -15,7 +15,7 @@ import { CgTimer } from 'react-icons/cg';
 
 const Details = () => {
   const { id } = useParams();
-  console.log(id);
+  //console.log(id);
 
   const { user } = useAuth();
 
@@ -36,10 +36,9 @@ const Details = () => {
       return data;
     },
     onError: (error) => {
-      console.log('Error fetching article:', error);
+      //console.log('Error fetching article:', error);
     },
   });
-
 
   // destructuring article
   const {
@@ -53,14 +52,11 @@ const Details = () => {
     posted_by,
     posted_time,
     writers_email,
-    view_count
+    view_count,
   } = article;
-  
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorMessage error={error} />;
-
-
 
   return (
     <div>
@@ -125,7 +121,15 @@ const Details = () => {
           <div className='text-end mr-2 mt-2'>
             <p className='italic text-xl font-sevillana'>
               Status:{' '}
-              <span className={`font-sevillana font-semibold ml-2 ${status === 'pending' ? 'text-orange-400' : status === 'approved' ? 'text-green-600' : 'text-purple-800'}`} >
+              <span
+                className={`font-sevillana font-semibold ml-2 ${
+                  status === 'pending'
+                    ? 'text-orange-400'
+                    : status === 'approved'
+                    ? 'text-green-600'
+                    : 'text-purple-800'
+                }`}
+              >
                 {' '}
                 {status}
               </span>
@@ -136,14 +140,16 @@ const Details = () => {
           <div className='flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 mt-6 mb-4'>
             <p className='border-2 border-green-lantern px-3 py-2 rounded-md flex'>
               <span className='italic mr-2 text-sm flex'>
-                <CgTimer color='green' size={18} className='mr-1 mt-[1px]'/>
-                Published At: </span>
+                <CgTimer color='green' size={18} className='mr-1 mt-[1px]' />
+                Published At:{' '}
+              </span>
               <span className='font-wendy text-sm'>{posted_time}</span>
             </p>
             <p className='border-2 border-green-lantern px-3 py-2 rounded-md flex '>
               <span className='italic text-sm mr-2 flex mt-[2px]'>
-                <MdCategory className='mr-2 mt-[2px] text-green-lantern'/>
-                Publisher: </span>
+                <MdCategory className='mr-2 mt-[2px] text-green-lantern' />
+                Publisher:{' '}
+              </span>
               <span className='font-wendy'>{publisher}</span>
             </p>
           </div>
@@ -151,7 +157,9 @@ const Details = () => {
           {/* description */}
           <div>
             <p className='mt-8 text-justify'>
-              <span className='italic mr-2 font-semibold text-lg'>Description: </span>
+              <span className='italic mr-2 font-semibold text-lg'>
+                Description:{' '}
+              </span>
               {description}
             </p>
           </div>

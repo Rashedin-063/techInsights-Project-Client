@@ -29,7 +29,7 @@ const DeclineModal = ({ isOpen, closeModal, handleDeclineBtn, id }) => {
     try {
       const message = data.message;
 
-      console.log(message)
+      // console.log(message)
       
       
       
@@ -43,7 +43,7 @@ const DeclineModal = ({ isOpen, closeModal, handleDeclineBtn, id }) => {
      
    } catch (error) {
      toast.error(error.message);
-     console.log(error)
+     console.l(error)
    }
   };
 

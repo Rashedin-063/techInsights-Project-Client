@@ -10,14 +10,14 @@ const PremiumArticles = () => {
   
   const [articles, refetch, isLoading, isError, error] = useLoadArticles();
 
-  console.log(articles)
+  // console.log(articles)
   
 
   const premiumArticles = articles.filter(
     (article) => article.isPremium === 'yes'
   );
 
-  console.log(premiumArticles)
+  // console.log(premiumArticles)
   
 
   if (isLoading) return <LoadingSpinner />;

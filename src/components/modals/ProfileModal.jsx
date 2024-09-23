@@ -20,8 +20,6 @@ import { ImSpinner9 } from 'react-icons/im';
 import { toast } from 'react-toastify';
 import { updateProfileInfo } from '../../api/userApi';
 
-
-
 /**
  *  
   <li>
@@ -51,34 +49,33 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
     formState: { errors },
   } = useForm();
 
-   
-
   // Form submission handler
   const handleRegister = async ({ name }) => {
     try {
       setLoading(true);
 
-    //  if new image is not uploaded take the already existing image
+      //  if new image is not uploaded take the already existing image
       let image_url = null;
-      imageFile ? image_url = await imageUpload(imageFile) : image_url = photoURL;
+      imageFile
+        ? (image_url = await imageUpload(imageFile))
+        : (image_url = photoURL);
 
       if (name !== displayName || imageFile) {
         const updatedInfo = {
           displayName: name,
-          photoURL: image_url
-        }
+          photoURL: image_url,
+        };
 
         // updating info to db
-       await updateProfileInfo(updatedInfo, email)
+        await updateProfileInfo(updatedInfo, email);
 
         // updating info to firebase
-      await updateUserProfile(name, image_url)
+        await updateUserProfile(name, image_url);
       } else {
-        toast.warn('Please update your info')
+        toast.warn('Please update your info');
       }
-
     } catch (err) {
-      console.log('Error:', err);
+      //console.log('Error:', err);
       toast.error(err.message);
     } finally {
       setLoading(false);
@@ -92,36 +89,35 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
   };
 
   const handleResetPass = async () => {
-    setLoading(true)
+    setLoading(true);
 
-   try {
-     const currentPassword = prompt('Enter your current password'); 
-     console.log(currentPassword)
-     
+    try {
+      const currentPassword = prompt('Enter your current password');
+      //console.log(currentPassword)
+
       await updateUserPass(user, currentPassword);
-     setLoading(false)
-     toast.success('Password reset successful')
-   } catch (error) {
-     console.error(error)
-     toast.error(error.message)
-   } finally {
-     setLoading(false)
-   }
-  }
+      setLoading(false);
+      toast.success('Password reset successful');
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleForgetPass = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await resetUserPass(email)
-      toast.success('Please check your email')
+      await resetUserPass(email);
+      toast.success('Please check your email');
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
- 
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -173,7 +169,7 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
               <div className='form-control'>
                 <input
                   type='email'
-                 name='email'
+                  name='email'
                   readOnly
                   placeholder='Email'
                   defaultValue={email}
@@ -214,14 +210,19 @@ const ProfileModal = ({ isOpen, closeModal, userData }) => {
               </div>
             </form>
 
-
             <div className='flex justify-between'>
               <button
                 onClick={handleResetPass}
-                className='ml-2 cursor-pointer font-sevillana text-xl '>Reset password</button>
+                className='ml-2 cursor-pointer font-sevillana text-xl '
+              >
+                Reset password
+              </button>
               <button
                 onClick={handleForgetPass}
-                className='ml-2 cursor-pointer font-sevillana text-xl '>Forget password?</button>
+                className='ml-2 cursor-pointer font-sevillana text-xl '
+              >
+                Forget password?
+              </button>
             </div>
           </DialogPanel>
         </div>

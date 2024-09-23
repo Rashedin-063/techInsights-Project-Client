@@ -1,46 +1,40 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useState } from 'react';
 
-import './CheckoutStyle.css'
+import './CheckoutStyle.css';
 import { ImSpinner9 } from 'react-icons/im';
 
+const CheckoutForm = ({ price, validationTime }) => {
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-const CheckoutForm = ({price}) => {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false)
-
-  const stripe = useStripe()
-  const elements = useElements()
+  const stripe = useStripe();
+  const elements = useElements();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
-    
     if (!stripe || !elements) return;
 
-    const card = elements.getElement(CardElement)
+    const card = elements.getElement(CardElement);
     if (!card) return;
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
-      card
-    })
+      card,
+    });
 
     if (error) {
-      console.log('payment error', error) 
-      setError(error.message)
-      setLoading(false)
-    } else {
-      console.log('payment method', paymentMethod)
-      setError(null)
+      //console.log('payment error', error)
+      setError(error.message);
       setLoading(false);
-   }
-    ;
-
-    
-
-  }
+    } else {
+      //console.log('payment method', paymentMethod)
+      setError('');
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -87,5 +81,5 @@ const CheckoutForm = ({price}) => {
       </form>
     </div>
   );
-}
-export default CheckoutForm
+};
+export default CheckoutForm;
