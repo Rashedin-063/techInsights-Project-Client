@@ -1,16 +1,54 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from '../components/PageTitle';
 import { Link } from 'react-router-dom';
+import useLoadUser from '../hooks/useLoadUser';
+import { addSeconds, differenceInCalendarDays, differenceInSeconds, format } from 'date-fns';
+import LoadingSpinner from './../components/LoadingSpinner';
+import ErrorMessage from './../components/ErrorMessage';
 
 const Subscription = () => {
+  const [userData, refetch, isLoading, isError, error] = useLoadUser();
 
+  if (isLoading) return <LoadingSpinner />
+  if(isError) return <ErrorMessage error={error}/>
+  
+// calculate current time and premium token time
+  const currentTimeInMilliseconds = Math.floor(new Date().getTime());
 
+   const secondsRemaining = differenceInSeconds(
+     userData.premiumToken * 1000,
+     currentTimeInMilliseconds
+   );
+
+   const expirationDate = addSeconds(new Date(), secondsRemaining);
+
+   // Format the expiration date
+   const formattedExpirationDate = format(
+     expirationDate,
+     '::::: d-MM-yyyy ::::: HH:mm:ss'
+   );
+  console.log(currentTimeInMilliseconds)
+  
+  
   return (
     <div>
       <Helmet>
         <title>Tech Insights || Subscription</title>
       </Helmet>
       <PageTitle title='User Subscription' />
+      <div className='border-2 border-green-lantern py-8 -mt-4 mb-12 w-3/4 lg:w-1/2 mx-auto text-center space-y-2 rounded-xl border-dotted'>
+        {userData.subscription === 'premium' && (
+          <p className='text-lg font-semibold '>
+            You already are a premium subscriber.
+          </p>
+        )}
+
+        {userData.premiumToken && (
+          <p>
+            Your subscription will end at <span className='font-wendy ml-1 tracking-wider'>{formattedExpirationDate}</span>
+          </p>
+        )}
+      </div>
 
       <>
         <div className='grid  lg:grid-cols-3 px-8 gap-10 text-zinc-800 w-3/4 mx-auto lg:w-full'>
@@ -38,9 +76,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>Trending Dashboard</b>
@@ -52,9 +90,9 @@ const Subscription = () => {
                   className='w-4 h-4 ml-1 fill-orange-300'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 01-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 01-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584zM12 18a.75.75 0 100-1.5.75.75 0 000 1.5z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
               </p>
@@ -67,9 +105,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>10 Keywords</b>
@@ -83,9 +121,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>7 Days Premium Access</b>
@@ -99,9 +137,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>3 Users</b>
@@ -115,15 +153,22 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>{' '}
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 49, validationTime: 7 * 86400, type:'weekly' }}>
+                <Link
+                  to='/payment'
+                  state={{
+                    price: 49,
+                    validationTime: 7 * 86400,
+                    type: 'weekly',
+                  }}
+                >
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -162,9 +207,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>Trending Dashboard</b>
@@ -176,9 +221,9 @@ const Subscription = () => {
                   className='w-4 h-4 ml-1 fill-orange-300'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 01-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 01-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584zM12 18a.75.75 0 100-1.5.75.75 0 000 1.5z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
               </p>
@@ -191,9 +236,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>25 Keywords</b>
@@ -207,9 +252,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>30 Days Premium Access</b>
@@ -223,9 +268,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>Early Beta Features&nbsp;</b>
@@ -239,16 +284,23 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>{' '}
                 Premium Support
               </p>
               {/* btn */}
               <div className='flex justify-center mt-8'>
-                <Link to='/payment' state={{ price: 150, validationTime: 30 * 86400, type: 'monthly' }}>
+                <Link
+                  to='/payment'
+                  state={{
+                    price: 150,
+                    validationTime: 30 * 86400,
+                    type: 'monthly',
+                  }}
+                >
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>
@@ -280,9 +332,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>Trending Dashboard</b>
@@ -294,9 +346,9 @@ const Subscription = () => {
                   className='w-4 h-4 ml-1 fill-orange-300'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 01-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 01-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584zM12 18a.75.75 0 100-1.5.75.75 0 000 1.5z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
               </p>
@@ -309,9 +361,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>10 Keywords</b>
@@ -325,9 +377,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>90 Days Premium Access</b>
@@ -341,9 +393,9 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>
                 <b>3 Users</b>
@@ -357,15 +409,22 @@ const Subscription = () => {
                   className='w-4 h-4 mr-2'
                 >
                   <path
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   ></path>
                 </svg>{' '}
                 Basic Support
               </p>
               <div className='flex justify-center mt-8 '>
-                <Link to='/payment' state={{ price: 270, validationTime: 90 * 86400, type:'trimonthly' }}>
+                <Link
+                  to='/payment'
+                  state={{
+                    price: 270,
+                    validationTime: 90 * 86400,
+                    type: 'trimonthly',
+                  }}
+                >
                   <button className='px-4 py-2 font-semibold  glass hover:rounded-full outline outline-green-lantern hover:outline-deep-ocean rounded-lg'>
                     Get Started
                   </button>

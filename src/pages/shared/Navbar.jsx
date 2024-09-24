@@ -38,9 +38,15 @@ const Navbar = () => {
 
  
 
-  const filteredItems = userData?.subscription === 'premium' ? items : user
-  ? items.filter(item => item.to !== '/premium-articles')
-    : items.filter((item) => item.to === '/' || item.to === '/all-articles');
+  const filteredItems =
+    userData?.subscription === 'premium'
+      ? items
+      : user
+      ? items.filter((item) => item.to !== '/premium-articles')
+      : items.filter(
+          (item) =>
+            item.to !== '/premium-articles' && item.to !== '/my-articles'
+        );
   
   // console.log(filteredItems)
   

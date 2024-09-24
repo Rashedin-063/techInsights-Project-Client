@@ -98,7 +98,7 @@ const Details = () => {
             <p className='text-sm md:flex italic mt-2 pb-2 justify-between mx-2'>
               <span className='flex gap-4 font-semibold'>
                 {tags.map((tag) => (
-                  <span># {tag}</span>
+                  <span key={tag}># {tag}</span>
                 ))}
               </span>
               <span className='flex md:justify-center gap-6 md:gap-0 mt-2 md:mt-0'>

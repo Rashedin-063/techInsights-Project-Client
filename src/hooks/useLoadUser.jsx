@@ -3,9 +3,10 @@ import useAuth from './useAuth';
 import useAxiosSecure from './useAxiosSecure';
 
 const useLoadUser = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
-   const token = localStorage.getItem('access-token');
+
+  const token = localStorage.getItem('access-token')
 
   const {
     data: userData = {},
@@ -15,7 +16,7 @@ const useLoadUser = () => {
     error,
   } = useQuery({
     queryKey: ['user', user?.email],
-    enabled: !!user && !!token,
+    enabled: !loading && !!token,
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/users/${user?.email}`);
       

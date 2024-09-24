@@ -31,6 +31,7 @@ const Banner = () => {
     });
   }, []);
 
+  // load articles data
   const {
     data: articles = [],
     refetch,
@@ -48,7 +49,7 @@ const Banner = () => {
     },
   });
   
-
+// manage loading and error
   if (isLoading) return <LoadingSpinner />
   if(isError) return <ErrorMessage error={error}/>
 
@@ -59,6 +60,8 @@ const Banner = () => {
       <div className="lg:w-1/2 mt-4">
         <ScrollingNews/>
       </div>
+
+      {/* right side */}
       <div
         className='lg:w-1/2 md:ml-2 lg:ml-0'
         data-aos='zoom-in-cube'

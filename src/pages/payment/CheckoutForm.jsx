@@ -6,6 +6,9 @@ import { ImSpinner9 } from 'react-icons/im';
 import useAxiosSecure from './../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
+import Subscription from '../Subscription';
+import { createOrUpdateUser } from './../../api/userApi';
+import useLoadUser from './../../hooks/useLoadUser';
 
 const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
   const [error, setError] = useState('');
@@ -15,7 +18,8 @@ const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
   const [transactionId, setTransactionId] = useState('');
 
   const axiosSecure = useAxiosSecure()
-  const {user} = useAuth()
+  const { user } = useAuth()
+  const [userData] = useLoadUser()
 
   const stripe = useStripe();
   const elements = useElements();
@@ -45,6 +49,7 @@ const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
     const card = elements.getElement(CardElement);
     if (!card) return;
 
+    // create payment method
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card,
@@ -58,6 +63,8 @@ const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
       //console.log('payment method', paymentMethod)
       setError('');
     }
+
+    // confirm payment
 
     const {paymentIntent, error: confirmPaymentError} = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -89,10 +96,18 @@ const CheckoutForm = ({ price, validationTime, subscriptionType }) => {
           subscriptionType: subscriptionType,
         };
 
+// save payment data to db
         const res = await axiosSecure.post('/payments', payment);
 
         if (res.data?.insertedId) {
           toast.success('Congrats! You are now a premium user');
+          const userInfo = {
+            email: userData.email,
+            subscription: 'premium',
+            validationTime: validationTime
+          }; 
+          createOrUpdateUser(userInfo)
+
         }
       }
       
