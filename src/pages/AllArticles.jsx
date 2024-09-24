@@ -11,7 +11,7 @@ const AllArticles = () => {
   const [articles, refetch, isLoading, isError, error] = useLoadArticles();
 
   const publicArticle = articles.filter(
-    (article) => article.status !== 'pending'
+    (article) => article.status === 'approved'
   );
 
   
