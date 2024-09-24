@@ -6,33 +6,25 @@ import SubscriptionTeaser from './SubscriptionTeaser';
 import AboutUs from './AboutUs';
 import Poll from './Poll';
 import useLoadUser from '../../hooks/useLoadUser';
-import Swal from 'sweetalert2';
-import Button from './../../components/Button';
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import swalAlert from './../../api/swalAlert';
 
 
 const Home = () => {
   const [userData] = useLoadUser();
 
   const [alertCount, setAlertCount] = useState(0);
-  const maxAlerts = 5;
+  const maxAlerts = 6;
 
   // show alert if user is not premium
   useEffect(() => {
     let premiumAlertInterval;
 
    
-    if (userData?.subscription !== 'premium') {
+    if (userData && userData?.subscription !== 'premium') {
       premiumAlertInterval = setInterval(() => {
         if (alertCount < maxAlerts) {
-          Swal.fire({
-            position: 'center',
-            icon: 'info',
-            title: 'Please upgrade to premium for unlimited access',
-            showConfirmButton: false,
-            timer: 2000,
-          });
+          swalAlert('info', 'Please upgrade to premium for unlimited access');
 
           setAlertCount((prevCount) => prevCount + 1);
         } else {
