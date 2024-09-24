@@ -13,6 +13,8 @@ import useAuth from '../../hooks/useAuth';
 import { FaHandsClapping } from 'react-icons/fa6';
 import './dashboardStyle.css'
 import CustomShapeBarChart from './CustomShapeBarChart';
+import UserPieChart from './UserPieChart';
+
 
 const Statistics = () => {
   const { user } = useAuth();
@@ -40,7 +42,8 @@ const Statistics = () => {
     totalPublishers,
     totalViews,
     publishedArticle,
-    articleByPublisher
+    articleByPublisher,
+    subscriptionCount,
   } = statData;
 
   console.log(statData)
@@ -57,7 +60,11 @@ const Statistics = () => {
       </Helmet>
 
       <h1 className='text-3xl font-wendy ml-4 my-6 flex gap-4 text-green-lantern'>
-        <FaHandsClapping color='green' size={36} className='-mt-1 wave-animation' />
+        <FaHandsClapping
+          color='green'
+          size={36}
+          className='-mt-1 wave-animation'
+        />
         {`Hi! Welcome Back ${user?.displayName}`}
       </h1>
 
@@ -133,14 +140,18 @@ const Statistics = () => {
         {/*  */}
         <div className='my-8  gap-6 flex flex-col-reverse xl:flex-row'>
           {/* article by publisher graph */}
-          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-100 text-gray-700 shadow-md overflow-x-auto py-8 text-center w-[500px] md:w-[700px] h-[450px] mx-auto'>
+          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-x-auto py-8 text-center w-[550px] md:w-[750px] h-[450px] mx-auto'>
             {/* BarChart */}
             <p className='font-semibold mb-2'>Articles By Publishers</p>
             <CustomShapeBarChart articleByPublisher={articleByPublisher} />
           </div>
           {/* Pie Chart */}
-          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-100 text-gray-700 shadow-md overflow-hidden'>
-            <Calendar color='#F43F5E' />
+          <div className='bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-hidden w-[550px] md:w-[700px] h-[300px] xl:h-[450px] xl:w-1/3 mx-auto pb-12 xl:pb-40'>
+            <p className='font-semibold pt-2 xl:pt-20 text-center text-lg'>User Subscription</p>
+            <UserPieChart
+              totalUsers={totalUsers}
+              subscriptionCount={subscriptionCount}
+            />
           </div>
         </div>
         {/*  */}

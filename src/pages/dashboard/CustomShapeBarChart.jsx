@@ -32,8 +32,6 @@ const TriangleBar = (props) => {
 
 const CustomShapeBarChart = ({ articleByPublisher: data }) => {
   
-  console.log(data)
-  
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <BarChart
@@ -65,7 +63,8 @@ const CustomShapeBarChart = ({ articleByPublisher: data }) => {
     </ResponsiveContainer>
   );
 };
-CustomShapeBarChart.propTypes = {
 
-}
+CustomShapeBarChart.propTypes = {
+  // data: PropTypes.array.isRequired,
+};
 export default CustomShapeBarChart
