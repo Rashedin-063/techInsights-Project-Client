@@ -9,8 +9,13 @@ import useAxiosSecure from './../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorMessage from '../../components/ErrorMessage';
+import useAuth from '../../hooks/useAuth';
+import { FaHandsClapping } from 'react-icons/fa6';
+import './dashboardStyle.css'
+import CustomShapeBarChart from './CustomShapeBarChart';
 
 const Statistics = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   // Fetch Admin Stat Data here
   const {
@@ -35,7 +40,11 @@ const Statistics = () => {
     totalPublishers,
     totalViews,
     publishedArticle,
+    articleByPublisher
   } = statData;
+
+  console.log(statData)
+  
 
   // handling loading and error
   if (isLoading) return <LoadingSpinner />;
@@ -47,7 +56,10 @@ const Statistics = () => {
         <title>Tech Insights || Admin - Statistics</title>
       </Helmet>
 
-      {/* <PageTitle title='Statistics' /> */}
+      <h1 className='text-3xl font-wendy ml-4 my-6 flex gap-4 text-green-lantern'>
+        <FaHandsClapping color='green' size={36} className='-mt-1 wave-animation' />
+        {`Hi! Welcome Back ${user?.displayName}`}
+      </h1>
 
       <div className='mt-4'>
         {/* small cards */}
@@ -60,7 +72,7 @@ const Statistics = () => {
               <FaUserAlt className='w-6 h-6 text-white' />
             </div>
             <div className='p-4 text-right'>
-              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
+              <p className='block antialiased font-sans text-sm font-normal text-blue-gray-600 tracking-wider  leading-relaxed'>
                 Total User
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
@@ -76,7 +88,7 @@ const Statistics = () => {
               <IoDocumentsSharp className='w-6 h-6 text-white' />
             </div>
             <div className='p-4 text-right'>
-              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
+              <p className='block antialiased font-sans text-sm font-normal text-blue-gray-600 tracking-wider  leading-relaxed'>
                 Total Articles
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
@@ -93,7 +105,7 @@ const Statistics = () => {
               <MdOutlinePublishedWithChanges className='w-6 h-6 text-white' />
             </div>
             <div className='p-4 text-right'>
-              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
+              <p className='block antialiased font-sans text-sm font-normal text-blue-gray-600 tracking-wider  leading-relaxed'>
                 Published Articles
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
@@ -109,22 +121,24 @@ const Statistics = () => {
               <FaBookReader className='w-6 h-6 text-white' />
             </div>
             <div className='p-4 text-right'>
-              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
+              <p className='block antialiased font-sans text-sm font-normal text-blue-gray-600 tracking-wider  leading-relaxed'>
                 Total Views
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-               {totalViews}
+                {totalViews}
               </h4>
             </div>
           </div>
         </div>
         {/*  */}
-        <div className='mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3'>
-          {/* Total Sales Graph */}
-          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-100 text-gray-700 shadow-md overflow-hidden xl:col-span-2'>
-            {/* Render Chart Here */}
+        <div className='my-8  gap-6 flex flex-col-reverse xl:flex-row'>
+          {/* article by publisher graph */}
+          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-100 text-gray-700 shadow-md overflow-x-auto py-8 text-center w-[500px] md:w-[700px] h-[450px] mx-auto'>
+            {/* BarChart */}
+            <p className='font-semibold mb-2'>Articles By Publishers</p>
+            <CustomShapeBarChart articleByPublisher={articleByPublisher} />
           </div>
-          {/* Calender */}
+          {/* Pie Chart */}
           <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-100 text-gray-700 shadow-md overflow-hidden'>
             <Calendar color='#F43F5E' />
           </div>
