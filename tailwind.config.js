@@ -10,11 +10,11 @@ module.exports = {
     extend: {
       colors: {
         'faded-pearl': '#E6DFAF',
-        'midnight-gray': '#12AFA9',
+        'midnight-gray': '#1e1e1e',
         'deep-ocean': '#004080',
         'green-lantern': '#046645',
         'pure-white': '#FFFFFF',
-        'charcoal-gray': '#333333',
+        'charcoal-gray': '#000000',
       },
     },
   },

@@ -14,10 +14,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
-
 const DeclineModal = ({ isOpen, closeModal, handleDeclineBtn, id }) => {
-
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -29,24 +27,22 @@ const DeclineModal = ({ isOpen, closeModal, handleDeclineBtn, id }) => {
     try {
       const declinedMessage = {
         articleId: id,
-message: data.message
-      }
+        message: data.message,
+      };
 
       // console.log(declinedMessage)
-      
+
       const res = await axiosSecure.post(`/message/${id}`, declinedMessage);
 
       if (res.data.insertedId) {
-        toast.success('Your message is sent')
-        handleDeclineBtn(id)
+        toast.success('Your message is sent');
+        handleDeclineBtn(id);
         closeModal;
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.l(error);
     }
-      
-     
-   } catch (error) {
-     toast.error(error.message);
-     console.l(error)
-   }
   };
 
   return (
@@ -73,7 +69,7 @@ message: data.message
               <MdClose color='white' size={20} />
             </button>
             <DialogTitle className='text-2xl pb-4 text-center font-wendy'>
-             Send your valid reason here....
+              Send your valid reason here....
             </DialogTitle>
 
             {/* update form */}
@@ -87,7 +83,7 @@ message: data.message
                   rows='4'
                   {...register('message', { required: true })}
                   placeholder='Typing....'
-                  className='p-4 rounded-lg bg-faded-pearl bg-opacity-75 placeholder:text-black text-black font-semibold'
+                  className='p-4 rounded-lg bg-faded-pearl bg-opacity-75 placeholder:    font-semibold'
                   // className='input input-bordered'
                 />
                 {errors.massage && (

@@ -8,7 +8,6 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { axiosApi } from '../../api/axiosApi';
 
 export default function ScrollingNews() {
-  
   const {
     data: articles = [],
     refetch,
@@ -29,28 +28,19 @@ export default function ScrollingNews() {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorMessage error={error} />;
 
-
-  
   return (
     <div
       data-aos='fade-up'
       data-aos-duration='300'
-      className='scroll-container'>
+      className='scroll-container'
+    >
       <div className='scroll-content'>
-        <Swiper
-          direction='vertical'
-          slidesPerView='auto'
-          className='mySwiper'
-        >
+        <Swiper direction='vertical' slidesPerView='auto' className='mySwiper'>
           {articles.slice(5).map((article) => (
-            <SwiperSlide
-              key={article._id}
-              className='mb-8'>
-              <h4 className=' font-semibold mt-4 text-black'>
-               {article.title}
-              </h4>
-              <p className='text-sm mt-2 tracking-wider text-justify text-black'>
-               {article?.description}
+            <SwiperSlide key={article._id} className='mb-8'>
+              <h4 className=' font-semibold mt-4  '>{article.title}</h4>
+              <p className='text-sm mt-2 tracking-wider text-justify  '>
+                {article?.description}
               </p>
             </SwiperSlide>
           ))}

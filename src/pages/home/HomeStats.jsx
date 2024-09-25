@@ -37,9 +37,9 @@ const HomeStats = () => {
         }}
         speed={2000}
         autoplay={{
-          delay: 5000,
+          delay: 3000,
           disableOnInteraction: false,
-          pauseOnMouseEnter: false,
+          pauseOnMouseEnter: true,
         }}
         loop={true}
         pagination={true}

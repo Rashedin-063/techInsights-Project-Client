@@ -1,26 +1,17 @@
 import q1 from '../../assets/q1.webp';
 import PageTitle from '../../components/PageTitle';
 
-
-
-const AboutUs  = () => {
+const AboutUs = () => {
   return (
     <div>
-      <PageTitle title='About Us'/>
+      <PageTitle title='About Us' />
       <div className=' px-4 mx-6 lg:px-8 py-4 bg-blue-100 bg-opacity-10 rounded-md'>
-        <div className='flex flex-col-reverse lg:flex-row gap-6 items-center justify-center'>
+        <div className='flex flex-col-reverse lg:flex-row gap-6 items-center justify-center  '>
           <div className='lg:w-1/3'>
-            <img
-              className=' lg:h-[360px] lg:mt-4 rounded-xl'
-              src={q1}
-              alt=''
-            />
+            <img className=' lg:h-[360px] lg:mt-4 rounded-xl' src={q1} alt='' />
           </div>
           {/* About us text */}
-          <div
-            className='w-full lg:w-2/3 lg:mt-4'
-          >
-
+          <div className='w-full lg:w-2/3 lg:mt-4'>
             <div className='space-y-6 leading-relaxed tracking-wider'>
               <p className='text-justify text-sm'>
                 Welcome to Tech Insights, your ultimate destination for the

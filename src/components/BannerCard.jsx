@@ -19,10 +19,9 @@ const BannerCard = ({ article, refetch }) => {
     writers_email,
   } = article;
 
-
   return (
     <div
-      data-aos="fade-left"
+      data-aos='fade-left'
       data-aos-duration='1000'
       className={`max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group h-[500px]`}
     >
@@ -61,10 +60,12 @@ const BannerCard = ({ article, refetch }) => {
         />
         {/* title */}
         <p className='text-lg font-bold '>{title}</p>
-        <p className='text-sm flex italic mt-2 pb-1 justify-between text-black'>
+        <p className='text-sm flex italic mt-2 pb-1 justify-between  '>
           <span className='flex gap-4'>
             {tags.map((tag) => (
-              <span className='font-semibold' key={tag}># {tag}</span>
+              <span className='font-semibold' key={tag}>
+                # {tag}
+              </span>
             ))}
           </span>
           {article.isPremium === 'yes' && (
@@ -74,7 +75,9 @@ const BannerCard = ({ article, refetch }) => {
           )}
         </p>
 
-        <p className='mt-2 text-sm text-justify'>{description.slice(0, 240)}....</p>
+        <p className='mt-2 text-sm text-justify'>
+          {description.slice(0, 240)}....
+        </p>
       </div>
     </div>
   );

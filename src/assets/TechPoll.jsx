@@ -6,10 +6,12 @@ const TechPoll = () => {
     javascript: 30,
     python: 40,
     go: 20,
+    rust: 15,
   });
   const [totalVotes, setTotalVotes] = useState(90);
   const [hasVoted, setHasVoted] = useState(false);
 
+  // handle vote btn
   const handleVote = (option) => {
     if (hasVoted) return;
 
@@ -30,6 +32,8 @@ const TechPoll = () => {
       <h2 className='text-xl font-bold text-gray-900 dark:text-gray-100 text-center'>
         Which Programming Language Will Dominate in 2024?
       </h2>
+
+      {/* javascript */}
       <div className='mt-6'>
         <PollOption
           option='JavaScript'
@@ -44,6 +48,13 @@ const TechPoll = () => {
           percentage={getPercentage(voteCounts.python)}
           selectedOption={selectedOption}
           onVote={() => handleVote('python')}
+        />
+        <PollOption
+          option='Rust'
+          count={voteCounts.go}
+          percentage={getPercentage(voteCounts.go)}
+          selectedOption={selectedOption}
+          onVote={() => handleVote('rust')}
         />
         <PollOption
           option='Go'
@@ -69,9 +80,9 @@ const PollOption = ({ option, count, percentage, selectedOption, onVote }) => (
     className={`w-full p-3 my-2 text-left border rounded-lg transition-colors duration-300
       ${
         selectedOption === option.toLowerCase()
-          ? 'bg-blue-500 text-white'
+          ? 'bg-blue-950 text-white'
           : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
-      } hover:bg-blue-500 hover:text-white`}
+      } hover:bg-gray-800 hover:text-white`}
     disabled={selectedOption !== null}
   >
     <div className='flex justify-between items-center'>
