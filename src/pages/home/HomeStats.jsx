@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import './homeStat.css';
 
 // import required modules
-import {Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
+import {Autoplay, EffectCoverflow } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import PageTitle from '../../components/PageTitle';
 
@@ -22,7 +22,7 @@ import slideImg6 from '../../assets/journal.jpg'
 const HomeStats = () => {
   return (
     <div className='pt-12 mx-8'>
-      <PageTitle title='Recent Statistics'/>
+      <PageTitle title='Recent Statistics' />
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -35,6 +35,7 @@ const HomeStats = () => {
           modifier: 1,
           slideShadows: true,
         }}
+        speed={2000}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
@@ -42,7 +43,7 @@ const HomeStats = () => {
         }}
         loop={true}
         pagination={true}
-        modules={[Autoplay, EffectCoverflow, Pagination]}
+        modules={[Autoplay, EffectCoverflow]}
         className='myHomeSwiper'
       >
         <SwiperSlide>

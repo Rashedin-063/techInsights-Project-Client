@@ -43,7 +43,8 @@ const renderCustomizedLabel = ({
 const UserPieChart = ({ subscriptionCount }) => {
 
     const data = subscriptionCount.map(({ subscriptionType, count }) => ({
-      name: subscriptionType.toUpperCase(),
+      name:
+        subscriptionType.slice(0, 1).toUpperCase() + subscriptionType.slice(1),
       value: count,
     }));
   

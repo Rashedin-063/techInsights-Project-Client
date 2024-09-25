@@ -34,7 +34,7 @@ export default function ScrollingNews() {
   return (
     <div
       data-aos='fade-up'
-      data-aos-duration='1000'
+      data-aos-duration='300'
       className='scroll-container'>
       <div className='scroll-content'>
         <Swiper

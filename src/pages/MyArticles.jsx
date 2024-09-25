@@ -10,11 +10,18 @@ import { MdDelete } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { axiosApi } from '../api/axiosApi';
 import Swal from 'sweetalert2';
+import {FaEye } from 'react-icons/fa';
+import { useState } from 'react';
+import MessageModal from '../components/modals/MessageModal';
 
 const MyArticles = () => {
   const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+   const [currentId, setCurrentId] = useState(null);
+
   const axiosSecure = useAxiosSecure();
 
+// getting all article of a user
   const {
     data: articles = [],
     refetch,
@@ -33,9 +40,15 @@ const MyArticles = () => {
     },
   });
 
+  const closeModal = (id) => {
+setCurrentId(id)
+setIsOpen(!isOpen)
+  }
+
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorMessage error={error} />;
 
+  // handle delete btn
   const handleDeleteArticle = async (id) => {
     try {
       Swal.fire({
@@ -106,9 +119,24 @@ const MyArticles = () => {
                         article?.status.slice(1)}
                     </span>
                   ) : (
-                    <span className='text-orange-800'>
+                    <span className='text-orange-800 relative'>
                       {article?.status.slice(0, 1).toUpperCase() +
                         article?.status.slice(1)}
+                      <FaEye
+                        className='absolute -top-4 -right-3 cursor-pointer'
+                        onClick={() =>
+                          closeModal(article._id)
+                        } /* Only trigger closeModal here */
+                      />
+                      {isOpen &&
+                        currentId ===
+                          article._id && (
+                          <MessageModal
+                            isOpen={isOpen}
+                            closeModal={closeModal}
+                            id={currentId}
+                          />
+                        )}
                     </span>
                   )}
                 </td>

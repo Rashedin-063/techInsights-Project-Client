@@ -59,13 +59,13 @@ const Statistics = () => {
         <title>Tech Insights || Admin - Statistics</title>
       </Helmet>
 
-      <h1 className='text-3xl font-wendy ml-4 mt-6 mb-12 flex gap-4 text-green-lantern'>
+      <h1 className='text-3xl font-wendy ml-4 mt-4 mb-12 text-green-lantern '>
         <FaHandsClapping
           color='green'
           size={36}
           className='-mt-1 wave-animation'
         />
-        <span> Hi! Welcome Back</span> <span className='-ml-2 text-deep-ocean'> {user?.displayName}</span>
+        <span> Hi! Welcome Back</span> <span className=' text-deep-ocean'> {user?.displayName}</span>
       </h1>
 
       <div className='mt-4'>
@@ -140,18 +140,17 @@ const Statistics = () => {
         {/*  */}
         <div className='my-8  gap-6 flex flex-col-reverse xl:flex-row'>
           {/* article by publisher graph */}
-          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-x-auto py-8 text-center w-[550px] md:w-[750px] h-[450px] mx-auto'>
+          <div className='relative flex flex-col bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-x-auto py-8 text-center w-full xl:w-2/3 h-[420px] mx-auto'>
             {/* BarChart */}
             <p className='font-semibold mb-2'>Articles By Publishers</p>
             <CustomShapeBarChart articleByPublisher={articleByPublisher} />
           </div>
           {/* Pie Chart */}
-          <div className='bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-hidden w-[550px] md:w-[700px] h-[300px] xl:h-[450px] xl:w-1/3 mx-auto pb-12 xl:pb-40'>
+          <div className='bg-clip-border rounded-xl bg-slate-200 text-gray-700 shadow-md overflow-hidden w-full xl:w-1/3 h-[300px] xl:h-[420px] mx-auto pb-12 xl:pb-40'>
             <p className='font-semibold pt-2 xl:pt-20 text-center text-lg'>
               User Subscription
             </p>
             <UserPieChart
-              totalUsers={totalUsers}
               subscriptionCount={subscriptionCount}
             />
           </div>
