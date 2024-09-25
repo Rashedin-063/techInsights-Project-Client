@@ -1,0 +1,22 @@
+.myHomeSwiper .swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.myHomeSwiper .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 800px;
+  height: 420px; 
+  overflow: hidden;
+    border-radius: 1rem;
+}
+
+.myHomeSwiper .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+}

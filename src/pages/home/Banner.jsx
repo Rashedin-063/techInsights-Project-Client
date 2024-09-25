@@ -49,6 +49,7 @@ const Banner = () => {
     },
   });
   
+  
 // manage loading and error
   if (isLoading) return <LoadingSpinner />
   if(isError) return <ErrorMessage error={error}/>
@@ -86,7 +87,7 @@ const Banner = () => {
           className='mySwiper'
         >
         
-          {articles.slice(0,6).map((article) => (
+          {articles.slice(0, 6).map((article) => (
             <SwiperSlide key={article._id}>
               <BannerCard article={article}/>
             </SwiperSlide>

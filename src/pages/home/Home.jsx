@@ -8,6 +8,7 @@ import Poll from './Poll';
 import useLoadUser from '../../hooks/useLoadUser';
 import { useEffect, useState } from 'react';
 import swalAlert from './../../api/swalAlert';
+import HomeStats from './HomeStats';
 
 
 const Home = () => {
@@ -48,6 +49,7 @@ const Home = () => {
       <Logo />
       <Banner />
       <Poll />
+     <HomeStats/>
       <SubscriptionTeaser />
       <AboutUs />
       <PublisherSection />

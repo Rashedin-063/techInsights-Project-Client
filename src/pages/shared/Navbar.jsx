@@ -115,7 +115,9 @@ const Navbar = () => {
           {/* logo and menu for xl screens */}
           <div className='hidden xl:flex xl:items-center'>
             <div className='w-[25%] -ml-7 mt-2'>
-              <img className='w' src={logo} alt='' />
+              <Link to='/'>
+                <img className='w' src={logo} alt='' />
+              </Link>
             </div>
             <ul className=''>
               <Menu filteredItems={filteredItems} />
