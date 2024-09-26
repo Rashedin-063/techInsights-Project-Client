@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from '../../api/userApi';
+import swalAlert from '../../api/swalAlert';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,8 +35,7 @@ const Login = () => {
     try {
       setLoading(true);
       await logInUser(email, password);
-
-      toast.success('Sign Up Successful');
+      swalAlert('success', 'Sign Up Successful', 'top-right');
       navigate(from);
     } catch (err) {
       //console.log(err);
@@ -82,7 +82,7 @@ const Login = () => {
             />
             <span
               onClick={() => setShowPassword(!showPassword)}
-              className='absolute top-[52px] right-8 cursor-pointer'
+              className='absolute top-12 right-8 cursor-pointer'
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>

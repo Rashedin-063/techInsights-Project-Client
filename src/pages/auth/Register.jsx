@@ -9,10 +9,8 @@ import useAuth from '../../hooks/useAuth';
 import LoginRegisterTitle from '../../components/LoginRegisterTitle';
 import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
-import Swal from 'sweetalert2';
-import { toast } from 'react-toastify';
-import auth from '../../firebase/firebase.config';
 import { createOrUpdateUser } from '../../api/userApi';
+import swalAlert from '../../api/swalAlert';
 
 // Zod schema for validation
 const schema = z.object({
@@ -75,7 +73,8 @@ const Register = () => {
 
       createOrUpdateUser(userInfo);
 
-      toast.success('Registration  Successful');
+
+      swalAlert('success', 'Registration  Successful');
 
       reset();
       navigate('/');
