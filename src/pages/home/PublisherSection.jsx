@@ -23,7 +23,7 @@ const PublisherSection = () => {
     },
   });
 
-  console.log(publisherData)
+  // console.log(publisherData)
   
 
   if (isLoading) return <LoadingSpinner />;

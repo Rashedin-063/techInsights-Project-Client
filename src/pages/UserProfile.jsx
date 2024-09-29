@@ -1,11 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import { FaEdit, FaUserCog } from 'react-icons/fa';
 import { BsEnvelopeAt } from 'react-icons/bs';
-import { MdBrowserUpdated, MdSubscriptions, MdSystemUpdate, MdUpdate } from 'react-icons/md';
+import {
+  MdBrowserUpdated,
+  MdSubscriptions,
+  MdSystemUpdate,
+  MdUpdate,
+} from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import useLoadUser from '../hooks/useLoadUser';
 import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorMessage from '../components/ErrorMessage'
+import ErrorMessage from '../components/ErrorMessage';
 import { createOrUpdateUser } from '../api/userApi';
 import { useState } from 'react';
 import ProfileModal from '../components/modals/ProfileModal';
@@ -15,18 +20,17 @@ const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   const [userData, refetch, isLoading, isError, error] = useLoadUser();
 
-  const {user} = useAuth()
-
+  const { user } = useAuth();
 
   const handleAdmin = () => {
-    const userInfo = { email:userData.email, status: 'requested' }; 
+    const userInfo = { email: userData.email, status: 'requested' };
     createOrUpdateUser(userInfo);
-    refetch()
+    refetch();
   };
 
   const { displayName, email, photoURL, role, subscription, status } = userData;
@@ -162,7 +166,7 @@ const UserProfile = () => {
           <div className='mt-6 pb-4 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between'>
             <a className='link' href='#' data-tippy-content='@facebook_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -173,7 +177,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@twitter_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -184,7 +188,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@github_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -195,7 +199,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@unsplash_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -206,7 +210,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@dribble_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -217,7 +221,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@instagram_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
@@ -228,7 +232,7 @@ const UserProfile = () => {
             </a>
             <a className='link' href='#' data-tippy-content='@youtube_handle'>
               <svg
-                className='h-6 fill-current text-gray-600 hover:text-green-lantern'
+                className='h-6 fill-current text-gray-600  '
                 role='img'
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
