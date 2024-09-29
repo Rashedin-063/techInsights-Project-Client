@@ -45,7 +45,10 @@ const Subscription = () => {
 
         {userData.premiumToken && (
           <p>
-            Your subscription will end at <span className='font-wendy ml-1 tracking-wider'>{formattedExpirationDate}</span>
+            Your subscription will end at{' '}
+            <span className='font-wendy ml-1 tracking-wider'>
+              {formattedExpirationDate}
+            </span>
           </p>
         )}
       </div>
@@ -178,7 +181,10 @@ const Subscription = () => {
           </div>
 
           {/* second card */}
-          <div className='flex flex-col items-center bg-gradient-to-br from-green-lantern via-midnight-gray to-deep-ocean p-8 rounded-2xl shadow-2xlg relative border-8 border-midnight-gray max-w-sm'>
+          <div
+            className='flex flex-col items-center bg-gradient-to-br  from-green-600
+           to-blue-300 p-8 rounded-2xl shadow-2xlg relative border-8 border-midnight-gray max-w-sm'
+          >
             <p className='mono text-sm absolute -top-5 bg-green-lantern text-zinc-100 py-2 px-8 font-bold tracking-wider rounded'>
               POPULAR
             </p>

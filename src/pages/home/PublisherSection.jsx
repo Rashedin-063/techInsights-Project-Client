@@ -23,6 +23,9 @@ const PublisherSection = () => {
     },
   });
 
+  console.log(publisherData)
+  
+
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <LoadingSpinner error='error' />;
 
@@ -32,7 +35,7 @@ const PublisherSection = () => {
 
       <div className='mt-6 mx-6 lg:mx-8'>
         <Marquee direction='right' speed={30}>
-          {publisherData.map((publisher) => (
+          {publisherData?.map((publisher) => (
             <div
               key={publisher.title}
               className='flex flex-col items-center justify-center mr-8'

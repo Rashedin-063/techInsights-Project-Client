@@ -70,7 +70,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`xl:px-8 ${theme.colors.background} pt-2 lg:pt-4 -mb-3 sticky top-0 z-10`}
+      className={`xl:px-8 ${theme?.colors.background} pt-2 lg:pt-4 -mb-3 sticky top-0 z-10`}
     >
       <div className='flex justify-between w-full lg:px-2 py-2'>
         <div className='flex-1 lg:-mt-2'>

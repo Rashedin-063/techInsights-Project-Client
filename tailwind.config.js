@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       colors: {
         'faded-pearl': '#E6DFAF',
-        'midnight-gray': '#1e1e1e',
+        'midnight-gray': '	##3c3c3c',
         'deep-ocean': '#004080',
         'green-lantern': '#046645',
         'pure-white': '#FFFFFF',

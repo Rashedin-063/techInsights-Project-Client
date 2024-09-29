@@ -48,6 +48,9 @@ const Banner = () => {
       console.error('Error fetching articles:', error);
     },
   });
+
+  // console.log(articles)
+  
   
   
 // manage loading and error
