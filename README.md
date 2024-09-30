@@ -5,8 +5,8 @@ A simple news website focused on technology, programming and web development, cr
 # Live Link
 [Visit TechInsights](https://tech-insights-d2159.web.app)
 
-# Admin Email: rustark.winterfell@gmail.com
-# Admin Password: Hello@123
+## Admin Email: rustark.winterfell@gmail.com
+## Admin Password: Hello@123
 
 
 # Features & Characteristics
