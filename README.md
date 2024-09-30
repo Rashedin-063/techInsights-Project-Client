@@ -3,10 +3,10 @@
 A simple news website focused on technology, programming and web development, created using react, react-router-dom, firebase authentication, and MongoDB CRUD functionality with jwt token. This is the client site repository of this website
 
 # Live Link
-[Visit TechInsights](https://tech-insights-d2159.web.app)
+# [Visit TechInsights](https://tech-insights-d2159.web.app)
 
-## Admin Email: rustark.winterfell@gmail.com
-## Admin Password: Hello@123
+### Admin Email: rustark.winterfell@gmail.com
+## #Admin Password: Hello@123
 
 
 # Features & Characteristics
