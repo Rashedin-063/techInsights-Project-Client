@@ -46,7 +46,7 @@ const Statistics = () => {
     subscriptionCount,
   } = statData;
 
-  console.log(statData)
+  // console.log(statData)
   
 
   // handling loading and error

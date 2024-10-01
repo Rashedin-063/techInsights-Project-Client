@@ -5,9 +5,10 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import DeclineModal from './modals/DeclineModal';
 
+
 const AdminArticleCard = ({ article, refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  
   const axiosSecure = useAxiosSecure();
 
   // destructuring post
@@ -63,7 +64,7 @@ const AdminArticleCard = ({ article, refetch }) => {
     }
   };
 
-  const handleDleteBtn = async (id) => {
+  const handleDeleteBtn = async (id) => {
     try {
       Swal.fire({
         title: 'Are you sure?',
@@ -197,7 +198,7 @@ const AdminArticleCard = ({ article, refetch }) => {
         {/* delete and make premium btn */}
         <div className='flex flex-col md:flex-row justify-between my-4 pb-4'>
           <button
-            onClick={() => handleDleteBtn(_id)}
+            onClick={() => handleDeleteBtn(_id)}
             className='
           font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'
           >
