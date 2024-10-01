@@ -13,7 +13,7 @@ const AllArticles = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles();
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(currentPage, itemsPerPage);
 
   useEffect(() => {
     fetchArticleCount();
@@ -164,6 +164,7 @@ const AllArticles = () => {
           }}
           className='pl-3 pr-1 ml-2 border-2 rounded-md border-green-lantern text-deep-ocean'
           name='itemsPerPage'
+          value={itemsPerPage}
         >
           <option value='3'>3</option>
           <option value='6'>6</option>

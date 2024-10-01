@@ -33,7 +33,7 @@ const AdminArticles = () => {
 
   // fetching all articles
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles();
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(currentPage, itemsPerPage);
 
   // calculating pages
   const pageNumbers = Math.ceil(articleCount?.allArticles / itemsPerPage) || 0;
