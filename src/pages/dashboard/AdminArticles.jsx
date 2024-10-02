@@ -64,7 +64,7 @@ const AdminArticles = () => {
       <Helmet>
         <title>Tech Insights || All Articles</title>
       </Helmet>
-      <PageTitle title={`All Articles : ${articles?.length}`} />
+      <PageTitle title={`All Articles`} />
       <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-28 mx-4 md:mx-10 lg:mx-28 xl:mx-8 mt-20'>
         {articles?.map((article) => (
           <AdminArticleCard
@@ -76,7 +76,7 @@ const AdminArticles = () => {
       </div>
 
       {/* pagination */}
-      <div className='flex gap-2 justify-center mt-8'>
+      <div className='flex gap-2 justify-center mt-16'>
         {/* prev btn */}
 
         <button

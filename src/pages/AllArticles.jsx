@@ -13,16 +13,23 @@ const AllArticles = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles(currentPage, itemsPerPage);
+  // search, sort and filter
+  const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('');
+  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const status = 'approved'
+
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter);
 
   useEffect(() => {
     fetchArticleCount();
-  }, []);
+  }, [filter]);
 
   // fetching article count
   const fetchArticleCount = async () => {
     try {
-      const { data } = await axiosApi.get('/articleCount');
+      const { data } = await axiosApi.get(`/articleCount?filter=${filter}`);
       setArticleCount(data);
     } catch (error) {
       console.error(error);
@@ -53,12 +60,6 @@ const AllArticles = () => {
     }
   };
 
-  /**
-   * DONe 1: get the total count;
-   * DONE 2: itemsPerPage
-   * DONE 3: total page
-   */
-
   const publicArticle = articles.filter(
     (article) => article.status === 'approved'
   );
@@ -72,9 +73,50 @@ const AllArticles = () => {
       <Helmet>
         <title>Tech Insights || Admin - All Articles</title>
       </Helmet>
-      <PageTitle title='All Articles' />
+     
 
-      <div className='grid grid-cols-1 mx:grid-cols-2 lg:grid-cols-3 gap-4 mx-8 md:mx-4'>
+      <div className='my-8 flex justify-center gap-4'>
+        {/* select */}
+        <select
+          onChange={(e) => {
+            setFilter(e.target.value);
+            setCurrentPage(0)
+          }}
+          value={filter}
+          name='publisher'
+          id='publisher'
+          className='border text-sm lg:text-base px-2 rounded-lg font-medium'
+        >
+          <option value=''>Filter By Publisher</option>
+          <option value='AI Revolution'>AI Revolution</option>
+          <option value='Cyber Shield'>Cyber Shield</option>
+          <option value='Tech Tomorrow'>Tech Tomorrow</option>
+          <option value='Data Dive'>Data Dive</option>
+          <option value='DevOps Digest'>DevOps Digest</option>
+        </select>
+
+        {/* search */}
+
+        <form>
+          <div className='flex gap-2 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
+            <input
+              className=' placeholder-gray-500 bg-white outline-none focus:placeholder-transparent text-sm lg:text-base p-2 rounded-md'
+              type='text'
+              name='search'
+              onChange={(e) => setSearchText(e.target.value)}
+              value={searchText}
+              placeholder='Enter Post Title'
+              aria-label='Enter Job Title'
+            />
+
+            <button className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-8 md:mx-4'>
         {publicArticle.map((article) => (
           <ArticleCard key={article._id} article={article} refetch={refetch} />
         ))}

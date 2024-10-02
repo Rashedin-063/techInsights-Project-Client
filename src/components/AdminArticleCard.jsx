@@ -15,9 +15,7 @@ const AdminArticleCard = ({ article, refetch }) => {
   const {
     _id,
     title,
-    description,
     image_url,
-    tags,
     publisher,
     isPremium,
     status,
@@ -25,6 +23,9 @@ const AdminArticleCard = ({ article, refetch }) => {
     posted_time,
     writers_email,
   } = article;
+
+  console.log(article)
+  
 
   // close modal
 

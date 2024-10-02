@@ -36,7 +36,7 @@ const ArticleCard = ({ article, refetch }) => {
 
   return (
     <div
-      className={`max-w-2xl px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group ${
+      className={`max-w-2xl mx-12 md:mx-0 px-8 py-4 rounded-lg shadow-xl border-2 border-deep-ocean border-dotted hover:transition-all hover:border-green-lantern hover:duration-300 rounded-ss-3xl rounded-ee-3xl group ${
         article.isPremium === 'yes'
           ? 'bg-gradient-to-br from-green-200 to-blue-400'
           : ''
@@ -68,16 +68,16 @@ const ArticleCard = ({ article, refetch }) => {
         </p>
       </div>
 
-      <div className='mt-6'>
+      <div className='mt-2'>
         {/* image */}
         <img
-          className='rounded-xl mx-auto h-[200px] lg:h-60 mb-6 group-hover:scale-105 transition duration-800 object-cover ease-in'
+          className='rounded-xl mx-auto w-[300px] h-[150px] lg:h-40 mb-6 group-hover:scale-105 transition duration-800 object-cover ease-in'
           src={image_url ? image_url : placeholderImage}
           alt=''
         />
         {/* title */}
-        <p className='text-lg font-bold '>{title}</p>
-        <p className='text-sm flex italic mt-2 pb-2 justify-between'>
+        <p className=' font-bold '>{title}</p>
+        <p className='text-sm flex italic mt-2 pb-2 justify-between font-light'>
           <span className='flex gap-4'>
             {tags.map((tag) => (
               <span key={tag}># {tag}</span>
@@ -90,11 +90,11 @@ const ArticleCard = ({ article, refetch }) => {
           )}
         </p>
 
-        <p className='mt-2'>{description.slice(0, 150)}....</p>
+        <p className='mt-1 text-sm'>{description.slice(0, 150)}....</p>
       </div>
 
       {/* read more */}
-      <div className='flex items-center justify-end mt-4'>
+      <div className='flex items-center justify-end'>
         <Link to={`/details/${_id}`}>
           <button
             onClick={incrementViewCount}

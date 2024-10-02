@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from './useAxiosSecure';
 
-const useLoadArticles = (page, size ) => {
-  console.log(page, size)
+const useLoadArticles = (status, page, size, filter ) => {
+  // console.log(page, size)
   
   const axiosSecure = useAxiosSecure();
 
@@ -13,9 +13,9 @@ const useLoadArticles = (page, size ) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['articles', page, size],
+    queryKey: ['articles', status, page, size, filter],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/articles?page=${page}&size=${size}`);
+      const res = await axiosSecure.get(`/articles?status=${status}&page=${page}&size=${size}&filter=${filter}`);
       return res.data;
     },
     onError: (error) => {
