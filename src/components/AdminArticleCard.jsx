@@ -24,7 +24,7 @@ const AdminArticleCard = ({ article, refetch }) => {
     writers_email,
   } = article;
 
-  console.log(article)
+  // console.log(article)
   
 
   // close modal
@@ -119,11 +119,14 @@ const AdminArticleCard = ({ article, refetch }) => {
         {/* title, tags, description */}
         <p className='text-lg font-bold -mt-24'>
           {' '}
-          <span className='italic font-semibold mr-1'>Title:</span> {title}
+          <span className='italic font-semibold mr-1'>Title:</span>{' '}
+          {title.length < 45
+            ? `${title.slice(0, 45)}`
+            : `${title.slice(0, 45)}...`}
         </p>
 
         {/* time and category */}
-        <div className='flex items-center justify-between stretch mt-4'>
+        <div className='flex items-center justify-between mt-4'>
           <p className='font-wendy text-sm'>
             <span className='font-raleway italic font-semibold mr-1'>
               Posted At:{' '}
@@ -132,7 +135,7 @@ const AdminArticleCard = ({ article, refetch }) => {
           </p>
           {/* publisher */}
           <p
-            className={`px-3 py-1 text-sm font-bold text-center ${
+            className={`px-3 py-1 text-xs font-bold text-center ${
               publisher === 'Data Dive' &&
               'text-blue-600 bg-gradient-to-bl from-blue-100 via blue-50 to-blue-300'
             } ${
@@ -147,9 +150,9 @@ const AdminArticleCard = ({ article, refetch }) => {
             } ${
               publisher === 'Tech Tomorrow' &&
               'text-orange-600 bg-gradient-to-bl from-orange-100 via orange-50 to-orange-300'
-            } rounded-full px-2 flex gap-2 lg:flex-col lg:gap-0 lg:px-4`}
+            } rounded-full px-2 flex gap-2 lg:gap-0 lg:px-4`}
           >
-            <span> PUblisher:</span> <span>{publisher}</span>
+            <span> Publisher:</span> <span>{publisher}</span>
           </p>
         </div>
 
@@ -171,13 +174,13 @@ const AdminArticleCard = ({ article, refetch }) => {
       </div>
 
       {/* button */}
-      <div className='mt-24 md:mt-12 space-y-4 lg:space-y-6'>
+      <div className='mt-8 lg:mt-0'>
         {/* approve and decline btn */}
-        <div className='flex flex-col md:flex-row justify-between my-4'>
+        <div className='flex justify-between'>
           <button
             onClick={() => handleApproveBtn(_id)}
             disabled={status === 'approved'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
           >
             {status === 'approved' ? 'Already Approved' : 'Approve Post'}
           </button>
@@ -185,7 +188,7 @@ const AdminArticleCard = ({ article, refetch }) => {
             onClick={closeModal}
             // onClick={() => handleDeclineBtn(_id)}
             disabled={status === 'declined'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 mt-2 md:mt-0 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-deep-ocean px-2 py-1 w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern disabled:cursor-not-allowed disabled:bg-gray-500 h-8'
           >
             {status === 'declined' ? 'Cannot Decline' : 'Decline a Post'}
           </button>
@@ -197,18 +200,18 @@ const AdminArticleCard = ({ article, refetch }) => {
           />
         </div>
         {/* delete and make premium btn */}
-        <div className='flex flex-col md:flex-row justify-between my-4 pb-4'>
+        <div className='flex justify-between my-2'>
           <button
             onClick={() => handleDeleteBtn(_id)}
             className='
-          font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2'
+          font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 w-40'
           >
             Delete Post
           </button>
           <button
             onClick={() => handleMakePremiumBtn(_id)}
             disabled={isPremium === 'yes'}
-            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 mt-2 md:mt-0 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern mb-2 disabled:cursor-not-allowed disabled:bg-gray-500'
+            className='font-semibold  cursor-pointer border-2 border-deep-ocean px-2 py-1 h-8 md:mt-0 md:w-40 rounded-lg hover:border-opacity-100 hover:rounded-full glass outline outline-green-lantern w-40 disabled:cursor-not-allowed disabled:bg-gray-500'
           >
             {isPremium === 'yes' ? 'Already Premium' : ' Make Premium'}
           </button>

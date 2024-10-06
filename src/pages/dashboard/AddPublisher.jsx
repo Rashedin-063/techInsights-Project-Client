@@ -64,7 +64,7 @@ const AddPublisher = () => {
               {...register('publisher')} // Ensure this matches the Zod schema
               placeholder='Publisher Name'
               required
-              className='input input-bordered bg-faded-pearl placeholder:    font-semibold placeholder:font-normal'
+              className='input input-bordered bg-faded-pearl placeholder:    font-semibold placeholder:text-gray-500'
             />
             {errors.name && (
               <p className='text-red-500 mt-2'>{errors.publisher.message}</p>

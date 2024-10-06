@@ -10,22 +10,29 @@ import { axiosApi } from '../../api/axiosApi';
 import { useOutletContext } from 'react-router-dom';
 
 const AdminArticles = () => {
-
   const [articleCount, setArticleCount] = useState(null);
-  const [itemsPerPage, setItemsPerPage] = useState(6)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // search, sort and filter
+  const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('');
+  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const { isActive, handleToggle } = useOutletContext();
 
   // fetching article count
   useEffect(() => {
     fetchArticleCount();
-  }, []);
+  }, [filter, search]);
 
   // fetching article count
   const fetchArticleCount = async () => {
     try {
-      const { data } = await axiosApi.get('/articleCount');
+      const { data } = await axiosApi.get(
+        `/articleCount?filter=${filter}&search=${search}`
+      );
       setArticleCount(data);
     } catch (error) {
       console.error(error);
@@ -35,28 +42,54 @@ const AdminArticles = () => {
   // console.log(articleCount);
 
   // fetching all articles
+  const status = '';
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles(currentPage, itemsPerPage);
+   const [articles, refetch, isLoading, isError, error] = useLoadArticles(
+     status,
+     currentPage,
+     itemsPerPage,
+     filter,
+     search,
+     sort
+   );
+
+  // console.log(articles);
 
   // calculating pages
   const pageNumbers = Math.ceil(articleCount?.allArticles / itemsPerPage) || 0;
   // console.log(pageNumbers)
-  
-  const pages = [...Array(pageNumbers).keys()]
+
+  const pages = [...Array(pageNumbers).keys()];
   // console.log(pages)
+
+  // handle search
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSearch(searchText);
+  };
+
+  const handleResetBtn = () => {
+    setFilter('');
+    setSearchText('');
+    setSort('');
+    setSearch('');
+  };
+
+  // handle current page
+  const handleCurrentPage = (value) => {
+    setCurrentPage(value);
+  };
 
   const handlePrevBtn = () => {
     if (currentPage > 0) {
-  setCurrentPage(currentPage - 1)
-}
-  }
+      setCurrentPage(currentPage - 1);
+    }
+  };
   const handleNextBtn = () => {
- if (currentPage < pages.length - 1) {
-   setCurrentPage(currentPage + 1);
- }
-  }
-  
-  
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   // managing loading and error
   if (isLoading) return <LoadingSpinner />;
@@ -68,6 +101,79 @@ const AdminArticles = () => {
         <title>Tech Insights || All Articles</title>
       </Helmet>
       <PageTitle title={`All Articles`} />
+
+      {/* select, search, sort, reset */}
+      <div className='pb-12 flex flex-col md:flex-row justify-center gap-4 w-60 md:w-full mx-auto'>
+        {/* select */}
+        <select
+          onChange={(e) => {
+            setFilter(e.target.value);
+            setCurrentPage(0);
+          }}
+          value={filter}
+          name='publisher'
+          id='publisher'
+          className='border text-sm lg:text-base px-2 py-2 md:py-0 rounded-lg font-medium'
+        >
+          <option value=''>Filter By Publisher</option>
+          <option value='AI Revolution'>AI Revolution</option>
+          <option value='Cyber Shield'>Cyber Shield</option>
+          <option value='Tech Tomorrow'>Tech Tomorrow</option>
+          <option value='Data Dive'>Data Dive</option>
+          <option value='DevOps Digest'>DevOps Digest</option>
+        </select>
+
+        {/* search */}
+        <form onSubmit={handleSubmit}>
+          <div className='flex overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
+            <input
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              value={searchText}
+              className=' placeholder-gray-500 bg-white outline-none focus:placeholder-transparent text-sm lg:text-base p-2 rounded-md'
+              type='text'
+              name='search'
+              placeholder='Enter Post Title'
+              aria-label='Enter Job Title'
+            />
+
+            <button
+              type='submit'
+              className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        {/* sort */}
+        <div>
+          <select
+            onChange={(e) => {
+              setSort(e.target.value);
+              setCurrentPage(0);
+            }}
+            value={sort}
+            name='category'
+            id='category'
+            className='border text-sm lg:text-base p-2  rounded-md w-full'
+          >
+            <option value=''>Sort By Posted Time</option>
+            <option value='dsc'>Descending Order</option>
+            <option value='asc'>Ascending Order</option>
+          </select>
+        </div>
+        {/* reset btn */}
+        <button
+          onClick={handleResetBtn}
+          className='bg-white rounded-md text-sm lg:text-base px-2 py-1  border-2 border-gray-400'
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* loading all articles */}
       <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-28 mx-4 md:mx-10 lg:mx-28 xl:mx-8 mt-20'>
         {articles?.map((article) => (
           <AdminArticleCard
@@ -79,7 +185,7 @@ const AdminArticles = () => {
       </div>
 
       {/* pagination */}
-      <div className='flex gap-2 justify-center mt-16'>
+      <div className='flex gap-2 justify-center mt-8'>
         {/* prev btn */}
 
         <button
@@ -109,12 +215,14 @@ const AdminArticles = () => {
           </div>
         </button>
 
-        {/* dynamic btn */}
+        {/* dynamic page */}
         {pages.map((page) => (
           <button
-            onClick={() => setCurrentPage(page)}
             key={page}
-            className={`px-4 py-2 bg-green-lantern text-white rounded-lg hover:bg-deep-ocean ${
+            onClick={() => {
+              handleCurrentPage(page);
+            }}
+            className={`px-4 py-1 bg-green-lantern text-white rounded-lg hover:bg-deep-ocean ${
               currentPage === page
                 ? ' scale-105 -translate-y-2 bg-gradient-to-br from-green-500 to-green-700'
                 : ''
@@ -152,19 +260,19 @@ const AdminArticles = () => {
           </div>
         </button>
 
-        {/* select item per page */}
+        {/* select */}
         <select
           onChange={(e) => {
-            const selectValue = parseInt(e.target.value);
-            setItemsPerPage(selectValue);
+            setItemsPerPage(parseInt(e.target.value));
             setCurrentPage(0);
           }}
           className='pl-3 pr-1 ml-2 border-2 rounded-md border-green-lantern text-deep-ocean'
           name='itemsPerPage'
+          value={itemsPerPage}
         >
-          <option value={6}>6</option>
-          <option value={9}>9</option>
-          <option value={12}>12</option>
+          <option value='6'>6</option>
+          <option value='9'>9</option>
+          <option value='12'>12</option>
         </select>
       </div>
     </div>
