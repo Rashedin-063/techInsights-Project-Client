@@ -15,15 +15,18 @@ export default function ScrollingNews() {
     isError,
     error,
   } = useQuery({
-    queryKey: ['articles'],
+    queryKey: ['recent-articles'],
     queryFn: async () => {
-      const res = await axiosApi.get('/articles');
+      const res = await axiosApi.get('/recent-articles');
       return res.data;
     },
     onError: (error) => {
       console.error('Error fetching articles:', error);
     },
   });
+
+  // console.log(articles)
+  
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorMessage error={error} />;

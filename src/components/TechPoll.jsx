@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useAuth from '../hooks/useAuth';
 
 const TechPoll = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -10,6 +11,8 @@ const TechPoll = () => {
   });
   const [totalVotes, setTotalVotes] = useState(90);
   const [hasVoted, setHasVoted] = useState(false);
+
+  const { user } = useAuth();
 
   // handle vote btn
   const handleVote = (option) => {
