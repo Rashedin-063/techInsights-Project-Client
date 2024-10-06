@@ -2,6 +2,9 @@
 # TechInsights
 A simple news website focused on technology, programming and web development, created using react, react-router-dom, firebase authentication, and MongoDB CRUD functionality with jwt token. This is the client site repository of this website
 
+## New Feature:
+### filter, search, sort functionality with pagination"
+
 # Live Link
 # [Visit TechInsights](https://tech-insights-d2159.web.app)
 
