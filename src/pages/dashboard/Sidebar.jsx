@@ -13,15 +13,15 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo3.png';
 import { toast } from 'react-toastify';
 
-const Sidebar = () => {
-  const [isActive, setActive] = useState(false);
+const Sidebar = ({isActive, handleToggle }) => {
+  // const [isActive, setActive] = useState(false);
   const navigate = useNavigate();
   const { logOutUser } = useAuth();
 
-  // Sidebar Responsive Handler
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
+  // // Sidebar Responsive Handler
+  // const handleToggle = () => {
+  //   setActive(!isActive);
+  // };
 
   // handleLogout
   const handleLogOut = async () => {
@@ -30,7 +30,7 @@ const Sidebar = () => {
       toast.warn('Logout successful');
       navigate('/');
     } catch (error) {
-      console.l(error)
+      console.l(error);
       toast.error(error.message);
     }
   };

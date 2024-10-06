@@ -7,12 +7,15 @@ import AdminArticleCard from '../../components/AdminArticleCard';
 import useLoadArticles from '../../hooks/useLoadArticles';
 import { useEffect, useState } from 'react';
 import { axiosApi } from '../../api/axiosApi';
+import { useOutletContext } from 'react-router-dom';
 
 const AdminArticles = () => {
 
   const [articleCount, setArticleCount] = useState(null);
   const [itemsPerPage, setItemsPerPage] = useState(6)
   const [currentPage, setCurrentPage] = useState(1)
+
+  const { isActive, handleToggle } = useOutletContext();
 
   // fetching article count
   useEffect(() => {
@@ -60,7 +63,7 @@ const AdminArticles = () => {
   if (isError) return <ErrorMessage error={error} />;
 
   return (
-    <div>
+    <div onClick={isActive && handleToggle}>
       <Helmet>
         <title>Tech Insights || All Articles</title>
       </Helmet>

@@ -18,9 +18,16 @@ const AllArticles = () => {
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
   const [searchText, setSearchText] = useState('');
-  const status = 'approved'
+  const status = 'approved';
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter, search, sort);
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(
+    status,
+    currentPage,
+    itemsPerPage,
+    filter,
+    search,
+    sort
+  );
 
   useEffect(() => {
     fetchArticleCount();
@@ -29,7 +36,9 @@ const AllArticles = () => {
   // fetching article count
   const fetchArticleCount = async () => {
     try {
-      const { data } = await axiosApi.get(`/articleCount?filter=${filter}&search=${search}`);
+      const { data } = await axiosApi.get(
+        `/articleCount?filter=${filter}&search=${search}`
+      );
       setArticleCount(data);
     } catch (error) {
       console.error(error);
@@ -37,7 +46,6 @@ const AllArticles = () => {
   };
 
   // console.log(articleCount)
-  
 
   const numberOfPages =
     Math.ceil(articleCount?.approvedArticles / itemsPerPage) || 0;
@@ -50,14 +58,15 @@ const AllArticles = () => {
   // handle search
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSearch(e.target.search.value);  
-  }
+    setSearch(searchText);
+  };
 
   const handleResetBtn = () => {
-
-  }
-
-  
+    setFilter('');
+    setSearchText('');
+    setSort('');
+    setSearch('');
+  };
 
   // handle current page
   const handleCurrentPage = (value) => {
@@ -90,7 +99,6 @@ const AllArticles = () => {
 
       {/* select, search, sort, reset */}
       <div className='my-8 flex flex-col md:flex-row justify-center gap-4 w-60 md:w-full mx-auto'>
-
         {/* select */}
         <select
           onChange={(e) => {
@@ -114,11 +122,13 @@ const AllArticles = () => {
         <form onSubmit={handleSubmit}>
           <div className='flex overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
             <input
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              value={searchText}
               className=' placeholder-gray-500 bg-white outline-none focus:placeholder-transparent text-sm lg:text-base p-2 rounded-md'
               type='text'
               name='search'
-              onChange={(e) => setSearchText(e.target.value)}
-              value={searchText}
               placeholder='Enter Post Title'
               aria-label='Enter Job Title'
             />

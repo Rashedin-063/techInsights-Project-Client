@@ -14,10 +14,14 @@ import { FaHandsClapping } from 'react-icons/fa6';
 import './dashboardStyle.css'
 import CustomShapeBarChart from './CustomShapeBarChart';
 import UserPieChart from './UserPieChart';
+import { useOutletContext } from 'react-router-dom';
 
 
 const Statistics = () => {
   const { user } = useAuth();
+
+  const {isActive, handleToggle} = useOutletContext()
+
   const axiosSecure = useAxiosSecure();
   // Fetch Admin Stat Data here
   const {
@@ -54,7 +58,7 @@ const Statistics = () => {
   if (isError) return <ErrorMessage error={error} />;
 
   return (
-    <div>
+    <div onClick={isActive && handleToggle}>
       <Helmet>
         <title>Tech Insights || Admin - Statistics</title>
       </Helmet>

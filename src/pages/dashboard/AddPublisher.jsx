@@ -6,10 +6,13 @@ import { imageUpload } from '../../api/utils';
 import { ImSpinner9 } from 'react-icons/im';
 import { axiosApi } from '../../api/axiosApi';
 import { postPublisherInfo } from '../../api/userApi';
+import { useOutletContext } from 'react-router-dom';
 
 const AddPublisher = () => {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const { isActive, handleToggle } = useOutletContext();
 
   const {
     register,
@@ -43,7 +46,9 @@ const AddPublisher = () => {
   };
 
   return (
-    <div className='mt-12 lg:mt- overflow-x-auto'>
+    <div 
+      onClick={isActive && handleToggle}
+      className='mt-12 lg:mt- overflow-x-auto'>
       <Helmet>
         <title>Tech Insights || Admin - Add Publisher</title>
       </Helmet>

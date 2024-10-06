@@ -7,12 +7,14 @@ import Swal from 'sweetalert2';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { createOrUpdateUser } from '../../api/userApi';
 import { toast } from 'react-toastify';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useOutletContext } from 'react-router-dom';
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
 
   const AllArticles = useLoaderData();
+
+  const { isActive, handleToggle } = useOutletContext();
 
   const { data: users = [], refetch } = useQuery({
     queryKey: ['users'],
@@ -60,7 +62,7 @@ const AllUsers = () => {
   };
 
   return (
-    <div>
+    <div onClick={isActive && handleToggle}>
       <Helmet>
         <title>Tech Insights || Admin - All Users</title>
       </Helmet>
