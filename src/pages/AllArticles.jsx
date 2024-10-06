@@ -11,7 +11,7 @@ import Button from '../components/Button';
 const AllArticles = () => {
   const [articleCount, setArticleCount] = useState(null);
   const [itemsPerPage, setItemsPerPage] = useState(3);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   // search, sort and filter
   const [filter, setFilter] = useState('');
@@ -20,21 +20,24 @@ const AllArticles = () => {
   const [searchText, setSearchText] = useState('');
   const status = 'approved'
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter);
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter, search);
 
   useEffect(() => {
     fetchArticleCount();
-  }, [filter]);
+  }, [filter, search]);
 
   // fetching article count
   const fetchArticleCount = async () => {
     try {
-      const { data } = await axiosApi.get(`/articleCount?filter=${filter}`);
+      const { data } = await axiosApi.get(`/articleCount?filter=${filter}&search=${search}`);
       setArticleCount(data);
     } catch (error) {
       console.error(error);
     }
   };
+
+  console.log(articleCount)
+  
 
   const numberOfPages =
     Math.ceil(articleCount?.approvedArticles / itemsPerPage) || 0;
@@ -44,10 +47,22 @@ const AllArticles = () => {
 
   // console.log(pages)
 
+  // handle search
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSearch(e.target.search.value);
+    
+
+  }
+
+  
+
+  // handle current page
   const handleCurrentPage = (value) => {
     setCurrentPage(value);
   };
 
+  // handle prev and next btn
   const handlePrevBtn = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
@@ -60,10 +75,7 @@ const AllArticles = () => {
     }
   };
 
-  const publicArticle = articles.filter(
-    (article) => article.status === 'approved'
-  );
-
+  // handling loading and error
   if (isLoading) return <LoadingSpinner />;
 
   if (isError) return <ErrorMessage error={error} />;
@@ -97,7 +109,7 @@ const AllArticles = () => {
 
         {/* search */}
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='flex gap-2 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
             <input
               className=' placeholder-gray-500 bg-white outline-none focus:placeholder-transparent text-sm lg:text-base p-2 rounded-md'
@@ -109,7 +121,7 @@ const AllArticles = () => {
               aria-label='Enter Job Title'
             />
 
-            <button className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
+            <button type='submit' className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
               Search
             </button>
           </div>
@@ -117,7 +129,7 @@ const AllArticles = () => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-8 md:mx-4'>
-        {publicArticle.map((article) => (
+        {articles.map((article) => (
           <ArticleCard key={article._id} article={article} refetch={refetch} />
         ))}
       </div>
