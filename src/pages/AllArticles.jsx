@@ -20,7 +20,7 @@ const AllArticles = () => {
   const [searchText, setSearchText] = useState('');
   const status = 'approved'
 
-  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter, search);
+  const [articles, refetch, isLoading, isError, error] = useLoadArticles(status, currentPage, itemsPerPage, filter, search, sort);
 
   useEffect(() => {
     fetchArticleCount();
@@ -36,7 +36,7 @@ const AllArticles = () => {
     }
   };
 
-  console.log(articleCount)
+  // console.log(articleCount)
   
 
   const numberOfPages =
@@ -50,8 +50,10 @@ const AllArticles = () => {
   // handle search
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSearch(e.target.search.value);
-    
+    setSearch(e.target.search.value);  
+  }
+
+  const handleResetBtn = () => {
 
   }
 
@@ -85,19 +87,20 @@ const AllArticles = () => {
       <Helmet>
         <title>Tech Insights || Admin - All Articles</title>
       </Helmet>
-     
 
-      <div className='my-8 flex justify-center gap-4'>
+      {/* select, search, sort, reset */}
+      <div className='my-8 flex flex-col md:flex-row justify-center gap-4 w-60 md:w-full mx-auto'>
+
         {/* select */}
         <select
           onChange={(e) => {
             setFilter(e.target.value);
-            setCurrentPage(0)
+            setCurrentPage(0);
           }}
           value={filter}
           name='publisher'
           id='publisher'
-          className='border text-sm lg:text-base px-2 rounded-lg font-medium'
+          className='border text-sm lg:text-base px-2 py-2 md:py-0 rounded-lg font-medium'
         >
           <option value=''>Filter By Publisher</option>
           <option value='AI Revolution'>AI Revolution</option>
@@ -108,9 +111,8 @@ const AllArticles = () => {
         </select>
 
         {/* search */}
-
         <form onSubmit={handleSubmit}>
-          <div className='flex gap-2 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
+          <div className='flex overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-green-lantern focus-within:ring-green-lantern'>
             <input
               className=' placeholder-gray-500 bg-white outline-none focus:placeholder-transparent text-sm lg:text-base p-2 rounded-md'
               type='text'
@@ -121,11 +123,39 @@ const AllArticles = () => {
               aria-label='Enter Job Title'
             />
 
-            <button type='submit' className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
+            <button
+              type='submit'
+              className='text-sm lg:text-base p-2  font-medium text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'
+            >
               Search
             </button>
           </div>
         </form>
+
+        {/* sort */}
+        <div>
+          <select
+            onChange={(e) => {
+              setSort(e.target.value);
+              setCurrentPage(0);
+            }}
+            value={sort}
+            name='category'
+            id='category'
+            className='border text-sm lg:text-base p-2  rounded-md w-full'
+          >
+            <option value=''>Sort By Posted Time</option>
+            <option value='dsc'>Descending Order</option>
+            <option value='asc'>Ascending Order</option>
+          </select>
+        </div>
+        {/* reset btn */}
+        <button
+          onClick={handleResetBtn}
+          className='bg-white rounded-md text-sm lg:text-base px-2 py-1  border-2 border-gray-400'
+        >
+          Reset
+        </button>
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-8 md:mx-4'>
